@@ -15,5 +15,5 @@
 | 사용 기술 | **프론트엔드**<br><br>- React.js, 영상 및 이미지 콘텐츠 UI 구성<br><br>**백엔드**<br><br>- Node.js , MySQL<br><br>**데이터 수집**<br><br>- 관광지 텍스트 데이터 분석, 역사 관련 이미지 및 영상<br><br>**AI 및 추천 시스템**<br><br>- 스토리 기반 관광 코스 추천 알고리즘, LLM 기반 역사 요약 및 다국어 번역 |
 | 기대 효과 | 스토리 기반 접근을 통해 외국인과 국내 사용자 모두가 한국 역사를 쉽게 이해하고 실제 역사 장소를 체험하도록 유도하여 문화관광 참여도와 관광 활성화를 동시에 높이기 |
 | GitHub Repo | [https://github.com/greenfield-2026-capstone/greenfield-project](https://github.com/greenfield-2026-capstone/greenfield-project) |
-| Team Ground Rule | https://github.com/greenfield-2026-capstone/greenfield-project/blob/main/Team_Ground_Rule.md |
+| Team Ground Rule | [https://github.com/greenfield-2026-capstone/greenfield-project/blob/main/Team_Ground_Rule.md](https://github.com/greenfield-2026-capstone/greenfield-project/blob/main/Team_Ground_Rule.md) |
 | 최종수정일 | 2026.3.16 |
