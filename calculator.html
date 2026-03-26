@@ -53,41 +53,45 @@
   <div id="result"></div>
 
   <script>
-    async function calculate() {
-      const aValue = document.getElementById("a").value.trim();
-      const bValue = document.getElementById("b").value.trim();
-      const resultDiv = document.getElementById("result");
+  async function calculate() {
+    const aValue = document.getElementById("a").value.trim();
+    const bValue = document.getElementById("b").value.trim();
+    const resultDiv = document.getElementById("result");
 
-      if (aValue === "" || bValue === "") {
-        resultDiv.textContent = "숫자를 입력해주세요.";
-        return;}
+    if (aValue === "" || bValue === "") {
+      resultDiv.textContent = "숫자를 입력해주세요.";
+      return;}
 
-      if (isNaN(aValue) || isNaN(bValue)) {
-        resultDiv.textContent = "숫자만 입력해주세요.";
-        return;}
+    if (isNaN(aValue) || isNaN(bValue)) {
+      resultDiv.textContent = "숫자만 입력해주세요.";
+      return;}
 
-      const a = Number(aValue);
-      const b = Number(bValue);
+    const a = Number(aValue);
+    const b = Number(bValue);
 
-      console.log("보내는 값:", a, b); // 👉 브라우저 콘솔
+    resultDiv.textContent = "계산 중...";
 
-      resultDiv.textContent = "계산 중...";
-      try {
-        const res = await fetch(`/api/add?a=${a}&b=${b}`);
-        const data = await res.json();
+    try {
+      const res = await fetch(`/api/add`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ a, b })
+      });
 
-        console.log("응답:", data); // 👉 브라우저 콘솔
-        if (!res.ok) {
-          resultDiv.textContent = data.error || "오류가 발생했습니다.";
-          return;
-        }
+      const data = await res.json();
 
-        resultDiv.textContent = `결과: ${data.result}`;
-      } catch (e) {
-        console.error(e);
-        resultDiv.textContent = "요청 중 오류가 발생했습니다.";
+      if (!res.ok) {
+        resultDiv.textContent = data.error;
+        return;
       }
+
+      resultDiv.textContent = `결과: ${data.result}`;
+    } catch (e) {
+      resultDiv.textContent = "요청 중 오류 발생";
     }
-  </script>
+  }
+</script>
 </body>
 </html>
