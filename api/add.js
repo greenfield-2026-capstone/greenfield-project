@@ -1,22 +1,24 @@
 export default function handler(req, res) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "POST 요청만 가능합니다." });
+  let a, b;
+
+  if (req.method === "GET") {
+    a = Number(req.query.a);
+    b = Number(req.query.b);
+  } else if (req.method === "POST") {
+    a = req.body?.a;
+    b = req.body?.b;
+  } else {
+    return res.status(405).json({ error: "지원하지 않는 요청 방식입니다." });
   }
 
-  try {
-    const { a, b } = req.body || {};
-
-    if (
-      typeof a !== "number" ||
-      typeof b !== "number" ||
-      Number.isNaN(a) ||
-      Number.isNaN(b)
-    ) {
-      return res.status(400).json({ error: "숫자를 입력해주세요." });
-    }
-
-    return res.status(200).json({ result: a + b });
-  } catch (error) {
-    return res.status(500).json({ error: "서버 내부 오류가 발생했습니다." });
+  if (
+    typeof a !== "number" ||
+    typeof b !== "number" ||
+    Number.isNaN(a) ||
+    Number.isNaN(b)
+  ) {
+    return res.status(400).json({ error: "숫자를 입력해주세요." });
   }
+
+  return res.status(200).json({ result: a + b });
 }
