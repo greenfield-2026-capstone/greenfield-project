@@ -12,5 +12,6 @@ export default function handler(req, res) {
     a: numA,
     b: numB,
     result: numA + numB,
+    debug: "backend working"
   });
 }
