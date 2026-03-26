@@ -1,17 +1,14 @@
 export default function handler(req, res) {
-  const { a, b } = req.query;
+  console.log("API 호출됨");
+  console.log("req.body:", req.body);
 
-  const numA = Number(a);
-  const numB = Number(b);
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "POST 요청만 가능합니다." });}
+  const { num1, num2 } = req.body;
+  if (typeof num1 !== "number" || typeof num2 !== "number" || isNaN(num1) || isNaN(num2)) {
+    return res.status(400).json({ error: "숫자를 입력해주세요." });}
 
-  if (Number.isNaN(numA) || Number.isNaN(numB)) {
-    return res.status(400).json({ error: "a와 b는 숫자여야 합니다." });
-  }
-
-  return res.status(200).json({
-    a: numA,
-    b: numB,
-    result: numA + numB,
-    debug: "backend working"
-  });
+  const result = num1 + num2;
+  console.log("계산 결과:", result);
+  return res.status(200).json({ result });
 }
