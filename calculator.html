@@ -18,7 +18,10 @@
       margin-bottom: 12px;
       padding: 10px;
       font-size: 16px;
+<<<<<<< HEAD
       box-sizing: border-box;
+=======
+>>>>>>> main
     }
 
     input {
@@ -44,16 +47,17 @@
     }
   </style>
 </head>
+
 <body>
   <h1>숫자 2개 더하기</h1>
 
   <input type="text" id="a" placeholder="첫 번째 숫자" />
   <input type="text" id="b" placeholder="두 번째 숫자" />
   <button onclick="calculate()">Submit</button>
-
   <div id="result"></div>
 
   <script>
+<<<<<<< HEAD
     async function calculate() {
       const aValue = document.getElementById("a").value.trim();
       const bValue = document.getElementById("b").value.trim();
@@ -84,18 +88,54 @@
         });
 
         const data = await res.json();
+=======
+  async function calculate() {
+    const aValue = document.getElementById("a").value.trim();
+    const bValue = document.getElementById("b").value.trim();
+    const resultDiv = document.getElementById("result");
 
-        if (!res.ok) {
-          resultDiv.textContent = data.error || "오류가 발생했습니다.";
-          return;
-        }
+    if (aValue === "" || bValue === "") {
+      resultDiv.textContent = "숫자를 입력해주세요.";
+      return;}
 
+    if (isNaN(aValue) || isNaN(bValue)) {
+      resultDiv.textContent = "숫자만 입력해주세요.";
+      return;}
+>>>>>>> main
+
+    const a = Number(aValue);
+    const b = Number(bValue);
+
+<<<<<<< HEAD
         resultDiv.textContent = `결과: ${data.result}`;
       } catch (error) {
         console.error(error);
         resultDiv.textContent = "요청 중 오류 발생";
+=======
+    resultDiv.textContent = "계산 중...";
+
+    try {
+      const res = await fetch(`/api/add`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ a, b })
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        resultDiv.textContent = data.error;
+        return;
+>>>>>>> main
       }
+
+      resultDiv.textContent = `결과: ${data.result}`;
+    } catch (e) {
+      resultDiv.textContent = "요청 중 오류 발생";
     }
-  </script>
+  }
+</script>
 </body>
 </html>
