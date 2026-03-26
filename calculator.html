@@ -11,14 +11,33 @@
       margin: 80px auto;
       padding: 20px;
     }
+
     input, button {
       display: block;
       width: 100%;
       margin-bottom: 12px;
       padding: 10px;
       font-size: 16px;
-      color: darkgreen;
+      box-sizing: border-box;
     }
+
+    input {
+      background-color: white;
+      border: 1px solid #ccc;
+      color: black;
+    }
+
+    button {
+      background-color: darkgreen;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: green;
+    }
+
     #result {
       margin-top: 20px;
       font-weight: bold;
@@ -28,22 +47,42 @@
 <body>
   <h1>숫자 2개 더하기</h1>
 
-  <input type="number" id="a" placeholder="첫 번째 숫자" />
-  <input type="number" id="b" placeholder="두 번째 숫자" />
+  <input type="text" id="a" placeholder="첫 번째 숫자" />
+  <input type="text" id="b" placeholder="두 번째 숫자" />
   <button onclick="calculate()">Submit</button>
 
   <div id="result"></div>
 
   <script>
     async function calculate() {
-      const a = document.getElementById("a").value;
-      const b = document.getElementById("b").value;
+      const aValue = document.getElementById("a").value.trim();
+      const bValue = document.getElementById("b").value.trim();
       const resultDiv = document.getElementById("result");
+
+      if (aValue === "" || bValue === "") {
+        resultDiv.textContent = "숫자를 입력해주세요.";
+        return;
+      }
+
+      if (isNaN(aValue) || isNaN(bValue)) {
+        resultDiv.textContent = "숫자만 입력해주세요.";
+        return;
+      }
+
+      const a = Number(aValue);
+      const b = Number(bValue);
 
       resultDiv.textContent = "계산 중...";
 
       try {
-        const res = await fetch(`/api/add?a=${encodeURIComponent(a)}&b=${encodeURIComponent(b)}`);
+        const res = await fetch("/api/add", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ a, b }),
+        });
+
         const data = await res.json();
 
         if (!res.ok) {
@@ -52,8 +91,9 @@
         }
 
         resultDiv.textContent = `결과: ${data.result}`;
-      } catch (e) {
-        resultDiv.textContent = "요청 중 오류가 발생했습니다.";
+      } catch (error) {
+        console.error(error);
+        resultDiv.textContent = "요청 중 오류 발생";
       }
     }
   </script>
