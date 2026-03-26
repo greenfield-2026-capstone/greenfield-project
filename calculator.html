@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>덧셈 계산기</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 500px;
+      margin: 80px auto;
+      padding: 20px;
+    }
+    input, button {
+      display: block;
+      width: 100%;
+      margin-bottom: 12px;
+      padding: 10px;
+      font-size: 16px;
+    }
+    #result {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>숫자 2개 더하기</h1>
+
+  <input type="number" id="a" placeholder="첫 번째 숫자" />
+  <input type="number" id="b" placeholder="두 번째 숫자" />
+  <button onclick="calculate()">Submit</button>
+
+  <div id="result"></div>
+
+  <script>
+    async function calculate() {
+      const a = document.getElementById("a").value;
+      const b = document.getElementById("b").value;
+      const resultDiv = document.getElementById("result");
+
+      resultDiv.textContent = "계산 중...";
+
+      try {
+        const res = await fetch(`/api/add?a=${encodeURIComponent(a)}&b=${encodeURIComponent(b)}`);
+        const data = await res.json();
+
+        if (!res.ok) {
+          resultDiv.textContent = data.error || "오류가 발생했습니다.";
+          return;
+        }
+
+        resultDiv.textContent = `결과: ${data.result}`;
+      } catch (e) {
+        resultDiv.textContent = "요청 중 오류가 발생했습니다.";
+      }
+    }
+  </script>
+</body>
+</html>
