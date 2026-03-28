@@ -71,6 +71,8 @@
 
       const a = Number(aValue);
       const b = Number(bValue);
+      const url = `/api/add?a=${encodeURIComponent(aValue)}&b=${encodeURIComponent(bValue)}`;
+      resultDiv.textContent = `${aValue} + ${bValue} = ${data.result} (BE URL: ${url})`;
 
       resultDiv.textContent = "계산 중...";
 
