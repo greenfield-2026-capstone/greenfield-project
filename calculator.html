@@ -55,51 +55,47 @@
 
   <script>
   async function calculate() {
-    const aValue = document.getElementById("a").value.trim();
-    const bValue = document.getElementById("b").value.trim();
-    const resultDiv = document.getElementById("result");
+  const aValue = document.getElementById("a").value.trim();
+  const bValue = document.getElementById("b").value.trim();
+  const resultDiv = document.getElementById("result");
 
-    if (aValue === "" || bValue === "") {
-      resultDiv.textContent = "숫자를 입력해주세요.";
+  if (aValue === "" || bValue === "") {
+    resultDiv.textContent = "숫자를 입력해주세요.";
+    return;
+  }
+
+  if (isNaN(aValue) || isNaN(bValue)) {
+    resultDiv.textContent = "숫자만 입력해주세요.";
+    return;
+  }
+
+  resultDiv.textContent = "계산 중...";
+
+  try {
+    const res = await fetch("/api/add", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        a: Number(aValue),
+        b: Number(bValue),
+      }),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      resultDiv.textContent = data.error || "오류 발생";
       return;
     }
 
-    if (isNaN(aValue) || isNaN(bValue)) {
-      resultDiv.textContent = "숫자만 입력해주세요.";
-      return;
-    }
-
-    const a = Number(aValue);
-    const b = Number(bValue);
-
-    const url = `/api/add?a=${encodeURIComponent(aValue)}&b=${encodeURIComponent(bValue)}`;
-
-    resultDiv.textContent = "계산 중...";
-
-    try {
-      const res = await fetch("/api/add", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ a, b }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        resultDiv.textContent = data.error || "오류가 발생했습니다.";
-        return;
-      }
-
-      // 🔥 여기서 출력해야 함
-      resultDiv.textContent = `${aValue} + ${bValue} = ${data.result} (BE URL: ${url})`;
-
-    } catch (error) {
-        console.error(error);
-        resultDiv.textContent = "요청 중 오류 발생";
-      }
-    }
-  </script>
+    resultDiv.textContent = `${data.a} + ${data.b} = ${data.result}`;
+  } catch (error) {
+    console.error(error);
+    resultDiv.textContent = "요청 중 오류 발생";
+  }
+}
+</script>
 </body>
 </html>
