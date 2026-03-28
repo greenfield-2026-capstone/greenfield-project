@@ -72,7 +72,7 @@
   resultDiv.textContent = "계산 중...";
 
   try {
-    const res = await fetch("/api/add", {
+    const res = await fetch("https://histour.vercel.app/api/add", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
