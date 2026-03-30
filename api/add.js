@@ -1,24 +1,20 @@
-let history = [];
+import { sql } from "@vercel/postgres";
 
-export default function handler(req, res) {
-  if (req.method === "POST") {
-    const a = Number(req.body?.a);
-    const b = Number(req.body?.b);
-
-    console.log(" 받은 값:", { a, b });
-
-    if (Number.isNaN(a) || Number.isNaN(b)) {
-      return res.status(400).json({ error: "숫자 입력" });
-    }
-    const result = a + b;
-    const record = { a, b, result };
-    history.push(record);
-    return res.status(200).json(record);
+export default async function handler(req, res) {
+  if (req.method !== "POST") {
+    return res.status(405).end();
   }
-
-  if (req.method === "GET") {
-    return res.status(200).json(history);
+  const a = Number(req.body?.a);
+  const b = Number(req.body?.b);
+  if (Number.isNaN(a) || Number.isNaN(b)) {
+    return res.status(400).json({ error: "숫자 입력" });
   }
+  const result = a + b;
+  await sql`
+    INSERT INTO logs (a, b, result)
+    VALUES (${a}, ${b}, ${result})
+  `;
 
-  return res.status(405).end();
+  return res.status(200).json({
+    a,b,result});
 }
