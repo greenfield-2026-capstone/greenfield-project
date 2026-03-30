@@ -1,5 +1,0 @@
-{
-  "rewrites": [
-    { "source": "/log", "destination": "/log.html" }
-  ]
-}
