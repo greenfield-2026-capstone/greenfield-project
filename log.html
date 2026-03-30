@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>로그 보기</title>
+</head>
+<body>
+  <h1>계산 로그</h1>
+  <ul id="logs"></ul>
+
+  <script>
+    async function loadLogs() {
+      const res = await fetch("/api/logs");
+      const data = await res.json();
+
+      const ul = document.getElementById("logs");
+      ul.innerHTML = "";
+
+      data.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = `${item.a} + ${item.b} = ${item.result} (시간: ${item.created_at})`;
+        ul.appendChild(li);
+      });
+    }
+
+    loadLogs();
+  </script>
+</body>
+</html>
