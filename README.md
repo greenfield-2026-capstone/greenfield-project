@@ -54,9 +54,9 @@ Map: Google Maps API / Kakao Map
 ## 📂 Repository Structure
 ```bash
 .
-├── frontend/        # 웹 UI
-├── backend/         # API 서버
-├── ai/              # AI 모듈
+├── FE/        # 웹 UI
+├── BE/         # API 서버
+├── AI/              # AI 모듈
 ├── assets/          # 정적 파일
 └── README.md
 ```
