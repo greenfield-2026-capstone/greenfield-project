@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Histour FE</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell left-closed right-closed" id="appShell">
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-inner">
+          <div class="profile-card">
+            <div class="avatar"></div>
+            <div class="profile-copy">
+              <h2>Greenfield</h2>
+              <button class="profile-edit" type="button">프로필 편집</button>
+            </div>
+          </div>
+
+          <nav class="menu">
+            <section class="menu-group">
+              <h3>Explore</h3>
+              <button class="submenu" type="button">Stories</button>
+              <button class="submenu" type="button">Characters</button>
+              <button class="submenu" type="button">Places</button>
+            </section>
+
+            <section class="menu-group">
+              <h3>Experience</h3>
+              <button class="submenu" type="button" data-screen="chat">Chat</button>
+              <button class="submenu" type="button">Story Video</button>
+            </section>
+
+            <section class="menu-group">
+              <h3>My Trip</h3>
+              <button class="submenu" type="button">Saved Places</button>
+              <button class="submenu" type="button">My Course</button>
+            </section>
+          </nav>
+        </div>
+      </aside>
+
+      <button class="panel-handle left" id="leftPanelToggle" type="button" aria-label="왼쪽 패널 열기">
+        &gt;
+      </button>
+
+      <main class="workspace">
+        <header class="workspace-topbar">
+          <button class="brand-link" id="brandHome" type="button">Histour</button>
+        </header>
+
+        <section class="screen is-visible" id="screen-main">
+          <section class="filter-board">
+            <div class="filter-column">
+              <div class="filter-head">
+                <label>지역</label>
+                <button class="filter-trigger" type="button" data-select="region">
+                  <span id="regionValue">Seoul</span>
+                  <span class="chevron">▾</span>
+                </button>
+                <div class="filter-menu" id="regionMenu">
+                  <button type="button" data-value="Seoul">Seoul</button>
+                  <button type="button" data-value="Suwon">Suwon</button>
+                  <button type="button" data-value="Gyeongju">Gyeongju</button>
+                  <button type="button" data-value="Incheon">Incheon</button>
+                </div>
+              </div>
+              <div class="filter-highlight" id="regionHero">SEOUL</div>
+            </div>
+
+            <div class="filter-column">
+              <div class="filter-head">
+                <label>시대</label>
+                <button class="filter-trigger" type="button" data-select="era">
+                  <span id="eraValue">Modern</span>
+                  <span class="chevron">▾</span>
+                </button>
+                <div class="filter-menu" id="eraMenu">
+                  <button type="button" data-value="Ancient">고대</button>
+                  <button type="button" data-value="Joseon">조선</button>
+                  <button type="button" data-value="Modern">근현대</button>
+                  <button type="button" data-value="Contemporary">현대</button>
+                </div>
+              </div>
+              <div class="filter-highlight" id="eraHero">MODERN</div>
+            </div>
+
+            <div class="filter-column search-column">
+              <label>관광지검색</label>
+              <div class="search-box">
+                <span class="search-icon">&#9906;</span>
+                <input type="text" placeholder="관광지 이름 검색" />
+              </div>
+            </div>
+          </section>
+
+          <section class="recommend-section">
+            <div class="section-title-row">
+              <h2>추천</h2>
+            </div>
+
+            <div class="recommend-grid">
+              <article class="recommend-card">
+                <div class="video-thumb">
+                  <div class="play-icon"></div>
+                </div>
+                <div class="recommend-copy">
+                  <strong>경복궁에 담겨진 스토리</strong>
+                  <p>궁궐 공간 속 역사적 장면을 짧은 영상으로 먼저 살펴보는 추천 영역</p>
+                </div>
+              </article>
+
+              <article class="recommend-card image-card palace">
+                <div class="image-caption">
+                  <strong>경복궁</strong>
+                </div>
+              </article>
+
+              <article class="recommend-card person-card">
+                <div class="person-portrait sejong"></div>
+                <div class="recommend-copy">
+                  <strong>세종대왕</strong>
+                  <p>대표 인물 설명</p>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <section class="best-section">
+            <div class="section-title-row">
+              <h2>BEST</h2>
+            </div>
+
+            <div class="carousel-wrap">
+              <button class="carousel-arrow left" type="button" data-carousel="places" data-direction="-1">
+                &lt;
+              </button>
+              <div class="carousel-window">
+                <div class="carousel-track" id="placesTrack">
+                  <button class="best-card" type="button" data-place="gyeongbokgung">
+                    <span class="thumb palace"></span>
+                    <strong>경복궁</strong>
+                    <small>서울 종로구</small>
+                  </button>
+                  <button class="best-card" type="button" data-place="suwon">
+                    <span class="thumb fortress"></span>
+                    <strong>수원화성</strong>
+                    <small>경기 수원시</small>
+                  </button>
+                  <button class="best-card" type="button" data-place="seodaemun">
+                    <span class="thumb museum"></span>
+                    <strong>서대문형무소</strong>
+                    <small>서울 서대문구</small>
+                  </button>
+                  <button class="best-card" type="button" data-place="gyeongju">
+                    <span class="thumb night"></span>
+                    <strong>동궁과 월지</strong>
+                    <small>경북 경주시</small>
+                  </button>
+                  <button class="best-card" type="button" data-place="deoksugung">
+                    <span class="thumb city"></span>
+                    <strong>덕수궁</strong>
+                    <small>서울 중구</small>
+                  </button>
+                </div>
+              </div>
+              <button class="carousel-arrow right" type="button" data-carousel="places" data-direction="1">
+                &gt;
+              </button>
+            </div>
+          </section>
+        </section>
+
+        <section class="screen" id="screen-chat">
+          <section class="chat-top-board">
+            <div class="filter-head">
+              <label>시대</label>
+              <button class="filter-trigger" type="button" data-select="chat-era">
+                <span id="chatEraValue">Modern</span>
+                <span class="chevron">▾</span>
+              </button>
+              <div class="filter-menu" id="chatEraMenu">
+                <button type="button" data-value="Ancient">고대</button>
+                <button type="button" data-value="Joseon">조선</button>
+                <button type="button" data-value="Modern">근현대</button>
+                <button type="button" data-value="Contemporary">현대</button>
+              </div>
+            </div>
+            <div class="filter-highlight" id="chatEraHero">MODERN</div>
+            <div class="search-box chat-search">
+              <span class="search-icon">&#9906;</span>
+              <input type="text" placeholder="인물 검색하기" />
+            </div>
+          </section>
+
+          <section class="best-section">
+            <div class="section-title-row">
+              <h2>BEST</h2>
+            </div>
+
+            <div class="carousel-wrap">
+              <button class="carousel-arrow left" type="button" data-carousel="people" data-direction="-1">
+                &lt;
+              </button>
+              <div class="carousel-window">
+                <div class="carousel-track people-track" id="peopleTrack">
+                  <article class="person-best-card">
+                    <div class="person-photo yuguansun"></div>
+                    <strong>유관순</strong>
+                    <p>독립운동의 상징적 인물</p>
+                    <button type="button">채팅하기</button>
+                  </article>
+                  <article class="person-best-card">
+                    <div class="person-photo king"></div>
+                    <strong>정조</strong>
+                    <p>도시 개혁과 수원화성 이야기</p>
+                    <button type="button">채팅하기</button>
+                  </article>
+                  <article class="person-best-card">
+                    <div class="person-photo scholar"></div>
+                    <strong>세종대왕</strong>
+                    <p>훈민정음과 궁궐 이야기</p>
+                    <button type="button">채팅하기</button>
+                  </article>
+                  <article class="person-best-card">
+                    <div class="person-photo gojong"></div>
+                    <strong>고종</strong>
+                    <p>대한제국과 근대 전환의 이야기</p>
+                    <button type="button">채팅하기</button>
+                  </article>
+                  <article class="person-best-card">
+                    <div class="person-photo kimgu"></div>
+                    <strong>김구</strong>
+                    <p>독립운동과 근현대사의 흐름</p>
+                    <button type="button">채팅하기</button>
+                  </article>
+                </div>
+              </div>
+              <button class="carousel-arrow right" type="button" data-carousel="people" data-direction="1">
+                &gt;
+              </button>
+            </div>
+          </section>
+        </section>
+      </main>
+
+      <button class="panel-handle right" id="rightPanelToggle" type="button" aria-label="오른쪽 패널 열기">
+        &lt;
+      </button>
+
+      <aside class="detail-panel" id="detailPanel">
+        <div class="detail-content">
+          <div class="detail-image palace" id="detailImage"></div>
+          <div class="detail-meta">
+            <h2 id="detailName">경복궁</h2>
+            <p id="detailLocation">서울 종로구 사직로 161</p>
+          </div>
+          <div class="detail-copy">
+            <p id="detailDescription">
+              조선의 법궁으로 왕실의 중심이었던 공간입니다. 근현대의 복원 과정까지 함께 볼 수 있어
+              시대 흐름을 한 번에 이해하기 좋습니다.
+            </p>
+          </div>
+
+          <div class="detail-actions">
+            <button type="button">Story</button>
+            <button type="button">여행추가</button>
+          </div>
+
+          <section class="related-section">
+            <h3>관련인물</h3>
+            <div class="related-list" id="relatedList">
+              <article>
+                <span class="dot"></span>
+                <div>
+                  <strong>세종대왕</strong>
+                  <button type="button">chat</button>
+                </div>
+              </article>
+              <article>
+                <span class="dot"></span>
+                <div>
+                  <strong>고종</strong>
+                  <button type="button">chat</button>
+                </div>
+              </article>
+            </div>
+          </section>
+        </div>
+      </aside>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

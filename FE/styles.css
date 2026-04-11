@@ -1,0 +1,723 @@
+:root {
+  --bg: #f4efe5;
+  --paper: #fbf7ee;
+  --ink: #172028;
+  --muted: #5f6a67;
+  --line: #d8d1c5;
+  --cheongrok: #237f84;
+  --cheongrok-soft: #d7e9e4;
+  --daeja: #9e3b2e;
+  --salgu: #dfb08a;
+  --namsaek: #41408d;
+  --gold: #b08a3d;
+  --goonggweol-ivory: #f3eee3;
+  --shadow: 0 14px 30px rgba(38, 37, 33, 0.06);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  background: var(--goonggweol-ivory);
+  color: var(--ink);
+  font-family: "Noto Sans KR", sans-serif;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.app-shell {
+  position: relative;
+  min-height: 100vh;
+  background: var(--goonggweol-ivory);
+}
+
+.sidebar,
+.detail-panel {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  z-index: 20;
+  width: 248px;
+  background: #f8f4ea;
+  box-shadow: var(--shadow);
+  transition: transform 0.28s ease;
+}
+
+.sidebar {
+  left: 0;
+  border-right: 1px solid var(--line);
+}
+
+.detail-panel {
+  right: 0;
+  width: 320px;
+  border-left: 1px solid var(--line);
+}
+
+.left-closed .sidebar {
+  transform: translateX(-100%);
+}
+
+.right-closed .detail-panel {
+  transform: translateX(100%);
+}
+
+.panel-handle {
+  position: fixed;
+  top: 50%;
+  z-index: 25;
+  width: 38px;
+  height: 64px;
+  border: 1px solid var(--line);
+  background: #fbf8f0;
+  color: var(--ink);
+  transform: translateY(-50%);
+  box-shadow: var(--shadow);
+}
+
+.panel-handle.left {
+  left: 0;
+  border-radius: 0 16px 16px 0;
+}
+
+.panel-handle.right {
+  right: 0;
+  border-radius: 16px 0 0 16px;
+}
+
+.left-open .panel-handle.left {
+  left: 248px;
+}
+
+.right-open .panel-handle.right {
+  right: 320px;
+}
+
+.sidebar-inner {
+  padding: 24px 18px;
+}
+
+.profile-card {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--line);
+}
+
+.avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  background:
+    radial-gradient(circle at 50% 35%, #fff 16%, transparent 17%),
+    radial-gradient(circle at 50% 77%, #fff 28%, transparent 29%),
+    #d8dfe1;
+}
+
+.profile-copy h2,
+.menu-group h3,
+.workspace-topbar,
+.section-title-row h2,
+.detail-meta h2,
+.filter-highlight {
+  margin: 0;
+  font-family: "Plus Jakarta Sans", sans-serif;
+}
+
+.profile-copy h2 {
+  font-size: 1.5rem;
+}
+
+.profile-edit,
+.detail-actions button,
+.related-list button,
+.person-best-card button {
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #fff;
+}
+
+.menu {
+  padding-top: 18px;
+}
+
+.menu-group + .menu-group {
+  margin-top: 20px;
+}
+
+.menu-group h3 {
+  margin-bottom: 10px;
+  color: var(--muted);
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.submenu {
+  display: block;
+  width: 100%;
+  margin-bottom: 8px;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  text-align: left;
+}
+
+.submenu:hover,
+.submenu.is-active {
+  background: var(--cheongrok-soft);
+  color: var(--cheongrok);
+}
+
+.workspace {
+  width: min(1180px, calc(100% - 96px));
+  margin: 0 auto;
+  padding: 28px 0 40px;
+}
+
+.workspace-topbar {
+  padding-bottom: 18px;
+  font-size: 2.3rem;
+  color: var(--namsaek);
+}
+
+.brand-link {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--namsaek);
+}
+
+.screen {
+  display: none;
+}
+
+.screen.is-visible {
+  display: block;
+}
+
+.filter-board,
+.chat-top-board,
+.recommend-grid,
+.best-card,
+.person-best-card,
+.detail-panel {
+  border: 1px solid var(--line);
+  background: #fbf8f0;
+}
+
+.filter-board {
+  display: grid;
+  grid-template-columns: 1fr 1fr 0.9fr;
+  border-top: 3px solid var(--cheongrok);
+}
+
+.filter-column {
+  position: relative;
+  min-height: 184px;
+  padding: 22px;
+}
+
+.filter-column:nth-child(1) {
+  background: #f4fbfa;
+}
+
+.filter-column:nth-child(2) {
+  background: #f6f3fb;
+}
+
+.filter-column:nth-child(3) {
+  background: #fcf7ef;
+}
+
+.filter-column + .filter-column {
+  border-left: 1px solid var(--line);
+}
+
+.filter-head {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.filter-column label {
+  padding: 7px 12px;
+  border: 1px solid var(--daeja);
+  color: var(--daeja);
+  background: #fffaf2;
+  font-weight: 700;
+}
+
+.filter-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border: 1px solid var(--line);
+  background: #fffaf2;
+  color: var(--namsaek);
+  font-weight: 700;
+}
+
+.filter-menu {
+  position: absolute;
+  top: 48px;
+  left: 0;
+  z-index: 5;
+  display: none;
+  min-width: 164px;
+  border: 1px solid var(--line);
+  background: #fffaf2;
+}
+
+.filter-menu.is-open {
+  display: block;
+}
+
+.filter-menu button {
+  display: block;
+  width: 100%;
+  padding: 10px 12px;
+  border: 0;
+  background: #fffaf2;
+  text-align: left;
+}
+
+.filter-menu button:hover {
+  background: #e3edea;
+}
+
+.filter-highlight {
+  margin-top: 28px;
+  font-size: 3.2rem;
+  letter-spacing: 0.06em;
+  color: var(--ink);
+}
+
+.search-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  background: #fffaf2;
+}
+
+.search-box input {
+  width: 100%;
+  border: 0;
+  outline: none;
+  background: transparent;
+}
+
+.recommend-section,
+.best-section {
+  margin-top: 28px;
+}
+
+.section-title-row {
+  margin-bottom: 12px;
+}
+
+.section-title-row h2 {
+  font-size: 2.1rem;
+}
+
+.recommend-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  min-height: 310px;
+}
+
+.recommend-card {
+  min-width: 0;
+  padding: 18px;
+}
+
+.recommend-card + .recommend-card {
+  border-left: 1px solid var(--line);
+}
+
+.recommend-card:nth-child(1) {
+  background-color: #eef7f5;
+}
+
+.recommend-card:nth-child(2) {
+  background-color: #f8f0e6;
+}
+
+.recommend-card:nth-child(3) {
+  background-color: #f2effa;
+}
+
+.video-thumb {
+  display: grid;
+  place-items: center;
+  height: 150px;
+  background: var(--cheongrok-soft);
+  border: 1px solid rgba(35, 127, 132, 0.14);
+}
+
+.play-icon {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: #fff;
+  position: relative;
+}
+
+.play-icon::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-35%, -50%);
+  width: 0;
+  height: 0;
+  border-top: 11px solid transparent;
+  border-bottom: 11px solid transparent;
+  border-left: 17px solid var(--cheongrok);
+}
+
+.recommend-copy {
+  padding-top: 16px;
+}
+
+.recommend-copy strong,
+.best-card strong,
+.person-best-card strong {
+  font-size: 1.1rem;
+}
+
+.recommend-copy p,
+.person-best-card p,
+.detail-copy p,
+.detail-meta p {
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.image-card,
+.thumb,
+.detail-image,
+.person-photo,
+.person-portrait {
+  background-size: cover;
+  background-position: center;
+}
+
+.palace {
+  background-image: url("https://commons.wikimedia.org/wiki/Special:FilePath/Gyeongbokgung%20Palace%20Photo%20D%20Ramey%20Logan.jpg");
+}
+
+.fortress {
+  background-image: url("https://commons.wikimedia.org/wiki/Special:FilePath/Suwon%20Hwaseong%202.jpg");
+}
+
+.museum {
+  background-image: url("https://commons.wikimedia.org/wiki/Special:FilePath/Seodaemunprisonbarracks.jpg");
+}
+
+.night {
+  background-image: url("https://commons.wikimedia.org/wiki/Special:FilePath/Night%20view%20of%20Donggung%20and%20Wolji.jpg");
+}
+
+.city {
+  background-image: url("https://commons.wikimedia.org/wiki/Special:FilePath/Deoksugung-02.jpg");
+}
+
+.sejong {
+  background-image: url("https://commons.wikimedia.org/wiki/Special:FilePath/Portrait_of_King_Sejong_1965.jpg");
+}
+
+.yuguansun {
+  background-image: url("https://commons.wikimedia.org/wiki/Special:FilePath/Ryu_Gwan-sun.jpg");
+}
+
+.king {
+  background-image: url("https://commons.wikimedia.org/wiki/Special:FilePath/King_JeongJo_of_Joseon.jpg");
+}
+
+.scholar {
+  background-image: url("https://commons.wikimedia.org/wiki/Special:FilePath/Portrait_of_King_Sejong_1965.jpg");
+}
+
+.gojong {
+  background-image: url("https://commons.wikimedia.org/wiki/Special:FilePath/Emperador_Gojong_de_Corea_1897.jpg");
+}
+
+.kimgu {
+  background-image: url("https://commons.wikimedia.org/wiki/Special:FilePath/Kim_Gu_in_1949.jpg");
+}
+
+.image-card {
+  position: relative;
+  background-color: #d8d2c8;
+}
+
+.image-caption {
+  position: absolute;
+  left: 18px;
+  bottom: 18px;
+  padding: 8px 12px;
+  background: rgba(23, 32, 40, 0.72);
+  color: #fff;
+}
+
+.person-portrait {
+  width: 100%;
+  height: 150px;
+}
+
+.carousel-wrap {
+  display: grid;
+  grid-template-columns: 54px minmax(0, 1fr) 54px;
+  gap: 12px;
+  align-items: center;
+}
+
+.carousel-arrow {
+  width: 46px;
+  height: 46px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: #fffaf2;
+}
+
+.carousel-window {
+  overflow: hidden;
+}
+
+.carousel-track {
+  display: flex;
+  gap: 16px;
+  transition: transform 0.3s ease;
+}
+
+.people-track {
+  gap: 20px;
+  width: max-content;
+  min-width: calc(100% + 560px);
+}
+
+.best-card,
+.person-best-card {
+  flex: 0 0 196px;
+}
+
+.best-card {
+  padding: 0;
+  text-align: left;
+}
+
+.best-card.is-selected {
+  outline: 2px solid var(--cheongrok);
+}
+
+.thumb {
+  display: block;
+  height: 156px;
+}
+
+.best-card strong,
+.best-card small,
+.person-best-card strong,
+.person-best-card p {
+  display: block;
+  padding-inline: 16px;
+}
+
+.best-card strong {
+  padding-top: 14px;
+}
+
+.best-card small {
+  padding-top: 5px;
+  padding-bottom: 16px;
+  color: var(--muted);
+}
+
+.chat-top-board {
+  padding: 22px;
+  border-top: 3px solid var(--namsaek);
+}
+
+.chat-top-board .filter-head {
+  margin-bottom: 18px;
+}
+
+.chat-top-board .filter-highlight {
+  margin-top: 0;
+  margin-bottom: 18px;
+}
+
+.chat-search {
+  width: 100%;
+  max-width: none;
+}
+
+.person-best-card {
+  padding: 16px;
+  min-height: 318px;
+  flex: 0 0 276px;
+  border-top: 3px solid var(--cheongrok);
+}
+
+.person-photo {
+  width: 100%;
+  height: 190px;
+  margin-bottom: 14px;
+  background-color: #eef3f2;
+}
+
+.person-best-card button {
+  margin-top: 12px;
+}
+
+.detail-content {
+  padding: 26px 18px;
+}
+
+.detail-image {
+  height: 210px;
+}
+
+.detail-meta {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.detail-meta h2 {
+  font-size: 1.8rem;
+}
+
+.detail-copy {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.detail-actions {
+  display: flex;
+  gap: 8px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.related-section h3 {
+  margin: 18px 0 12px;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 1rem;
+}
+
+.related-list article {
+  display: flex;
+  gap: 12px;
+  padding: 10px 0;
+}
+
+.related-list article + article {
+  border-top: 1px solid var(--line);
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  margin-top: 8px;
+  border-radius: 50%;
+  background: var(--daeja);
+}
+
+.screen#screen-chat .carousel-window {
+  width: 100%;
+}
+
+.screen#screen-chat .carousel-track {
+  width: max-content;
+}
+
+.screen#screen-chat .person-best-card:nth-child(2n) {
+  border-top-color: var(--daeja);
+}
+
+.screen#screen-chat .person-best-card:nth-child(3n) {
+  border-top-color: var(--namsaek);
+}
+
+.screen#screen-chat .section-title-row h2 {
+  color: var(--daeja);
+}
+
+@media (max-width: 980px) {
+  .workspace {
+    width: calc(100% - 56px);
+  }
+
+  .filter-board {
+    grid-template-columns: 1fr;
+  }
+
+  .filter-column + .filter-column {
+    border-left: 0;
+    border-top: 1px solid var(--line);
+  }
+}
+
+@media (max-width: 720px) {
+  .workspace {
+    width: calc(100% - 32px);
+  }
+
+  .recommend-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .recommend-card + .recommend-card {
+    border-left: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .best-card,
+  .person-best-card {
+    flex-basis: 172px;
+  }
+
+  .left-open .panel-handle.left {
+    left: 220px;
+  }
+
+  .right-open .panel-handle.right {
+    right: 280px;
+  }
+
+  .detail-panel {
+    width: 280px;
+  }
+}
