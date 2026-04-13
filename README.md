@@ -24,7 +24,6 @@ AI 기술을 활용한 역사 스토리 콘텐츠 및 역사 인물과의 챗봇
 
 ### 🗺️ Tourism Integration
 - 실제 문화유산 정보 제공
-- 관광 추천 코스 제공
 - 학습 + 관광 경험 통합
 
 ### 📖 Story-based Content
