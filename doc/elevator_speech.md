@@ -37,11 +37,11 @@
 | 영역 | 구성 | 사용 기술 |
 |------|------|-----------|
 | Frontend | 사용자 UI, 선택지 인터랙션 | Next.js, React, TypeScript, Tailwind CSS |
-| Backend | API, 상태 관리 | FastAPI 또는 Node.js |
-| AI (대화) | 역사 인물 챗봇 | ChatGPT API |
-| AI (번역) | 다국어 처리 | ChatGPT API / 번역 API |
+| Backend | API, 상태 관리 | FastAPI |
+| AI (대화) | 선택지 기반 역사 인물 챗봇 | ChatGPT API |
+| AI (번역) | 다국어 처리 | ChatGPT Translation API  |
 | 콘텐츠 | 결말 영상 | Sora 기반 생성 영상 + YouTube / AWS S3 |
-| 데이터 | 관광지/인물/선택지 | JSON 또는 DB |
+| 데이터 | 관광지/인물/선택지 | PostgreSQL |
 | 배포 | 웹 서비스 | Vercel |
 
 ---
@@ -70,7 +70,7 @@
   - 다국어 지원
 
 - 배포 방식:
-  - Vercel을 통한 프론트엔드 배포  
+  - Vercel을 통한 배포  
   - 영상은 YouTube 또는 AWS S3 활용  
 
 ---
