@@ -36,7 +36,7 @@
 
 | 영역 | 구성 | 사용 기술 |
 |------|------|-----------|
-| Frontend | 사용자 UI, 선택지 인터랙션 | Next.js, React, TypeScript, Tailwind CSS |
+| Frontend | 사용자 UI, 선택지 인터랙션 | Next.js, TypeScript, Tailwind CSS |
 | Backend | API, 상태 관리 | FastAPI |
 | AI (대화) | 선택지 기반 역사 인물 챗봇 | ChatGPT API |
 | AI (번역) | 다국어 처리 | ChatGPT Translation API  |
@@ -76,7 +76,7 @@
 ---
 
 ## 차별점
-- 정보 제공이 아니라 **게임형 경험 기반 관광 유도**
+- 정보 제공 및 선택형 게임 경험 기반 관광 유도
 - 선택지 + AI 챗봇 결합 구조로 몰입감 강화
 - 결말 영상으로 사용자 선택의 결과를 시각적으로 제공
 - 외국인을 위한 실시간 번역 기반 접근성 확보
