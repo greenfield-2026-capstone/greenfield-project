@@ -39,7 +39,7 @@
 | Backend | API, 상태 관리 | FastAPI |
 | AI (대화) | 선택지 기반 역사 인물 챗봇 | ChatGPT API |
 | AI (번역) | 다국어 처리 | ChatGPT Translation API  |
-| 콘텐츠 | 결말 영상 | Sora 기반 생성 영상 + YouTube / AWS S3 |
+| AI (콘텐츠) | 결말 영상 | Sora 기반 생성 영상 + YouTube / AWS S3 |
 | 데이터 | 관광지/인물/선택지 | PostgreSQL |
 | 배포 | 웹 서비스 | Vercel |
 
