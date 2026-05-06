@@ -58,7 +58,7 @@ Frontend: Next.js / TypeScript / Tailwind CSS
 Backend: FastAPI
 AI: ChatGPT API / Translation API / Sora
 Database: PostgreSQL
-Map & Storage: Google Maps API / AWS S3 / YouTube
+Storage: Google Maps API / AWS S3 / YouTube
 Deployment: Vercel
 ```
 
