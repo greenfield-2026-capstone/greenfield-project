@@ -1,69 +1,109 @@
 # 🌏 Histour
 > 역사 스토리 콘텐츠와 역사 인물 챗봇을 활용한 관광 활성화 웹 플랫폼
 
-**이화여자대학교**  권은재 · 김재희 · 최준희
+**이화여자대학교**  
+권은재 · 김재희 · 최준희
 
 ---
 
 ## 📖 Overview
-Histour는 관광지 체험 유도를 목적으로 
-AI 기술을 활용한 역사 스토리 콘텐츠 및 역사 인물과의 챗봇 기능과 관광지 정보를 통합한 웹 기반 플랫폼이다.
-사용자는 역사 이야기를 탐색하고 AI 역사 인물과 대화하며
-해당 스토리와 연결된 실제 장소를 지도 기반으로 확인할 수 있다.
+
+Histour는 외국인 관광객을 대상으로  
+ChatGPT 기반 실시간 역사 인물 챗봇과 AI 영상 콘텐츠를 활용하여  
+한국 역사 관광지를 선택지형 스토리 게임처럼 경험하게 하는 웹 플랫폼이다.
+
+사용자는 관광지를 선택한 뒤 역사 인물과 대화를 진행하며,  
+선택지에 따라 스토리가 분기되고 최종 결말이 달라진다.  
+마지막에는 AI 기반 영상 콘텐츠를 제공하여 몰입감을 높이고  
+실제 관광지 방문 흥미를 유도하는 것을 목표로 한다.
 
 ---
 
 ## 🏗️ System Architecture
-- **Frontend**: 사용자 인터페이스 및 지도 기반 UI
-- **Backend**: API 서버 및 데이터 처리
-- **AI Module**: 스토리 생성, 번역, 이미지/영상 생성, 챗봇 기능 제공
+
+- **Frontend**: 사용자 인터페이스 및 선택지 기반 인터랙션
+- **Backend**: API 서버 및 상태 관리
+- **AI Module**: 역사 인물 챗봇, 번역, 스토리 생성 및 영상 콘텐츠 제공
 
 ---
 
 ## 🚀 Key Features
 
 ### 🗺️ Tourism Integration
-- 실제 문화유산 정보 제공
-- 학습 + 관광 경험 통합
+- 실제 한국 역사 관광지 기반 콘텐츠 제공
+- 관광지와 연계된 역사 체험 제공
+- 스토리 기반 관광 경험 유도
 
 ### 📖 Story-based Content
-- 역사 인물 및 사건 기반 스토리 선택
-- 랜덤 스토리 추천 기능
+- 역사 인물 및 사건 기반 선택형 스토리 제공
+- 사용자 선택에 따른 스토리 분기
+- 관광지 추천 기능
 
 ### 🎬 AI Content Generation
-- 역사 스토리 요약 자동 생성
-- 이미지 + 음성 기반 영상 생성
+- AI 기반 스토리 및 결말 콘텐츠 생성
+- 이미지 및 영상 기반 결과 콘텐츠 제공
 - 다국어 번역 지원
 
 ### 💬 AI Character Interaction
-- 역사 인물과 채팅 기능 제공
-- 사건 및 배경 이해 지원
+- ChatGPT 기반 역사 인물 챗봇 제공
+- 선택지 기반 대화 인터랙션
+- 사건 및 시대적 배경 설명 지원
 
 ---
 
 ## 🛠️ Tech Stack
+
 ```bash
-Frontend: React / Next.js
-Backend: FastAPI / Node.js
-AI: OpenAI API / LLM / Computer Vision
-Map: Google Maps API / Kakao Map
+Frontend: Next.js / TypeScript / Tailwind CSS
+Backend: FastAPI
+AI: ChatGPT API / Translation API / Sora
+Database: PostgreSQL
+Map & Storage: Google Maps API / AWS S3 / YouTube
+Deployment: Vercel
 ```
+
 ---
 
 ## 📂 Repository Structure
+
 ```bash
 .
-├── FE/        # 웹 UI
-├── BE/         # API 서버
-├── AI/              # AI 모듈
-├── assets/          # 정적 파일
-└── README.md
+├── FE/            # Frontend (Web UI)
+├── BE/            # Backend API Server
+├── AI/            # AI Modules
+├── assets/        # Static Assets
+└── doc/           # Project Documents
 ```
 
 ---
 
 ## ⚙️ Setup & Execution
-본 프로젝트는 위와 같은 구조로 구성되어 있으며, 실행을 위해서는 frontend와 backend를 각각 설정한 뒤 동시에 실행해야 한다.
-레포지토리를 클론한 후 backend 디렉토리에서 pip install -r requirements.txt로 의존성을 설치하고, .env 파일에 API 키를 설정한 뒤 uvicorn main:app --reload로 서버를 실행한다.
-이후 frontend 디렉토리에서 npm install로 패키지를 설치하고 npm run dev로 개발 서버를 실행하면 된다.
-정상적으로 실행될 경우 frontend는 http://localhost:3000, backend는 http://localhost:8000에서 확인할 수 있다.
+
+### Backend
+
+```bash
+cd BE
+pip install -r requirements.txt
+uvicorn main:app --reload
+```
+
+### Frontend
+
+```bash
+cd FE
+npm install
+npm run dev
+```
+
+### Environment Variables
+
+```env
+OPENAI_API_KEY=your_api_key
+```
+
+### Deployment
+
+- Frontend: Vercel
+- Backend: FastAPI
+- Database: PostgreSQL
+- Storage: AWS S3 / YouTube
