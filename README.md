@@ -69,8 +69,9 @@ Deployment: Vercel
 ```bash
 .
 ├── FE/            # Frontend (Web UI)
-├── BE/            # Backend API Server
+├── BE/            # Backend Server
 ├── AI/            # AI Modules
+├── api/           # API Routes & Endpoints
 ├── assets/        # Static Assets
 └── doc/           # Project Documents
 ```
