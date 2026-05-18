@@ -1,0 +1,9 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1600" height="900" fill="#F1ECE3"/>
+  <path d="M0 680C170 630 300 620 450 640C630 665 810 760 980 760C1170 760 1360 640 1600 620V900H0V680Z" fill="#8CA094"/>
+  <path d="M120 670C310 560 520 520 740 545C960 570 1120 650 1410 600" stroke="#B48A50" stroke-width="20" stroke-linecap="round"/>
+  <rect x="1120" y="350" width="220" height="170" rx="18" fill="#506654"/>
+  <rect x="1160" y="300" width="140" height="60" rx="12" fill="#A2463B"/>
+  <text x="220" y="150" fill="#1D2430" font-family="Plus Jakarta Sans, Arial" font-size="72" font-weight="800">CHUSA YUBAEGIL</text>
+  <text x="220" y="220" fill="#6B7280" font-family="Noto Sans KR, Arial" font-size="30">A Jeju exile route shaped by letters, art and distance</text>
+</svg>

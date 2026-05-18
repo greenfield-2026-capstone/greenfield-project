@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Histour FE Prototype</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <button class="brand-button" id="goHome" type="button">Histour</button>
+        <div class="topbar-copy">
+          <strong>조선 역사 스토리 여행</strong>
+          <span>관광지 선택부터 인물 대화, 선택형 스토리, 결말 영상까지 이어지는 FE 구조</span>
+        </div>
+      </header>
+
+      <main class="workspace">
+        <section class="screen is-visible" id="screen-home">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Places</p>
+              <h2>관광지 선택</h2>
+            </div>
+            <p>인기 관광지 순으로 먼저 보이며, 공항 선택 시 목록이 필터링됩니다.</p>
+          </div>
+
+          <section class="filter-panel">
+            <div class="filter-group">
+              <label for="airportFilter">공항 필터</label>
+              <select id="airportFilter">
+                <option value="all">전체 / 인기순</option>
+                <option value="ICN">인천공항</option>
+                <option value="GMP">김포공항</option>
+                <option value="PUS">김해공항</option>
+                <option value="CJU">제주공항</option>
+              </select>
+            </div>
+            <div class="filter-summary" id="filterSummary">
+              현재 기준: 인기 관광지
+            </div>
+          </section>
+
+          <section class="place-grid" id="placeGrid"></section>
+        </section>
+
+        <section class="screen" id="screen-place">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Place Detail</p>
+              <h2 id="placeTitle">관광지 상세</h2>
+            </div>
+            <button class="ghost-button" type="button" data-nav="home">목록으로 돌아가기</button>
+          </div>
+
+          <section class="place-layout">
+            <article class="place-hero-card">
+              <div class="place-hero-image" id="placeHeroImage"></div>
+              <div class="place-hero-copy">
+                <div class="meta-row">
+                  <span class="meta-chip" id="placeAirportChip">인천공항 기준</span>
+                  <span class="meta-chip">조선 스토리</span>
+                </div>
+                <h3 id="placeHeroName">경복궁</h3>
+                <p id="placeHeroStory"></p>
+                <div class="fact-list">
+                  <article>
+                    <span>위치</span>
+                    <strong id="placeLocation"></strong>
+                  </article>
+                  <article>
+                    <span>대표 키워드</span>
+                    <strong id="placeTagline"></strong>
+                  </article>
+                  <article>
+                    <span>관련 인물</span>
+                    <strong id="placePeopleCount"></strong>
+                  </article>
+                </div>
+              </div>
+            </article>
+
+            <aside class="place-side-card">
+              <p class="eyebrow">Next Step</p>
+              <h3>관련 인물을 선택해 이야기를 시작하세요.</h3>
+              <p>
+                여기서 선택한 인물이 나중에 챗봇 대화와 선택형 게임의 시작점이 됩니다. 현재는 화면 흐름
+                확인을 위해 더미 데이터로 연결됩니다.
+              </p>
+              <button class="primary-button" id="goCharacterSelect" type="button">인물 보기</button>
+            </aside>
+          </section>
+
+          <section class="character-preview-block">
+            <div class="section-header compact">
+              <div>
+                <p class="eyebrow">Related Characters</p>
+                <h2>등장 인물 미리보기</h2>
+              </div>
+            </div>
+            <div class="character-preview-grid" id="characterPreviewGrid"></div>
+          </section>
+        </section>
+
+        <section class="screen" id="screen-characters">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Character Select</p>
+              <h2 id="characterScreenTitle">인물 선택</h2>
+            </div>
+            <button class="ghost-button" type="button" data-nav="place">관광지 상세로 돌아가기</button>
+          </div>
+
+          <section class="character-select-grid" id="characterSelectGrid"></section>
+        </section>
+
+        <section class="screen" id="screen-story">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Story Play</p>
+              <h2>선택형 대화 / 게임 플레이 화면 틀</h2>
+            </div>
+            <button class="ghost-button" type="button" data-nav="characters">인물 다시 선택</button>
+          </div>
+
+          <section class="story-layout">
+            <aside class="story-side-card">
+              <p class="eyebrow">Current Character</p>
+              <div class="story-character">
+                <div class="story-character-image" id="storyCharacterImage"></div>
+                <div>
+                  <h3 id="storyCharacterName">세종대왕</h3>
+                  <p id="storyCharacterRole">훈민정음과 궁궐 이야기</p>
+                </div>
+              </div>
+              <div class="progress-box">
+                <span>진행도</span>
+                <div class="progress-track">
+                  <div class="progress-fill"></div>
+                </div>
+                <small>나중에 챗봇 응답과 선택 결과에 따라 단계가 갱신됩니다.</small>
+              </div>
+            </aside>
+
+            <article class="story-main-card">
+              <div class="chat-thread">
+                <div class="bubble npc">
+                  <strong id="storyNpcName">세종대왕</strong>
+                  <p id="storyNpcLine">이 궁궐에서 어떤 선택을 하겠는가? 지금은 FE 구조 확인용 더미 대사입니다.</p>
+                </div>
+                <div class="bubble system">
+                  <p>
+                    여기는 나중에 ChatGPT 기반 대화 API 응답이 들어갈 영역입니다. 현재는 선택지 흐름이 보이는
+                    UI 뼈대만 구성되어 있습니다.
+                  </p>
+                </div>
+              </div>
+
+              <div class="choice-grid">
+                <button class="choice-button" type="button">궁궐 안으로 들어가 보기</button>
+                <button class="choice-button" type="button">인물에게 직접 질문하기</button>
+                <button class="choice-button" type="button">사건의 배경 먼저 살펴보기</button>
+                <button class="choice-button" type="button">다음 장면으로 넘어가기</button>
+              </div>
+
+              <div class="story-actions">
+                <button class="ghost-button" type="button">챗봇 API 연결 예정</button>
+                <button class="primary-button" id="goEndingPreview" type="button">결말 영상 화면 보기</button>
+              </div>
+            </article>
+          </section>
+        </section>
+
+        <section class="screen" id="screen-ending">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Ending Video</p>
+              <h2>결말 영상 결과 화면 placeholder</h2>
+            </div>
+            <button class="ghost-button" type="button" data-nav="story">스토리 화면으로 돌아가기</button>
+          </div>
+
+          <section class="ending-layout">
+            <article class="ending-video-card">
+              <div class="ending-video-placeholder">
+                <div class="play-icon large"></div>
+              </div>
+              <div class="ending-copy">
+                <h3 id="endingTitle">선택 결과 영상</h3>
+                <p>
+                  여기는 나중에 Sora 기반 생성 영상 또는 YouTube / S3 영상 링크가 들어올 위치입니다. 현재는
+                  썸네일 placeholder만 둡니다.
+                </p>
+              </div>
+            </article>
+
+            <aside class="ending-summary-card">
+              <p class="eyebrow">Integration Memo</p>
+              <ul>
+                <li>챗봇 응답 결과를 기반으로 결말 텍스트 표시</li>
+                <li>선택지 로그를 바탕으로 다른 영상 ID 연결</li>
+                <li>다국어 번역 결과를 제목/설명에 반영</li>
+              </ul>
+              <button class="primary-button" type="button" data-nav="home">홈으로 돌아가기</button>
+            </aside>
+          </section>
+        </section>
+      </main>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
