@@ -1,0 +1,9 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1600" height="900" fill="#F4EEE3"/>
+  <rect y="650" width="1600" height="250" fill="#D7C7A6"/>
+  <rect x="260" y="360" width="1080" height="210" rx="22" fill="#4C626A"/>
+  <rect x="350" y="280" width="900" height="90" rx="16" fill="#A1493B"/>
+  <path d="M1180 250C1180 200 1220 160 1270 160C1320 160 1360 200 1360 250V360H1180V250Z" fill="#2C7A78"/>
+  <text x="220" y="150" fill="#1D2430" font-family="Plus Jakarta Sans, Arial" font-size="72" font-weight="800">GIMANDEOK ROUTE</text>
+  <text x="220" y="220" fill="#6B7280" font-family="Noto Sans KR, Arial" font-size="30">Jeju trade, charity and everyday life through Kim Man-deok</text>
+</svg>

@@ -1,0 +1,13 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1600" height="900" fill="#F5EFE3"/>
+  <rect y="620" width="1600" height="280" fill="#D7C3A3"/>
+  <rect x="220" y="350" width="1160" height="250" rx="20" fill="#2F5D62"/>
+  <rect x="310" y="250" width="980" height="110" rx="18" fill="#B0483A"/>
+  <rect x="360" y="390" width="80" height="210" fill="#E9D8B7"/>
+  <rect x="560" y="390" width="80" height="210" fill="#E9D8B7"/>
+  <rect x="760" y="390" width="80" height="210" fill="#E9D8B7"/>
+  <rect x="960" y="390" width="80" height="210" fill="#E9D8B7"/>
+  <rect x="1160" y="390" width="80" height="210" fill="#E9D8B7"/>
+  <text x="220" y="150" fill="#1D2430" font-family="Plus Jakarta Sans, Arial" font-size="72" font-weight="800">GYEONGBOKGUNG</text>
+  <text x="220" y="220" fill="#6B7280" font-family="Noto Sans KR, Arial" font-size="30">Royal palace and iconic first stop in Seoul</text>
+</svg>

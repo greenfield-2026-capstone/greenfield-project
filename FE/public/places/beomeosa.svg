@@ -1,0 +1,11 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1600" height="900" fill="#F4EFE6"/>
+  <rect y="660" width="1600" height="240" fill="#C8D1C0"/>
+  <rect x="380" y="420" width="840" height="170" rx="20" fill="#506654"/>
+  <rect x="480" y="320" width="640" height="110" rx="18" fill="#A2463B"/>
+  <rect x="560" y="455" width="90" height="135" fill="#EADCC0"/>
+  <rect x="755" y="455" width="90" height="135" fill="#EADCC0"/>
+  <rect x="950" y="455" width="90" height="135" fill="#EADCC0"/>
+  <text x="220" y="150" fill="#1D2430" font-family="Plus Jakarta Sans, Arial" font-size="72" font-weight="800">BEOMEOSA</text>
+  <text x="220" y="220" fill="#6B7280" font-family="Noto Sans KR, Arial" font-size="30">Temple space linked to poems, officials and quiet mountains</text>
+</svg>
