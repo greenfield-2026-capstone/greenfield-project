@@ -1,11 +1,16 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import express from "express";
 import OpenAI from "openai";
+
+console.log("URL:", process.env.ANTHROPIC_BASE_URL);
 
 const router = express.Router();
 
 const client = new OpenAI({
-  apiKey: process.env.LITELLM_API_KEY,
-  baseURL: `${process.env.LITELLM_URL}/v1`,
+  apiKey: process.env.ANTHROPIC_AUTH_TOKEN,
+  baseURL: `${process.env.ANTHROPIC_BASE_URL}/v1`,
 });
 
 const TAEJO_PROMPT = `
