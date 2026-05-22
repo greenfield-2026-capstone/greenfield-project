@@ -38,3 +38,21 @@ export async function askTaejo(
 
   return response.json();
 }
+
+export async function generateBackground(
+  scene: string
+): Promise<{ imageUrl: string }> {
+  const response = await fetch("http://localhost:8080/api/image/background", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ scene }),
+  });
+
+  if (!response.ok) {
+    throw new Error("배경 이미지 생성 실패");
+  }
+
+  return response.json();
+}

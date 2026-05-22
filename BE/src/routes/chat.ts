@@ -8,9 +8,13 @@ console.log("URL:", process.env.ANTHROPIC_BASE_URL);
 
 const router = express.Router();
 
-const client = new OpenAI({
+const chatClient = new OpenAI({
   apiKey: process.env.ANTHROPIC_AUTH_TOKEN,
   baseURL: `${process.env.ANTHROPIC_BASE_URL}/v1`,
+});
+
+const imageClient = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
 });
 
 const TAEJO_PROMPT = `
@@ -77,7 +81,7 @@ router.post("/chat/taejo", async (req, res) => {
       return res.status(400).json({ error: "message가 필요합니다." });
     }
 
-    const response = await client.chat.completions.create({
+    const response = await chatClient.chat.completions.create({
       model: process.env.LITELLM_MODEL || "claude-haiku-4-5-20251001",
       messages: [
         {
@@ -130,6 +134,44 @@ ${message}
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Claude 응답 생성 실패" });
+  }
+});
+
+router.post("/image/background", async (req, res) => {
+  try {
+    const { scene } = req.body;
+
+    const prompt = `
+Korean historical visual novel background.
+No people, no text, no UI.
+Scene: ${scene}
+
+Style:
+- cinematic historical Korea
+- Joseon dynasty atmosphere
+- soft painterly realism
+- wide background image
+- suitable for web game background
+`;
+
+    const image = await chatClient.images.generate({
+      model: "gpt-image-1",
+      prompt,
+      size: "1536x1024",
+    });
+
+    const base64 = image.data?.[0]?.b64_json;
+
+    if (!base64) {
+      return res.status(500).json({ error: "이미지 생성 실패" });
+    }
+
+    res.json({
+      imageUrl: `data:image/png;base64,${base64}`,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "배경 이미지 생성 실패" });
   }
 });
 
