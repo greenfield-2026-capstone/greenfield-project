@@ -172,13 +172,14 @@ export default function TaejoChatPage() {
       <div
       className="absolute inset-0 bg-cover bg-center"
       style={{
-        backgroundImage: "url('/backgrounds/gungjeon.jpg')",
+        backgroundImage:
+        "linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('/backgrounds/gungjeon.jpg')",
         }}
-/>
+        />
 
-      <div className="absolute inset-0 bg-black/45" />
+      <div className="absolute inset-0 bg-black/15" />
 
-      <section className="relative z-10 mx-auto grid max-w-7xl gap-6 lg:grid-cols-[330px_1fr]">
+      <section className="relative z-10 mx-auto grid max-w-[1280px] gap-6 lg:grid-cols-[360px_1fr]">
         <aside className="rounded-3xl border border-white/30 bg-[#fff7e8]/90 p-6 shadow-2xl backdrop-blur-md">
           <p className="text-sm font-black tracking-widest text-[#9b3f34]">
             HISTOUR
