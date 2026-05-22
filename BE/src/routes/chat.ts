@@ -67,6 +67,12 @@ const TAEJO_PROMPT = `
     }
   ]
 }
+  주의:
+- JSON만 출력한다.
+- 설명문을 출력하지 않는다.
+- 반드시 JSON 객체만 반환한다.
+- markdown을 사용하지 않는다.
+- \`\`\`json 코드블록을 사용하지 않는다.
 `;
 
 router.post("/chat/taejo", async (req, res) => {
@@ -106,10 +112,15 @@ ${message}
     const rawContent =
       response.choices[0]?.message?.content ?? "";
 
+      const cleanedContent = rawContent
+      .replace(/```json/g, "")
+      .replace(/```/g, "")
+      .trim();
+
     let parsed;
 
     try {
-      parsed = JSON.parse(rawContent);
+      parsed = JSON.parse(cleanedContent);
     } catch {
       parsed = {
         reply: rawContent || "대답을 하지 못했소.",
