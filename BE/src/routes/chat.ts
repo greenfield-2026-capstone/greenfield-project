@@ -13,10 +13,6 @@ const chatClient = new OpenAI({
   baseURL: `${process.env.ANTHROPIC_BASE_URL}/v1`,
 });
 
-const imageClient = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-
 const TAEJO_PROMPT = `
 너는 조선 태조 이성계다.
 
@@ -134,44 +130,6 @@ ${message}
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Claude 응답 생성 실패" });
-  }
-});
-
-router.post("/image/background", async (req, res) => {
-  try {
-    const { scene } = req.body;
-
-    const prompt = `
-Korean historical visual novel background.
-No people, no text, no UI.
-Scene: ${scene}
-
-Style:
-- cinematic historical Korea
-- Joseon dynasty atmosphere
-- soft painterly realism
-- wide background image
-- suitable for web game background
-`;
-
-    const image = await chatClient.images.generate({
-      model: "gpt-image-1",
-      prompt,
-      size: "1536x1024",
-    });
-
-    const base64 = image.data?.[0]?.b64_json;
-
-    if (!base64) {
-      return res.status(500).json({ error: "이미지 생성 실패" });
-    }
-
-    res.json({
-      imageUrl: `data:image/png;base64,${base64}`,
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "배경 이미지 생성 실패" });
   }
 });
 

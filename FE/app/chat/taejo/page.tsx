@@ -3,7 +3,6 @@
 import { useState } from "react";
 import {
   askTaejo,
-  generateBackground,
   ChatMessage,
   TaejoChoice,
 } from "@/lib/chatApi";
@@ -33,21 +32,6 @@ export default function TaejoChatPage() {
   const [emotionScore, setEmotionScore] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [ending, setEnding] = useState<"great" | "lonely" | null>(null);
-
-  const [backgroundImage, setBackgroundImage] = useState("");
-  const [isBgChanging, setIsBgChanging] = useState(false);
-
-  const changeBackground = async (scene: string) => {
-    try {
-      setIsBgChanging(true);
-      const result = await generateBackground(scene);
-      setBackgroundImage(result.imageUrl);
-    } catch {
-      console.log("배경 이미지 생성 실패");
-    } finally {
-      setTimeout(() => setIsBgChanging(false), 700);
-    }
-  };
 
   const handleSend = async () => {
     if (!input.trim() || isLoading || ending) return;
@@ -94,13 +78,6 @@ export default function TaejoChatPage() {
 
   const handleChoice = async (choice: TaejoChoice) => {
     if (ending) return;
-
-    const scene =
-      choice.type === "nation"
-        ? `Joseon palace, serious political decision, stable kingdom, ${choice.text}`
-        : `quiet royal palace at night, emotional family conflict, ${choice.text}`;
-
-    changeBackground(scene);
 
     const nextProgress = progress + 1;
     const nextNationScore =
@@ -188,21 +165,16 @@ export default function TaejoChatPage() {
     setNationScore(0);
     setEmotionScore(0);
     setEnding(null);
-    setBackgroundImage("");
   };
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#24180f] px-6 py-6">
       <div
-        className={`absolute inset-0 bg-cover bg-center transition-opacity duration-700 ${
-          isBgChanging ? "opacity-40" : "opacity-100"
-        }`}
-        style={{
-          backgroundImage: backgroundImage
-            ? `url(${backgroundImage})`
-            : "linear-gradient(135deg, #4b2e18, #1f2937)",
+      className="absolute inset-0 bg-cover bg-center"
+      style={{
+        backgroundImage: "url('/backgrounds/gungjeon.jpg')",
         }}
-      />
+/>
 
       <div className="absolute inset-0 bg-black/45" />
 
@@ -319,13 +291,7 @@ export default function TaejoChatPage() {
                 태조 이성계가 생각 중입니다...
               </div>
             )}
-
-            {isBgChanging && (
-              <div className="mx-auto w-fit rounded-full bg-black/60 px-4 py-2 text-sm font-bold text-white">
-                배경을 그리고 있습니다...
-              </div>
-            )}
-          </div>
+            </div>
 
           {choices.length > 0 && !ending && (
             <div className="mt-5">
