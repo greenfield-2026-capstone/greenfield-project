@@ -4,11 +4,13 @@ dotenv.config();
 import express from "express";
 import OpenAI from "openai";
 
+console.log("URL:", process.env.ANTHROPIC_BASE_URL);
+
 const router = express.Router();
 
-const client = new OpenAI({
-  apiKey: process.env.LITELLM_API_KEY,
-  baseURL: `${process.env.LITELLM_URL}/v1`,
+const chatClient = new OpenAI({
+  apiKey: process.env.ANTHROPIC_AUTH_TOKEN,
+  baseURL: `${process.env.ANTHROPIC_BASE_URL}/v1`,
 });
 
 const TAEJO_PROMPT = `
@@ -42,14 +44,14 @@ const TAEJO_PROMPT = `
 
 게임 규칙:
 - 사용자의 말에 태조 이성계처럼 답하라.
-- 선택지는 사용자의 대화 내용에 맞춰 매번 새롭게 만들어라.
+- 사용자의 입력과 이전 대화(history)를 적극 반영하라.
+- 선택지는 AI가 매번 새롭게 생성한다.
+- 같은 상황이라도 이전에 사용한 선택지를 반복하지 않는다.
+- 선택지는 사용자의 현재 질문과 직전 대화 내용에 직접 관련되어야 한다.
+- 선택지는 반드시 서로 다른 행동을 제안해야 한다.
+- 선택지는 단순 찬성/반대가 아니라 실제 결정처럼 보여야 한다.
 - 선택지는 반드시 2개만 만든다.
-- 각 선택지는 반드시 "nation" 또는 "emotion" type을 가진다.
-- nation은 나라, 백성, 현실 판단, 장기적 안정, 능력 중심 선택이다.
-- emotion은 가족, 정, 편애, 체면, 개인 감정, 익숙한 질서 중심 선택이다.
-- 엔딩을 직접 말하지 마라.
-- 선택지는 너무 노골적으로 "나라 선택" 또는 "감정 선택"처럼 보이지 않게 자연스럽게 써라.
-- 반드시 JSON만 출력하라.
+- 각 선택지는 nation 또는 emotion type을 가진다.
 
 출력 형식:
 {
@@ -65,6 +67,12 @@ const TAEJO_PROMPT = `
     }
   ]
 }
+  주의:
+- JSON만 출력한다.
+- 설명문을 출력하지 않는다.
+- 반드시 JSON 객체만 반환한다.
+- markdown을 사용하지 않는다.
+- \`\`\`json 코드블록을 사용하지 않는다.
 `;
 
 router.post("/chat/taejo", async (req, res) => {
@@ -75,7 +83,7 @@ router.post("/chat/taejo", async (req, res) => {
       return res.status(400).json({ error: "message가 필요합니다." });
     }
 
-    const response = await client.chat.completions.create({
+    const response = await chatClient.chat.completions.create({
       model: process.env.LITELLM_MODEL || "claude-haiku-4-5-20251001",
       messages: [
         {
@@ -91,22 +99,28 @@ router.post("/chat/taejo", async (req, res) => {
 
 이전 대화:
 ${JSON.stringify(history ?? [])}
+- 이전 대화(history)를 읽고 이미 등장한 사건과 인물을 기억하여 이어서 진행하라.
 
 사용자 입력:
 ${message}
 `,
         },
       ],
-      temperature: 0.8,
+      temperature: 1.0,
     });
 
     const rawContent =
       response.choices[0]?.message?.content ?? "";
 
+      const cleanedContent = rawContent
+      .replace(/```json/g, "")
+      .replace(/```/g, "")
+      .trim();
+
     let parsed;
 
     try {
-      parsed = JSON.parse(rawContent);
+      parsed = JSON.parse(cleanedContent);
     } catch {
       parsed = {
         reply: rawContent || "대답을 하지 못했소.",
