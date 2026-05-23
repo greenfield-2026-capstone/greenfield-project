@@ -194,10 +194,6 @@ export function ChatMessenger({
           전송
         </button>
       </div>
-
-      <div style={{ marginTop: "12px", fontSize: "13px", opacity: 0.7 }}>
-        진행률 {progress} / 5 · 나라 {nationScore} · 감정 {emotionScore}
-      </div>
     </section>
   );
 }
