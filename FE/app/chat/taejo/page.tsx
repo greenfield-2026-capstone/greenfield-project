@@ -168,7 +168,7 @@ export default function TaejoChatPage() {
   };
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-[#24180f] px-6 py-6">
+    <main className="relative min-h-screen overflow-hidden bg-[#24180f] px-10 py-8">
       <div
       className="absolute inset-0 bg-cover bg-center"
       style={{
@@ -179,14 +179,18 @@ export default function TaejoChatPage() {
 
       <div className="absolute inset-0 bg-black/15" />
 
-      <section className="relative z-10 mx-auto grid max-w-[1280px] gap-6 lg:grid-cols-[360px_1fr]">
+      <section className="relative z-10 mx-auto grid max-w-[1400px] gap-6 lg:grid-cols-[360px_1fr_280px]">
         <aside className="rounded-3xl border border-white/30 bg-[#fff7e8]/90 p-6 shadow-2xl backdrop-blur-md">
           <p className="text-sm font-black tracking-widest text-[#9b3f34]">
             HISTOUR
           </p>
 
           <div className="mt-5 rounded-3xl bg-[#ead9bf] p-5 text-center">
-            <div className="text-6xl">👑</div>
+            <img
+            src="/characters/taejo.png"
+            alt="태조 이성계"
+            className="mx-auto h-56 w-full rounded-2xl object-cover"
+            />
             <h1 className="mt-3 text-2xl font-black">태조 이성계</h1>
             <p className="mt-1 text-sm text-gray-600">조선의 건국자</p>
           </div>
@@ -256,7 +260,7 @@ export default function TaejoChatPage() {
             </button>
           </div>
 
-          <div className="mt-5 h-[56vh] space-y-5 overflow-y-auto rounded-3xl border border-[#d8c5aa] bg-white/40 p-5">
+          <div className="mt-5 h-[62vh] space-y-5 overflow-y-auto rounded-3xl border border-[#d8c5aa] bg-white/55 p-5">
             {messages.map((msg, index) => (
               <div
                 key={index}
@@ -337,6 +341,24 @@ export default function TaejoChatPage() {
               </button>
             </div>
           )}
+          <aside className="rounded-3xl border border-white/30 bg-[#fff7e8]/90 p-5 shadow-2xl backdrop-blur-md">
+  <h3 className="text-xl font-black">대화 기록</h3>
+
+  <div className="mt-4 space-y-3">
+    {messages.slice(-5).map((msg, index) => (
+      <div key={index} className="rounded-2xl bg-white/70 p-3 text-sm">
+        <p className="font-bold">
+          {msg.role === "user"
+            ? "나"
+            : msg.role === "assistant"
+            ? "태조 이성계"
+            : "Narration"}
+        </p>
+        <p className="mt-1 text-gray-600">{msg.text.slice(0, 70)}</p>
+      </div>
+    ))}
+  </div>
+</aside>
         </section>
       </section>
     </main>
