@@ -6,7 +6,7 @@ import { AirportCode } from "@/types/place";
 export default async function HomePage({
   searchParams
 }: {
-  searchParams: Promise<{ airport?: AirportCode | "all" }>;
+  searchParams: Promise<{ airport?: AirportCode | "all"; lang?: string }>;
 }) {
   const params = (await searchParams) ?? {};
   const airport = params.airport ?? "all";
@@ -23,7 +23,7 @@ export default async function HomePage({
 
       <div className="card toolbar-card">
         <AirportFilter />
-        <span className="toolbar-note">{airport === "all" ? "인기 장소" : "공항 기준"}</span>
+        <span className="toolbar-note">{airport === "all" ? "인기 장소" : "공항 기준 추천"}</span>
       </div>
 
       <div className="place-grid">

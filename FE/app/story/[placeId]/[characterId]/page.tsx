@@ -3,8 +3,12 @@ import { ChatMessenger } from "@/components/story/ChatMessenger";
 import { CharacterInfoPanel } from "@/components/story/CharacterInfoPanel";
 import { getAllPlaces, getCharacter, getPlace } from "@/lib/culture-data";
 
+export const dynamicParams = false;
+export const dynamic = "force-static";
+
 export function generateStaticParams() {
-  return getAllPlaces().flatMap((place) =>
+  const places = getAllPlaces();
+  return places.flatMap((place) =>
     place.characters.map((character) => ({
       placeId: place.id,
       characterId: character.id

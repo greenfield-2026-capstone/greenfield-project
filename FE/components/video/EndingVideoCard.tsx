@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Character, Place } from "@/types/place";
 
 export function EndingVideoCard({
@@ -19,7 +20,8 @@ export function EndingVideoCard({
           <strong>{character.name}</strong>
           <p>여기까지의 선택을 바탕으로, 이 이야기를 마무리할 영상을 보내주겠습니다.</p>
         </div>
-        <div className="ending-thumbnail" style={{ backgroundImage: `url("${video.thumbnailUrl}")` }}>
+        <div className="ending-thumbnail">
+          <Image src={video.thumbnailUrl} alt={video.title} fill sizes="(max-width: 1080px) 100vw, 60vw" className="media-image" />
           <div className="play-badge">▶</div>
         </div>
         <div className="card-body">

@@ -1,8 +1,25 @@
 from typing import Any, Dict, List, Optional
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+
+try:
+    from .sql_repository import (
+        get_place,
+        get_place_characters,
+        get_place_experiences,
+        initialize_database,
+        list_places,
+    )
+except ImportError:
+    from sql_repository import (
+        get_place,
+        get_place_characters,
+        get_place_experiences,
+        initialize_database,
+        list_places,
+    )
 
 app = FastAPI()
 
@@ -14,6 +31,11 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+@app.on_event("startup")
+def startup_event():
+    initialize_database()
 
 PLACES = [
     {
@@ -248,6 +270,35 @@ def extract_info(message: str, reply_text: str, history: List[MessageItem]) -> D
 @app.get("/")
 def root():
     return {"message": "Histour demo server is running."}
+
+
+@app.get("/api/places")
+def api_places(airport: str = "all"):
+    return list_places(airport)
+
+
+@app.get("/api/places/{place_id}")
+def api_place_detail(place_id: str):
+    place = get_place(place_id)
+    if place is None:
+        raise HTTPException(status_code=404, detail="Place not found")
+    return place
+
+
+@app.get("/api/places/{place_id}/characters")
+def api_place_characters(place_id: str):
+    place = get_place(place_id)
+    if place is None:
+        raise HTTPException(status_code=404, detail="Place not found")
+    return get_place_characters(place_id)
+
+
+@app.get("/api/places/{place_id}/experiences")
+def api_place_experiences(place_id: str):
+    place = get_place(place_id)
+    if place is None:
+        raise HTTPException(status_code=404, detail="Place not found")
+    return get_place_experiences(place_id)
 
 
 @app.get("/chat/start")

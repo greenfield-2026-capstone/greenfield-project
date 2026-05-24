@@ -6,6 +6,7 @@ export interface Character {
   role: string;
   summary: string;
   imageUrl: string;
+  imagePosition?: string;
   openingLine: string;
   sourceTitle: string;
   focusKeywords: string[];
