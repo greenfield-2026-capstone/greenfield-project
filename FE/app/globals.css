@@ -64,6 +64,38 @@ select {
   letter-spacing: -0.03em;
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.locale-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #fffdf8;
+  color: var(--namsaek);
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.account-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 14px;
+  border: 1px solid rgba(153, 54, 47, 0.18);
+  border-radius: 999px;
+  background: #fff7f4;
+  color: var(--daeja);
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
 .header-copy {
   color: var(--muted);
   font-size: 0.88rem;
@@ -177,6 +209,244 @@ select {
   font-weight: 700;
 }
 
+.locale-page {
+  width: min(480px, 100%);
+  margin: 0 auto;
+  padding: 18px 0 40px;
+}
+
+.locale-page-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.back-button {
+  width: 42px;
+  height: 42px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--namsaek);
+  font-size: 1.4rem;
+}
+
+.locale-form {
+  display: grid;
+  gap: 22px;
+}
+
+.locale-field {
+  display: grid;
+  gap: 12px;
+}
+
+.locale-field span {
+  color: var(--ink);
+  font-size: 0.96rem;
+  font-weight: 700;
+}
+
+.locale-field select,
+.locale-trigger,
+.locale-field input {
+  width: 100%;
+  padding: 18px 18px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: #fff;
+  color: var(--ink);
+  text-align: left;
+}
+
+.locale-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.locale-trigger strong {
+  color: var(--namsaek);
+  font-weight: 700;
+}
+
+.locale-apply {
+  width: 100%;
+  margin-top: 12px;
+  padding: 18px 18px;
+  border: 0;
+  border-radius: 999px;
+  background: #dfdfdf;
+  color: #616161;
+  font-weight: 700;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.locale-apply.is-ready {
+  background: var(--daeja);
+  color: #fff;
+}
+
+.locale-apply:disabled {
+  cursor: not-allowed;
+}
+
+.locale-apply.is-ready:hover {
+  transform: translateY(-1px);
+}
+
+.sheet-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(29, 36, 48, 0.35);
+  z-index: 30;
+}
+
+.language-sheet {
+  width: min(480px, 100%);
+  max-height: min(78vh, 720px);
+  overflow: auto;
+  border-radius: 28px 28px 18px 18px;
+  background: #fff;
+  box-shadow: var(--shadow-strong);
+}
+
+.language-sheet-head {
+  position: sticky;
+  top: 0;
+  padding: 26px 24px 12px;
+  background: #fff;
+}
+
+.language-sheet-head h2 {
+  margin: 0;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 1.5rem;
+}
+
+.language-list {
+  display: grid;
+  padding: 4px 0 18px;
+}
+
+.language-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 24px;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font-size: 1.12rem;
+  text-align: left;
+}
+
+.language-option.is-active {
+  color: var(--namsaek);
+  font-weight: 700;
+}
+
+.account-page {
+  padding: 18px 0 40px;
+}
+
+.account-page-top {
+  margin-bottom: 24px;
+}
+
+.account-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+  gap: 18px;
+}
+
+.account-form-card,
+.account-benefits {
+  padding: 22px;
+}
+
+.account-tabs {
+  display: inline-grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 22px;
+  padding: 6px;
+  border-radius: 999px;
+  background: var(--surface-alt);
+}
+
+.account-tab {
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  font-weight: 700;
+  padding: 10px 18px;
+}
+
+.account-tab.is-active {
+  background: #fff;
+  color: var(--namsaek);
+  box-shadow: var(--shadow);
+}
+
+.account-form {
+  display: grid;
+  gap: 16px;
+}
+
+.account-benefits h2 {
+  margin: 0;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 1.4rem;
+}
+
+.account-benefits-head {
+  margin-bottom: 16px;
+}
+
+.account-preview-list {
+  display: grid;
+  gap: 12px;
+}
+
+.account-preview-card {
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #fffdfa;
+}
+
+.account-preview-label {
+  display: inline-block;
+  margin-bottom: 10px;
+  color: var(--namsaek);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.account-preview-card strong {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 1.02rem;
+}
+
+.account-preview-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
 .place-grid,
 .character-grid {
   display: grid;
@@ -213,8 +483,12 @@ select {
 .character-image,
 .story-portrait,
 .ending-thumbnail {
-  background-size: cover;
-  background-position: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.media-image {
+  object-fit: cover;
 }
 
 .place-image {
@@ -667,6 +941,7 @@ select {
   .place-grid,
   .character-grid,
   .experience-grid,
+  .account-layout,
   .place-hero,
   .detail-grid,
   .messenger-layout,
@@ -680,6 +955,11 @@ select {
   .section-heading,
   .toolbar-card {
     display: block;
+  }
+
+  .header-actions {
+    margin-top: 14px;
+    flex-wrap: wrap;
   }
 
   .header-copy {

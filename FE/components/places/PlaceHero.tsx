@@ -1,10 +1,13 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Place } from "@/types/place";
 
 export function PlaceHero({ place }: { place: Place }) {
   return (
     <section className="place-hero">
-      <div className="place-hero-image" style={{ backgroundImage: `url("${place.imageUrl}")` }} />
+      <div className="place-hero-image">
+        <Image src={place.imageUrl} alt={place.name} fill priority sizes="(max-width: 1080px) 100vw, 58vw" className="media-image" />
+      </div>
       <div className="card place-hero-copy">
         <div className="badge-row">
           <span className="badge badge-era">{place.era}</span>
@@ -45,7 +48,7 @@ export function PlaceHero({ place }: { place: Place }) {
             <strong>{place.highlights[0]}</strong>
           </div>
         </div>
-        <Link href={`/places/${place.id}/characters`} className="button-primary">
+        <Link href={`/places/${place.id}/characters`} prefetch className="button-primary">
           인물 만나기
         </Link>
       </div>

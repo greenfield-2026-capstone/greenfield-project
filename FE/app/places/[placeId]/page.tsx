@@ -4,8 +4,12 @@ import { ExperienceSection } from "@/components/places/ExperienceSection";
 import { PlaceHero } from "@/components/places/PlaceHero";
 import { getAllPlaces, getPlace } from "@/lib/culture-data";
 
+export const dynamicParams = false;
+export const dynamic = "force-static";
+
 export function generateStaticParams() {
-  return getAllPlaces().map((place) => ({ placeId: place.id }));
+  const places = getAllPlaces();
+  return places.map((place) => ({ placeId: place.id }));
 }
 
 export default async function PlacePage({ params }: { params: Promise<{ placeId: string }> }) {

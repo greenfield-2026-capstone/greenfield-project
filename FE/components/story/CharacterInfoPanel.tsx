@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Character, Place } from "@/types/place";
 
 export function CharacterInfoPanel({
@@ -18,10 +19,16 @@ export function CharacterInfoPanel({
   return (
     <aside className="card messenger-side">
       <div className="messenger-side-top">
-        <div
-          className="story-portrait"
-          style={{ backgroundImage: `url("${character.imageUrl}")` }}
-        />
+        <div className="story-portrait">
+          <Image
+            src={character.imageUrl}
+            alt={character.name}
+            fill
+            sizes="120px"
+            className="media-image"
+            style={character.imagePosition ? { objectPosition: character.imagePosition } : undefined}
+          />
+        </div>
         <div>
           <h2>{character.name}</h2>
           <p>{character.role}</p>

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Character } from "@/types/place";
 
 interface CharacterCardProps {
@@ -9,7 +10,16 @@ interface CharacterCardProps {
 export function CharacterCard({ placeId, character }: CharacterCardProps) {
   return (
     <article className="card character-card">
-      <div className="character-image" style={{ backgroundImage: `url("${character.imageUrl}")` }} />
+      <div className="character-image">
+        <Image
+          src={character.imageUrl}
+          alt={character.name}
+          fill
+          sizes="(max-width: 720px) 100vw, 33vw"
+          className="media-image"
+          style={character.imagePosition ? { objectPosition: character.imagePosition } : undefined}
+        />
+      </div>
       <div className="card-body">
         <h3>{character.name}</h3>
         <p className="character-role">{character.role}</p>
@@ -22,7 +32,7 @@ export function CharacterCard({ placeId, character }: CharacterCardProps) {
             </span>
           ))}
         </div>
-        <Link href={`/story/${placeId}/${character.id}`} className="button-primary">
+        <Link href={`/story/${placeId}/${character.id}`} prefetch className="button-primary">
           이 인물과 대화하기
         </Link>
       </div>

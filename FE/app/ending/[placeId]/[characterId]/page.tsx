@@ -2,8 +2,12 @@ import { notFound } from "next/navigation";
 import { EndingVideoCard } from "@/components/video/EndingVideoCard";
 import { getAllPlaces, getCharacter, getPlace } from "@/lib/culture-data";
 
+export const dynamicParams = false;
+export const dynamic = "force-static";
+
 export function generateStaticParams() {
-  return getAllPlaces().flatMap((place) =>
+  const places = getAllPlaces();
+  return places.flatMap((place) =>
     place.characters.map((character) => ({
       placeId: place.id,
       characterId: character.id

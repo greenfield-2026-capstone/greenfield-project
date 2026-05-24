@@ -1,10 +1,13 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Place } from "@/types/place";
 
 export function PlaceCard({ place }: { place: Place }) {
   return (
     <article className="card place-card">
-      <div className="place-image" style={{ backgroundImage: `url("${place.imageUrl}")` }} />
+      <div className="place-image">
+        <Image src={place.imageUrl} alt={place.name} fill sizes="(max-width: 720px) 100vw, 33vw" className="media-image" />
+      </div>
       <div className="card-body">
         <div className="place-heading">
           <h3>{place.name}</h3>
@@ -30,7 +33,7 @@ export function PlaceCard({ place }: { place: Place }) {
             </span>
           ))}
         </div>
-        <Link href={`/places/${place.id}`} className="button-primary">
+        <Link href={`/places/${place.id}`} prefetch className="button-primary">
           자세히 보기
         </Link>
       </div>

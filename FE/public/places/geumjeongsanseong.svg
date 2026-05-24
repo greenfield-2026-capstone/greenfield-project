@@ -1,8 +1,0 @@
-<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="1600" height="900" fill="#EEF1EC"/>
-  <path d="M0 620C190 540 320 520 470 540C640 565 760 640 930 640C1120 640 1270 535 1600 560V900H0V620Z" fill="#7D9178"/>
-  <path d="M0 700C170 620 360 600 520 630C690 660 830 730 1020 720C1210 710 1350 620 1600 640V900H0V700Z" fill="#556A54"/>
-  <path d="M230 560L530 470L850 500L1160 430L1410 500" stroke="#D7D0C6" stroke-width="22" stroke-linecap="round"/>
-  <text x="220" y="150" fill="#1D2430" font-family="Plus Jakarta Sans, Arial" font-size="72" font-weight="800">GEUMJEONGSANSEONG</text>
-  <text x="220" y="220" fill="#6B7280" font-family="Noto Sans KR, Arial" font-size="30">Mountain fortress and wide ridgeline views in Busan</text>
-</svg>
