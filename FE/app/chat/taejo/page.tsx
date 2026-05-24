@@ -337,6 +337,23 @@ export default function TaejoChatPage() {
             </div>
           )}
         </section>
+        {ending && (
+          <div className="mt-6 rounded-3xl overflow-hidden border border-[#d8c5aa] shadow-2xl">
+            <p className="px-5 py-3 font-black text-[#9b3f34] bg-[#fff7e8]">
+              {ending === "great" ? "👑 Great Founder Ending" : "💔 Lonely Father Ending"}
+            </p>
+            <video
+              className="w-full"
+              controls
+              autoPlay
+              src={
+                ending === "great"
+                ? "/Great_Founder_Yi_Seonggye.mp4"
+                : "/Lonely_Father_Yi_Seonggye.mp4"
+              }
+            />
+          </div>
+        )}
       </section>
     </main>
   );
