@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation";
-import { ChatMessenger } from "@/components/story/ChatMessenger";
-import { CharacterInfoPanel } from "@/components/story/CharacterInfoPanel";
+import { StoryClient } from "../../../../components/story/StoryClient";
 import { getAllPlaces, getCharacter, getPlace } from "@/lib/culture-data";
 
 export const dynamicParams = false;
@@ -36,10 +35,7 @@ export default async function StoryPage({
         </div>
       </div>
 
-      <div className="messenger-layout">
-        <CharacterInfoPanel place={place} character={character} />
-        <ChatMessenger place={place} character={character} />
-      </div>
+      <StoryClient place={place} character={character} />
     </section>
   );
 }
