@@ -36,9 +36,10 @@ export function ChatMessenger({
   const [input, setInput] = useState("");
   const [choices, setChoices] = useState<TaejoChoice[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [ending, setEnding] = useState<"great" | "lonely" | null>(null);
 
   const handleSend = async () => {
-    if (!input.trim() || isLoading) return;
+    if (!input.trim() || isLoading || ending) return;
 
     const userMessage = input.trim();
     setInput("");
