@@ -4,15 +4,15 @@ import { Character, Place } from "@/types/place";
 export function CharacterInfoPanel({
   place,
   character,
-  progress = 0,
-  nationScore = 0,
-  emotionScore = 0,
+  progress,
+  nationScore,
+  emotionScore,
 }: {
   place: Place;
   character: Character;
-  progress?: number;
-  nationScore?: number;
-  emotionScore?: number;
+  progress: number;
+  nationScore: number;
+  emotionScore: number;
 }) {
   const maxProgress = 5;
 

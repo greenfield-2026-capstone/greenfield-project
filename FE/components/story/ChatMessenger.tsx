@@ -7,22 +7,34 @@ import { askTaejo, ChatMessage, TaejoChoice } from "@/lib/chatApi";
 export function ChatMessenger({
   place,
   character,
+  progress,
+  nationScore,
+  emotionScore,
+  setProgress,
+  setNationScore,
+  setEmotionScore,
 }: {
   place: Place;
   character: Character;
+  progress: number;
+  nationScore: number;
+  emotionScore: number;
+  setProgress: React.Dispatch<React.SetStateAction<number>>;
+  setNationScore: React.Dispatch<React.SetStateAction<number>>;
+  setEmotionScore: React.Dispatch<React.SetStateAction<number>>;
 }) {
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       role: "assistant",
-      text: character.openingLine,
+      text:
+        character.id === "taejo"
+          ? "안녕하세요. 저는 태조 이성계입니다. 이곳은 조선이라는 새 나라가 시작된 중요한 장소입니다. 제가 어떤 고민을 했는지 함께 이야기해봅시다."
+          : character.openingLine,
     },
   ]);
 
   const [input, setInput] = useState("");
   const [choices, setChoices] = useState<TaejoChoice[]>([]);
-  const [progress, setProgress] = useState(0);
-  const [nationScore, setNationScore] = useState(0);
-  const [emotionScore, setEmotionScore] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSend = async () => {
@@ -66,7 +78,7 @@ export function ChatMessenger({
         ...prev,
         {
           role: "assistant",
-          text: "지금은 답하기 어렵구려. 잠시 후 다시 말해보시오.",
+          text: "지금은 답하기 어렵습니다. 잠시 후 다시 말해 주세요.",
         },
       ]);
     } finally {
@@ -101,7 +113,7 @@ export function ChatMessenger({
 
     try {
       const result = await askTaejo(
-        `나는 "${choice.text}"를 선택했습니다. 이 선택 이후의 상황을 이어서 말해주세요.`,
+        `나는 "${choice.text}"를 선택했습니다. 이 선택 이후의 상황을 쉽고 짧게 이어서 말해주세요.`,
         nextProgress,
         nextMessages,
         nextNationScore,
@@ -122,7 +134,7 @@ export function ChatMessenger({
         ...prev,
         {
           role: "assistant",
-          text: "그 선택은 무겁구려. 잠시 숨을 고르고 다시 이야기해봅시다.",
+          text: "그 선택은 중요합니다. 잠시 후 다시 이야기해봅시다.",
         },
       ]);
     } finally {
