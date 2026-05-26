@@ -3,6 +3,7 @@ import { CharacterCard } from "@/components/characters/CharacterCard";
 import { ExperienceSection } from "@/components/places/ExperienceSection";
 import { PlaceHero } from "@/components/places/PlaceHero";
 import { getAllPlaces, getPlace } from "@/lib/culture-data";
+import { TranslatedText } from "@/components/translate/TranslatedText";
 
 export const dynamicParams = false;
 export const dynamic = "force-static";
@@ -12,7 +13,11 @@ export function generateStaticParams() {
   return places.map((place) => ({ placeId: place.id }));
 }
 
-export default async function PlacePage({ params }: { params: Promise<{ placeId: string }> }) {
+export default async function PlacePage({
+  params,
+}: {
+  params: Promise<{ placeId: string }>;
+}) {
   const { placeId } = await params;
   const place = getPlace(placeId);
 
@@ -26,13 +31,19 @@ export default async function PlacePage({ params }: { params: Promise<{ placeId:
       <div className="section-heading compact-top">
         <div>
           <p className="eyebrow">Characters</p>
-          <h2>이 장소와 이어지는 인물</h2>
+          <h2>
+            <TranslatedText text="이 장소와 이어지는 인물" />
+          </h2>
         </div>
       </div>
 
       <div className="character-grid">
         {place.characters.map((character) => (
-          <CharacterCard key={character.id} placeId={place.id} character={character} />
+          <CharacterCard
+            key={character.id}
+            placeId={place.id}
+            character={character}
+          />
         ))}
       </div>
     </section>
