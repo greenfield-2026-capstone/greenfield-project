@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Character, Place } from "@/types/place";
 import { askTaejo, ChatMessage, TaejoChoice } from "@/lib/chatApi";
+import { TranslatedText } from "@/components/translate/TranslatedText";
 
 const TOTAL_CHAPTERS = 6;
 const CONVERSATIONS_BEFORE_DECISION = 3;
@@ -243,42 +244,50 @@ export function ChatMessenger({
     <section className="card messenger-main">
       <div className="messenger-header">
         <div>
-          <strong>{character.name}</strong>
-          <span>{place.name}</span>
+          <strong>
+            <TranslatedText text={character.name} />
+          </strong>
+          <span>
+            <TranslatedText text={place.name} />
+          </span>
         </div>
 
         <span className="status-chip">
-          {isLoading ? "응답 생성 중" : "대화 가능"}
+          <TranslatedText text={isLoading ? "응답 생성 중" : "대화 가능"} />
         </span>
       </div>
 
       <div className="story-guide-card">
-        <h3>📖 Welcome to 경복궁</h3>
+        <h3>
+          📖 <TranslatedText text={`Welcome to ${place.name}`} />
+        </h3>
 
         <p>
-          당신은 <strong>경복궁</strong>에서 시간을 거슬러 조선 건국 시대로
-          오게 되었습니다.
+          <TranslatedText
+            text={`당신은 ${place.name}에서 시간을 거슬러 조선 건국 시대로 오게 되었습니다.`}
+          />
         </p>
 
         <p>
-          <strong>경복궁</strong>은 <strong>조선</strong>의 첫 번째 큰 궁궐입니다.
-          조선은 약 500년 동안 한국을 다스린 왕조입니다.
+          <TranslatedText
+            text={`${place.name}은 조선의 첫 번째 큰 궁궐입니다. 조선은 약 500년 동안 한국을 다스린 왕조입니다.`}
+          />
         </p>
 
         <p>
-          조선이 세워지기 전에는 <strong>고려</strong>라는 나라가 있었습니다.
-          고려는 오랜 역사를 가진 나라였지만, 이 시기에는 힘이 약해지고
-          있었습니다.
+          <TranslatedText
+            text="조선이 세워지기 전에는 고려라는 나라가 있었습니다. 고려는 오랜 역사를 가진 나라였지만, 이 시기에는 힘이 약해지고 있었습니다."
+          />
         </p>
 
         <p>
-          이 변화의 중심에는 장군 <strong>이성계</strong>가 있었습니다.
-          이성계는 훗날 조선을 세우고 첫 번째 왕이 되는 인물입니다.
+          <TranslatedText
+            text={`이 변화의 중심에는 장군 ${character.name}가 있었습니다. ${character.name}는 훗날 조선을 세우고 첫 번째 왕이 되는 인물입니다.`}
+          />
         </p>
 
         <p>
-          당신은 미래에서 온 여행자로서 이성계와 대화하며 중요한 선택에
-          조언하게 됩니다.
+          <TranslatedText text="당신은 미래에서 온 여행자로서 이성계와 대화하며 중요한 선택에 조언하게 됩니다." />
         </p>
       </div>
 
@@ -290,15 +299,26 @@ export function ChatMessenger({
               msg.role === "user" ? "bubble-user" : "bubble-npc"
             }`}
           >
-            {msg.role !== "user" && <strong>{character.name}</strong>}
-            <p>{msg.text}</p>
+            {msg.role !== "user" && (
+              <strong>
+                <TranslatedText text={character.name} />
+              </strong>
+            )}
+
+            <p>
+              <TranslatedText text={msg.text} />
+            </p>
           </div>
         ))}
 
         {isLoading && (
           <div className="bubble bubble-npc">
-            <strong>{character.name}</strong>
-            <p>생각 중입니다...</p>
+            <strong>
+              <TranslatedText text={character.name} />
+            </strong>
+            <p>
+              <TranslatedText text="생각 중입니다..." />
+            </p>
           </div>
         )}
       </div>
@@ -306,7 +326,7 @@ export function ChatMessenger({
       {choices.length > 0 && (
         <div className="choice-panel">
           <p className="choice-guide">
-            ⚠️ 중요한 선택입니다. 아래 선택은 이야기의 결말에 영향을 줍니다.
+            <TranslatedText text="⚠️ 중요한 선택입니다. 아래 선택은 이야기의 결말에 영향을 줍니다." />
           </p>
 
           {choices.map((choice, index) => (
@@ -316,27 +336,27 @@ export function ChatMessenger({
               onClick={() => handleChoice(choice)}
               disabled={isLoading}
             >
-              {choice.text}
+              <TranslatedText text={choice.text} />
             </button>
           ))}
         </div>
       )}
 
       {choices.length === 0 && !ending && (
-  <div className="messenger-input">
-    <input
-      type="text"
-      value={input}
-      onChange={(e) => setInput(e.target.value)}
-      onKeyDown={(e) => {
-        if (e.key === "Enter") handleSend();
-      }}
-      disabled={isLoading}
-      placeholder={`${character.name}에게 메시지를 입력하세요`}
-    />
+        <div className="messenger-input">
+          <input
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") handleSend();
+            }}
+            disabled={isLoading}
+            placeholder={`${character.name}에게 메시지를 입력하세요`}
+          />
 
-    <button type="button" onClick={handleSend} disabled={isLoading}>
-            전송
+          <button type="button" onClick={handleSend} disabled={isLoading}>
+            <TranslatedText text="전송" />
           </button>
         </div>
       )}
