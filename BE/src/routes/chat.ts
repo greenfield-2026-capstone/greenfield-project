@@ -4,13 +4,23 @@ dotenv.config();
 import express from "express";
 import OpenAI from "openai";
 
-console.log("URL:", process.env.LITELLM_URL);
-
 const router = express.Router();
 
+const CHAT_BASE_URL =
+  process.env.LITELLM_URL ??
+  process.env.ANTHROPIC_BASE_URL ??
+  "";
+const CHAT_API_KEY =
+  process.env.LITELLM_API_KEY ??
+  process.env.ANTHROPIC_AUTH_TOKEN ??
+  "";
+const CHAT_MODEL =
+  process.env.LITELLM_MODEL ??
+  "gpt-4.1-mini";
+
 const chatClient = new OpenAI({
-  apiKey: process.env.LITELLM_API_KEY,
-  baseURL: `${process.env.LITELLM_URL}/v1`,
+  apiKey: CHAT_API_KEY,
+  baseURL: `${CHAT_BASE_URL.replace(/\/$/, "")}/v1`,
 });
 
 const TAEJO_STEPS = [
@@ -213,6 +223,14 @@ markdown을 사용하지 않는다.
 router.post("/chat/taejo", async (req, res) => {
   try {
     const { message, progress, history, nationScore, emotionScore, language = "ko" } = req.body;
+    if (!CHAT_BASE_URL || !CHAT_API_KEY) {
+      return res.status(500).json({
+        error: "채팅 API 설정이 비어 있습니다.",
+        detail: "BE/.env에 LITELLM_URL/LITELLM_API_KEY 또는 ANTHROPIC_BASE_URL/ANTHROPIC_AUTH_TOKEN을 설정해 주세요.",
+      });
+    }
+
+    const { message, progress, history, nationScore, emotionScore } = req.body;
     const currentStep = TAEJO_STEPS[Math.min(progress ?? 0, TAEJO_STEPS.length - 1)];
 
     if (!message) {
@@ -220,7 +238,7 @@ router.post("/chat/taejo", async (req, res) => {
     }
 
     const response = await chatClient.chat.completions.create({
-      model: process.env.LITELLM_MODEL || "claude-haiku-4-5-20251001",
+      model: CHAT_MODEL,
       messages: [
         {
           role: "system",
@@ -279,7 +297,10 @@ try {
     res.json(parsed);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Claude 응답 생성 실패" });
+    res.status(500).json({
+      error: "채팅 응답 생성 실패",
+      detail: error instanceof Error ? error.message : "알 수 없는 오류",
+    });
   }
 });
 
