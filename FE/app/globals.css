@@ -819,7 +819,6 @@ select {
 .messenger-thread {
   display: grid;
   gap: 14px;
-  min-height: 400px;
   padding: 18px 0;
 }
 
@@ -829,6 +828,11 @@ select {
   border: 1px solid var(--line);
   border-radius: 14px;
   box-shadow: none;
+}
+.bubble p {
+  margin: 0;
+  white-space: pre-line;
+  line-height: 1.8;
 }
 
 .bubble strong {
@@ -981,5 +985,24 @@ select {
 
   .toolbar-note {
     margin-top: 12px;
+  }
+
+  .story-guide-card {
+    margin: 16px 0;
+    padding: 18px;
+    border-radius: 16px;
+    background: #fff7ed;
+    border: 1px solid #ead8c0;
+    line-height: 1.7;
+  }
+
+  .story-guide-card strong {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 16px;
+  }
+
+  .story-guide-card p {
+    margin: 6px 0;
   }
 }
