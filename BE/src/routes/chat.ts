@@ -230,7 +230,6 @@ router.post("/chat/taejo", async (req, res) => {
       });
     }
 
-    const { message, progress, history, nationScore, emotionScore } = req.body;
     const currentStep = TAEJO_STEPS[Math.min(progress ?? 0, TAEJO_STEPS.length - 1)];
 
     if (!message) {
