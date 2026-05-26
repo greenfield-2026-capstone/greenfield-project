@@ -819,7 +819,6 @@ select {
 .messenger-thread {
   display: grid;
   gap: 14px;
-  min-height: 400px;
   padding: 18px 0;
 }
 
@@ -829,6 +828,11 @@ select {
   border: 1px solid var(--line);
   border-radius: 14px;
   box-shadow: none;
+}
+.bubble p {
+  margin: 0;
+  white-space: pre-line;
+  line-height: 1.8;
 }
 
 .bubble strong {
@@ -856,22 +860,44 @@ select {
 }
 
 .choice-panel {
+  margin-top: 18px;
+  padding: 16px;
+  border-radius: 18px;
+  background: #fffaf0;
+  border: 1px solid #ead8c0;
   display: grid;
-  grid-template-columns: 1fr 1fr;
   gap: 12px;
-  margin-top: 8px;
 }
 
-.choice-panel.is-hidden {
-  display: none;
+.choice-guide {
+  margin: 0 0 4px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #7a3b2e;
 }
 
 .choice-panel button {
-  min-height: 58px;
-  padding: 12px 14px;
-  border: 1px solid var(--line);
-  background: #fffdf8;
+  width: 100%;
+  padding: 16px 18px;
+  border-radius: 14px;
+  border: 1px solid #d8c6aa;
+  background: #ffffff;
   text-align: left;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.5;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.choice-panel button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(80, 52, 32, 0.12);
+}
+
+.choice-panel button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
 .messenger-input {
@@ -981,5 +1007,35 @@ select {
 
   .toolbar-note {
     margin-top: 12px;
+  }
+
+  .story-guide-card {
+    margin: 16px 0;
+    padding: 18px;
+    border-radius: 16px;
+    background: #fff7ed;
+    border: 1px solid #ead8c0;
+    line-height: 1.7;
+  }
+
+  .story-guide-card strong {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 16px;
+  }
+
+  .story-guide-card p {
+    margin: 6px 0;
+  }
+  .chapter-title {
+  margin: 6px 0 4px;
+  font-weight: 700;
+  color: var(--ink);
+  }
+  .choice-guide {
+    margin: 0 0 10px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
   }
 }
