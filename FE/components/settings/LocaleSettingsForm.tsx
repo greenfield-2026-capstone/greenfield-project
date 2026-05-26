@@ -4,19 +4,48 @@ import { useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { languageOptions, regionOptions } from "@/lib/locale";
 
+const texts = {
+  ko: {
+    eyebrow: "Settings",
+    title: "지역 / 언어 설정",
+    countryLabel: "국가 / 지역 선택",
+    countryPlaceholder: "국가 / 지역을 선택해 주세요",
+    languageLabel: "언어 선택",
+    languagePlaceholder: "언어를 선택해 주세요",
+    apply: "적용",
+  },
+  en: {
+    eyebrow: "Settings",
+    title: "Region / Language Settings",
+    countryLabel: "Country / Region",
+    countryPlaceholder: "Please select a country / region",
+    languageLabel: "Language",
+    languagePlaceholder: "Please select a language",
+    apply: "Apply",
+  },
+};
+
 export function LocaleSettingsForm() {
   const router = useRouter();
   const params = useSearchParams();
+
   const initialRegion = params.get("region") ?? "";
   const initialLanguage = params.get("lang") ?? "";
+
   const [region, setRegion] = useState(initialRegion);
   const [language, setLanguage] = useState(initialLanguage);
   const [isLanguageSheetOpen, setIsLanguageSheetOpen] = useState(false);
+
   const canApply = Boolean(region && language);
 
+  const displayLanguage = language || "ko";
+  const t = texts[displayLanguage as keyof typeof texts] ?? texts.ko;
+
   const selectedLanguageLabel = useMemo(
-    () => languageOptions.find((option) => option.code === language)?.label ?? "언어를 선택해 주세요",
-    [language]
+    () =>
+      languageOptions.find((option) => option.code === language)?.label ??
+      t.languagePlaceholder,
+    [language, t.languagePlaceholder]
   );
 
   useEffect(() => {
@@ -38,22 +67,33 @@ export function LocaleSettingsForm() {
     <>
       <section className="locale-page">
         <div className="locale-page-top">
-          <button type="button" className="back-button" onClick={() => router.back()} aria-label="Go back">
+          <button
+            type="button"
+            className="back-button"
+            onClick={() => router.back()}
+            aria-label="Go back"
+          >
             ←
           </button>
+
           <div>
-            <p className="eyebrow">Settings</p>
-            <h1>지역 / 언어 설정</h1>
+            <p className="eyebrow">{t.eyebrow}</p>
+            <h1>{t.title}</h1>
           </div>
         </div>
 
         <div className="locale-form">
           <label className="locale-field">
-            <span>국가 / 지역 선택</span>
-            <select value={region} onChange={(event) => setRegion(event.target.value)}>
+            <span>{t.countryLabel}</span>
+
+            <select
+              value={region}
+              onChange={(event) => setRegion(event.target.value)}
+            >
               <option value="" disabled>
-                국가 / 지역을 선택해 주세요
+                {t.countryPlaceholder}
               </option>
+
               {regionOptions.map((option) => (
                 <option key={option.code} value={option.code}>
                   {option.label}
@@ -62,8 +102,12 @@ export function LocaleSettingsForm() {
             </select>
           </label>
 
-          <button type="button" className="locale-field locale-trigger" onClick={() => setIsLanguageSheetOpen(true)}>
-            <span>언어 선택</span>
+          <button
+            type="button"
+            className="locale-field locale-trigger"
+            onClick={() => setIsLanguageSheetOpen(true)}
+          >
+            <span>{t.languageLabel}</span>
             <strong>{selectedLanguageLabel}</strong>
           </button>
 
@@ -73,33 +117,45 @@ export function LocaleSettingsForm() {
             disabled={!canApply}
             onClick={() => {
               if (!canApply) return;
+
               const next = new URLSearchParams();
               next.set("region", region);
               next.set("lang", language);
+
               if (typeof window !== "undefined") {
                 window.localStorage.setItem("histour-language", language);
                 window.localStorage.setItem("histour-region", region);
               }
+
               router.push(`/?${next.toString()}`);
             }}
           >
-            적용
+            {t.apply}
           </button>
         </div>
       </section>
 
       {isLanguageSheetOpen ? (
-        <div className="sheet-overlay" onClick={() => setIsLanguageSheetOpen(false)}>
-          <div className="language-sheet" onClick={(event) => event.stopPropagation()}>
+        <div
+          className="sheet-overlay"
+          onClick={() => setIsLanguageSheetOpen(false)}
+        >
+          <div
+            className="language-sheet"
+            onClick={(event) => event.stopPropagation()}
+          >
             <div className="language-sheet-head">
-              <h2>언어 선택</h2>
+              <h2>{t.languageLabel}</h2>
             </div>
+
             <div className="language-list">
               {languageOptions.map((option) => (
                 <button
                   key={option.code}
                   type="button"
-                  className={`language-option ${language === option.code ? "is-active" : ""}`}
+                  className={`language-option ${
+                    language === option.code ? "is-active" : ""
+                  }`}
                   onClick={() => {
                     setLanguage(option.code);
                     setIsLanguageSheetOpen(false);
