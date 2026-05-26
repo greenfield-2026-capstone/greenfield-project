@@ -13,7 +13,8 @@ export async function askTaejo(
   progress: number,
   history: ChatMessage[],
   nationScore: number,
-  emotionScore: number
+  emotionScore: number,
+  language = "ko"
 ): Promise<{
   reply: string;
   choices: TaejoChoice[];
@@ -29,6 +30,7 @@ export async function askTaejo(
       history,
       nationScore,
       emotionScore,
+      language,
     }),
   });
 
