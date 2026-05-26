@@ -1,7 +1,13 @@
 import { Place } from "@/types/place";
 import { TranslatedText } from "@/components/translate/TranslatedText";
 
-export function ExperienceSection({ place }: { place: Place }) {
+export function ExperienceSection({
+  place,
+  lang = "ko",
+}: {
+  place: Place;
+  lang?: string;
+}) {
   if (!place.experiences.length) return null;
 
   return (
