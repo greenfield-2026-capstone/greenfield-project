@@ -44,12 +44,14 @@
       "good": {
         "title": "경복궁의 하루가 다시 열리다",
         "description": "왕실 공간의 흐름을 따라가며 안정적으로 마무리되는 엔딩입니다.",
-        "thumbnailUrl": "/places/gyeongbokgung.svg"
+        "thumbnailUrl": "/places/gyeongbokgung.svg",
+        "videoUrl": "/Great_Founder_Yi_Seonggye.mp4"
       },
       "bad": {
         "title": "엇갈린 선택 끝의 경복궁",
         "description": "중요한 장면을 놓치며 다른 여운으로 끝나는 엔딩입니다.",
-        "thumbnailUrl": "/places/deoksugung.svg"
+        "thumbnailUrl": "/places/deoksugung.svg",
+        "videoUrl": "/Lonely_Father_Yi_Seonggye.mp4"
       }
     },
     "characters": [

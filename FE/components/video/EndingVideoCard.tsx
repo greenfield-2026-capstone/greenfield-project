@@ -21,8 +21,19 @@ export function EndingVideoCard({
           <p>여기까지의 선택을 바탕으로, 이 이야기를 마무리할 영상을 보내주겠습니다.</p>
         </div>
         <div className="ending-thumbnail">
-          <Image src={video.thumbnailUrl} alt={video.title} fill sizes="(max-width: 1080px) 100vw, 60vw" className="media-image" />
-          <div className="play-badge">▶</div>
+          {video.videoUrl ? (
+            <video
+              className="w-full rounded-xl"
+              controls
+              autoPlay
+              src={video.videoUrl}
+            />
+          ) : (
+            <>
+              <Image src={video.thumbnailUrl} alt={video.title} fill sizes="(max-width: 1080px) 100vw, 60vw" className="media-image" />
+              <div className="play-badge">▶</div>
+            </>
+          )}
         </div>
         <div className="card-body">
           <h1>{video.title}</h1>

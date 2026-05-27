@@ -26,11 +26,13 @@ export interface EndingVideo {
     title: string;
     description: string;
     thumbnailUrl: string;
+    videoUrl?: string;
   };
   bad: {
     title: string;
     description: string;
     thumbnailUrl: string;
+    videoUrl?: string;
   };
 }
 
