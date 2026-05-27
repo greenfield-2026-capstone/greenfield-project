@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Character, Place } from "@/types/place";
 import { askTaejo, ChatMessage, TaejoChoice } from "@/lib/chatApi";
 import { TranslatedText } from "@/components/translate/TranslatedText";
+import { useRouter } from "next/navigation";
 
 const TOTAL_CHAPTERS = 6;
 const CONVERSATIONS_BEFORE_DECISION = 3;
@@ -54,6 +55,7 @@ export function ChatMessenger({
   const [isLoading, setIsLoading] = useState(false);
   const [ending, setEnding] = useState<"great" | "lonely" | null>(null);
   const [conversationCount, setConversationCount] = useState(0);
+  const router = useRouter();
 
   const handleSend = async () => {
     if (!input.trim() || isLoading || ending) return;
@@ -193,7 +195,8 @@ export function ChatMessenger({
 특히 방원과의 갈등은 조선 초기 역사에 큰 영향을 주었습니다.`;
 
     if (nextProgress >= TOTAL_CHAPTERS - 1) {
-      setEnding(nextNationScore >= nextEmotionScore ? "great" : "lonely");
+      const nextEnding = nextNationScore >= nextEmotionScore ? "great" : "lonely";
+      setEnding(nextEnding);
 
       setMessages((prev) => [
         ...prev,
@@ -205,6 +208,11 @@ export function ChatMessenger({
 
       setChoices([]);
       setIsLoading(false);
+
+      setTimeout(() => {
+        router.push(`/ending/${place.id}/${character.id}?result=${nextEnding === "great" ? "good" : "bad"}`);
+      }, 200);
+  
       return;
     }
 
