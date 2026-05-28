@@ -1040,11 +1040,25 @@ select {
     font-weight: 600;
     color: var(--ink);
   }
-  .account-switch {
-  margin-top: 14px;
-  text-align: center;
+.account-switch {
+  margin-top: 20px;
+  width: 100%;
+  border: none;
+  background: transparent;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   font-size: 14px;
-  color: #6b7280;
+  font-weight: 500;
+
+  color: #7b7280;
+
+  text-decoration: underline;
+  text-underline-offset: 3px;
+
+  cursor: pointer;
 }
 
 .account-switch-button {

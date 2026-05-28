@@ -216,23 +216,15 @@ export function AccountAccessForm() {
                   : "로그인"}
               </button>
 
-              <p className="account-switch">
-                <span>
-                  {language === "en"
-                    ? "Don't have an account?"
-                    : "아직 회원이 아니신가요?"}
-                </span>
-
                 <button
-                  type="button"
-                  className="account-switch-button"
-                  onClick={() => setMode("signup")}
-                >
-                  {language === "en"
-                    ? "Sign up"
-                    : "회원가입하러 가기"}
-                </button>
-              </p>
+  type="button"
+  className="account-switch"
+  onClick={() => setMode("signup")}
+>
+  {language === "en"
+    ? "Don't have an account? Sign up"
+    : "아직 회원이 아니신가요? 회원가입하러 가기"}
+</button>
             </div>
           ) : (
             <div className="account-form">
