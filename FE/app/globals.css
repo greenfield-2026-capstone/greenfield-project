@@ -965,6 +965,430 @@ select {
   margin-top: 10px;
 }
 
+.story-experience-section {
+  position: relative;
+  min-height: calc(100vh - 118px);
+  margin: -24px calc(50% - 50vw) -56px;
+  padding: 28px clamp(18px, 4vw, 48px) 48px;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.story-experience-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0.24)),
+    url("/places/gyeongbokgung.jpg") center / cover no-repeat;
+}
+
+.story-experience-section::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(90deg, rgba(29, 25, 20, 0.38), rgba(29, 25, 20, 0.06)),
+    rgba(255, 248, 236, 0.08);
+}
+
+.story-experience-heading {
+  width: min(1440px, 100%);
+  margin: 0 auto 18px;
+  padding: 0 2px;
+}
+
+.story-experience-heading .eyebrow {
+  color: #7f2d24;
+}
+
+.story-experience-heading h1 {
+  color: #17120d;
+  text-shadow: 0 1px 12px rgba(255, 255, 255, 0.45);
+}
+
+.story-experience-section .messenger-layout {
+  width: min(1440px, 100%);
+  margin: 0 auto;
+  grid-template-columns: 330px minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.story-experience-section .card {
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  background: rgba(255, 250, 241, 0.9);
+  border-radius: 20px;
+  box-shadow: 0 24px 54px rgba(36, 24, 15, 0.18);
+  backdrop-filter: blur(12px);
+}
+
+.story-experience-section .messenger-side,
+.story-experience-section .messenger-main {
+  padding: 22px;
+}
+
+.story-experience-section .messenger-side {
+  position: sticky;
+  top: 18px;
+}
+
+.story-experience-section .messenger-side-top {
+  grid-template-columns: 1fr;
+  gap: 14px;
+  text-align: center;
+}
+
+.story-experience-section .story-portrait {
+  height: 230px;
+  border-radius: 16px;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+}
+
+.story-experience-section .messenger-side h2 {
+  font-size: 1.5rem;
+}
+
+.story-experience-section .info-block {
+  margin-top: 16px;
+  padding-top: 14px;
+}
+
+.story-experience-section .chapter-title {
+  margin: 8px 0 6px;
+  color: #1f2937;
+  font-weight: 900;
+}
+
+.story-experience-section .progress-fill {
+  background: #1f2a5c;
+}
+
+.story-experience-section .score-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 12px 0;
+}
+
+.story-experience-section .score-card {
+  padding: 12px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.story-experience-section .score-card strong {
+  display: block;
+  margin-top: 4px;
+  font-size: 1.45rem;
+}
+
+.story-experience-section .messenger-header {
+  padding-bottom: 18px;
+  border-bottom-color: rgba(125, 98, 65, 0.22);
+}
+
+.story-experience-section .messenger-header strong {
+  color: #17120d;
+  font-size: 1.25rem;
+}
+
+.story-experience-section .status-chip {
+  background: #eef2ff;
+  color: #1f2a5c;
+}
+
+.story-experience-section .story-guide-card {
+  margin: 18px 0;
+  padding: 18px;
+  border: 1px solid rgba(216, 198, 170, 0.9);
+  border-radius: 18px;
+  background: rgba(255, 247, 237, 0.86);
+  color: #2f2418;
+  line-height: 1.72;
+}
+
+.story-experience-section .story-guide-card h3 {
+  margin: 0 0 10px;
+  color: #7f2d24;
+}
+
+.story-experience-section .story-guide-card p {
+  margin: 7px 0;
+}
+
+.story-experience-section .story-guide-card strong {
+  color: #17120d;
+}
+
+.story-experience-section .messenger-thread {
+  max-height: 52vh;
+  min-height: 390px;
+  padding: 18px;
+  overflow-y: auto;
+  border: 1px solid rgba(216, 198, 170, 0.78);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.56);
+}
+
+.story-experience-section .bubble {
+  max-width: min(78%, 760px);
+  padding: 16px 18px;
+  border-radius: 18px;
+  box-shadow: 0 10px 22px rgba(36, 24, 15, 0.08);
+}
+
+.story-experience-section .bubble-npc {
+  background: rgba(255, 255, 255, 0.94);
+  border-left-color: #2b7a78;
+}
+
+.story-experience-section .bubble-user {
+  background: #1f2a5c;
+  color: #fff;
+  border-color: #1f2a5c;
+  border-left-color: #1f2a5c;
+}
+
+.story-experience-section .choice-panel {
+  border-color: rgba(216, 198, 170, 0.9);
+  border-radius: 18px;
+  background: rgba(255, 250, 240, 0.9);
+}
+
+.story-experience-section .choice-panel button {
+  min-height: 72px;
+  border-radius: 16px;
+}
+
+.story-experience-section .choice-panel button:hover {
+  background: #1f2a5c;
+  color: #fff;
+}
+
+.story-experience-section .messenger-input {
+  border-color: rgba(216, 198, 170, 0.9);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.story-experience-section .messenger-input button {
+  min-height: 48px;
+  padding: 0 24px;
+  border-radius: 14px;
+  background: #1f2a5c;
+}
+
+.story-experience-section .messenger-input button:disabled {
+  opacity: 0.5;
+}
+
+.home-experience-section,
+.place-detail-section {
+  position: relative;
+}
+
+.home-intro {
+  position: relative;
+  display: grid;
+  min-height: 300px;
+  margin-bottom: 20px;
+  padding: clamp(28px, 6vw, 54px);
+  align-items: end;
+  overflow: hidden;
+  border-radius: 24px;
+  background:
+    linear-gradient(90deg, rgba(24, 29, 50, 0.76), rgba(24, 29, 50, 0.26)),
+    url("/places/gyeongbokgung.jpg") center 42% / cover no-repeat;
+  color: #fff;
+  box-shadow: 0 28px 56px rgba(35, 28, 19, 0.14);
+}
+
+.home-intro::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 92px;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.28));
+}
+
+.home-intro > div {
+  position: relative;
+  z-index: 1;
+  width: min(760px, 100%);
+}
+
+.home-intro .eyebrow {
+  color: #f2c98e;
+}
+
+.home-intro h1 {
+  margin: 0;
+  color: #fff;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: clamp(2.2rem, 6vw, 4.4rem);
+  line-height: 1.04;
+}
+
+.home-intro p:not(.eyebrow) {
+  width: min(620px, 100%);
+  margin: 16px 0 0;
+  color: rgba(255, 255, 255, 0.86);
+  font-size: 1.05rem;
+  line-height: 1.75;
+}
+
+.home-experience-section .toolbar-card {
+  border-color: rgba(255, 255, 255, 0.72);
+  border-radius: 20px;
+  background: rgba(255, 253, 248, 0.9);
+  box-shadow: 0 18px 34px rgba(38, 29, 19, 0.08);
+  backdrop-filter: blur(10px);
+}
+
+.home-experience-section .filter-row select {
+  border-radius: 12px;
+  background: #fff;
+}
+
+.home-experience-section .toolbar-note {
+  color: #7f2d24;
+}
+
+.home-experience-section .place-grid,
+.place-detail-section .character-grid,
+.place-detail-section .experience-grid {
+  gap: 20px;
+}
+
+.home-experience-section .place-card,
+.place-detail-section .character-card,
+.place-detail-section .experience-card {
+  border-color: rgba(231, 223, 212, 0.9);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 18px 36px rgba(36, 24, 15, 0.08);
+}
+
+.home-experience-section .place-card:hover,
+.place-detail-section .character-card:hover,
+.place-detail-section .experience-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(56, 68, 122, 0.24);
+  box-shadow: 0 24px 48px rgba(36, 24, 15, 0.14);
+}
+
+.home-experience-section .place-image,
+.place-detail-section .character-image {
+  height: 250px;
+}
+
+.home-experience-section .place-image::after,
+.place-detail-section .place-hero-image::after,
+.place-detail-section .character-image::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(transparent 52%, rgba(0, 0, 0, 0.28));
+  pointer-events: none;
+}
+
+.home-experience-section .card-body,
+.place-detail-section .card-body {
+  padding: 20px;
+}
+
+.home-experience-section .place-heading h3,
+.place-detail-section .character-card h3 {
+  font-size: 1.22rem;
+}
+
+.home-experience-section .badge,
+.place-detail-section .badge {
+  border-radius: 999px;
+}
+
+.home-experience-section .button-primary,
+.place-detail-section .button-primary {
+  width: 100%;
+  min-height: 44px;
+  border-radius: 14px;
+  background: #1f2a5c;
+}
+
+.place-detail-section .place-hero {
+  min-height: 520px;
+  overflow: hidden;
+  border-radius: 24px;
+  background: #17120d;
+  box-shadow: 0 28px 58px rgba(38, 29, 19, 0.16);
+}
+
+.place-detail-section .place-hero-image {
+  min-height: 520px;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.place-detail-section .place-hero-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border: 0;
+  border-radius: 0;
+  background:
+    linear-gradient(90deg, rgba(255, 253, 248, 0.96), rgba(255, 253, 248, 0.9));
+  box-shadow: none;
+}
+
+.place-detail-section .place-hero-copy h1 {
+  margin-top: 8px;
+  color: #17120d;
+  font-size: clamp(2rem, 4vw, 3.4rem);
+  line-height: 1.06;
+}
+
+.place-detail-section .place-hero-copy > p {
+  font-size: 1.02rem;
+}
+
+.place-detail-section .detail-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.place-detail-section .detail-grid div {
+  padding: 14px;
+  border: 1px solid rgba(231, 223, 212, 0.9);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.place-detail-section .highlight-chip,
+.home-experience-section .list-chip {
+  border: 1px solid rgba(231, 223, 212, 0.92);
+  border-radius: 999px;
+  background: #fffdf8;
+}
+
+.place-detail-section .experience-section {
+  margin-top: 34px;
+}
+
+.place-detail-section .experience-card {
+  position: relative;
+  min-height: 230px;
+}
+
+.place-detail-section .experience-card h3 {
+  font-size: 1.24rem;
+}
+
+.place-detail-section .compact-top {
+  margin-top: 36px;
+}
+
 @media (max-width: 1080px) {
   .place-grid,
   .character-grid,
@@ -975,6 +1399,23 @@ select {
   .messenger-layout,
   .ending-layout {
     grid-template-columns: 1fr;
+  }
+
+  .story-experience-section .messenger-side {
+    position: static;
+  }
+
+  .place-detail-section .place-hero {
+    min-height: auto;
+  }
+
+  .place-detail-section .place-hero-image {
+    min-height: 380px;
+    border-radius: 24px 24px 0 0;
+  }
+
+  .place-detail-section .place-hero-copy {
+    border-radius: 0 0 24px 24px;
   }
 }
 
@@ -998,6 +1439,63 @@ select {
 
   .page-content {
     width: calc(100% - 24px);
+  }
+
+  .home-intro {
+    min-height: 360px;
+    border-radius: 18px;
+    padding: 24px;
+  }
+
+  .home-intro h1 {
+    font-size: 2.35rem;
+  }
+
+  .home-experience-section .toolbar-card {
+    padding: 16px;
+  }
+
+  .home-experience-section .filter-row {
+    display: grid;
+    gap: 8px;
+  }
+
+  .home-experience-section .filter-row select {
+    width: 100%;
+  }
+
+  .place-detail-section .place-hero-image {
+    min-height: 300px;
+  }
+
+  .place-detail-section .detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .story-experience-section {
+    min-height: calc(100vh - 92px);
+    margin-right: calc(50% - 50vw);
+    margin-left: calc(50% - 50vw);
+    padding: 18px 12px 34px;
+  }
+
+  .story-experience-section .messenger-side,
+  .story-experience-section .messenger-main {
+    padding: 16px;
+  }
+
+  .story-experience-section .story-portrait {
+    height: 180px;
+  }
+
+  .story-experience-section .messenger-thread {
+    max-height: none;
+    min-height: 360px;
+    padding: 12px;
+  }
+
+  .story-experience-section .bubble {
+    max-width: 92%;
   }
 
   .place-grid,
