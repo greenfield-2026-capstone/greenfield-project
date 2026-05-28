@@ -22,7 +22,7 @@ export function Header() {
           지역 / 언어
         </Link>
         <Link href="/account" className="account-chip">
-          회원가입
+          로그인
         </Link>
       </div>
     </header>
