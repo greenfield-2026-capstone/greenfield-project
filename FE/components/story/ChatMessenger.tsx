@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { Character, Place } from "@/types/place";
 import { askTaejo, ChatMessage, TaejoChoice } from "@/lib/chatApi";
-import { TranslatedText } from "@/components/translate/TranslatedText";
 import { useRouter } from "next/navigation";
 
 const TOTAL_CHAPTERS = 6;

@@ -6,13 +6,17 @@ import { AirportCode } from "@/types/place";
 const texts = {
   ko: {
     eyebrow: "Places",
-    title: "둘러보기",
+    title: "역사 속 인물과 만나는 여행",
+    description:
+      "공항에서 가까운 문화 장소를 고르고, 그 장소와 이어진 역사 인물의 이야기를 따라가 보세요.",
     popularPlaces: "인기 장소",
     airportRecommend: "공항 기준 추천",
   },
   en: {
     eyebrow: "Places",
-    title: "Explore",
+    title: "Travel Through Stories",
+    description:
+      "Choose a cultural place near your airport, then follow the historical figures connected to that location.",
     popularPlaces: "Popular Places",
     airportRecommend: "Airport Recommendations",
   },
@@ -36,11 +40,12 @@ export default async function HomePage({
   const filteredPlaces = getFilteredPlaces(airport);
 
   return (
-    <section className="page-section">
-      <div className="section-heading">
+    <section className="page-section home-experience-section">
+      <div className="home-intro">
         <div>
           <p className="eyebrow">{t.eyebrow}</p>
           <h1>{t.title}</h1>
+          <p>{t.description}</p>
         </div>
       </div>
 
