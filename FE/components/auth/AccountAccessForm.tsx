@@ -278,18 +278,27 @@ export function AccountAccessForm() {
                 />
               </label>
 
-              <label className="locale-field">
-                <span>비밀번호 확인</span>
+<label className="locale-field">
+  <span>비밀번호 확인</span>
 
-                <input
-                  type="password"
-                  value={confirmPassword}
-                  onChange={(event) =>
-                    setConfirmPassword(event.target.value)
-                  }
-                  placeholder="한 번 더 입력해 주세요"
-                />
-              </label>
+  <input
+    type="password"
+    value={confirmPassword}
+    onChange={(event) =>
+      setConfirmPassword(event.target.value)
+    }
+    placeholder="한 번 더 입력해 주세요"
+  />
+</label>
+
+{confirmPassword &&
+  password !== confirmPassword && (
+    <p className="password-error">
+      {language === "en"
+        ? "Passwords do not match."
+        : "비밀번호가 일치하지 않습니다."}
+    </p>
+)}
 
               <label className="locale-field">
                 <span>국가 / 지역</span>
