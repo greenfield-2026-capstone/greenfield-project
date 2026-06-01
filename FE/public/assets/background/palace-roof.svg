@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 360" fill="none">
+  <path d="M58 206C225 159 413 126 620 130C724 132 807 147 882 170C798 205 686 222 550 221C341 220 179 218 58 206Z" fill="#1F2A5C" fill-opacity=".34"/>
+  <path d="M112 196C246 151 409 120 600 121C701 122 783 138 852 164C763 179 660 187 544 187C374 187 230 190 112 196Z" fill="#1D2430" fill-opacity=".22"/>
+  <path d="M94 216H846L812 250H132L94 216Z" fill="#8D3F35" fill-opacity=".24"/>
+  <path d="M160 250H784V286H160V250Z" fill="#1F2A5C" fill-opacity=".18"/>
+  <path d="M206 286H740V320H206V286Z" fill="#1D2430" fill-opacity=".12"/>
+  <g stroke="#1F2A5C" stroke-opacity=".28" stroke-width="5" stroke-linecap="round">
+    <path d="M190 219L222 187"/>
+    <path d="M274 220L300 176"/>
+    <path d="M360 220L380 166"/>
+    <path d="M448 221L459 160"/>
+    <path d="M536 221L532 160"/>
+    <path d="M624 220L606 166"/>
+    <path d="M710 217L682 176"/>
+    <path d="M786 209L752 187"/>
+  </g>
+  <path d="M68 203C25 220 17 229 4 248C59 239 103 225 146 203H68Z" fill="#1F2A5C" fill-opacity=".24"/>
+  <path d="M852 164C884 155 905 146 918 130C908 166 886 190 842 210L852 164Z" fill="#1F2A5C" fill-opacity=".24"/>
+</svg>
