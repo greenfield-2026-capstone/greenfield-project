@@ -73,6 +73,87 @@ const placeEn: Record<string, any> = {
       "Fortress Walk",
     ],
   },
+  deoksugung: {
+    name: "Deoksugung Palace",
+    rankLabel: "Popular No. 4",
+    era: "Late Joseon",
+    airportLabel: "Incheon · Gimpo Airport",
+    foreignerNote: "Highly satisfying for first-time visitors",
+    sourceTitle: "Coffee That Captivated Emperor Gojong",
+    summary:
+      "A place where quiet palace scenery and traces of Western influence reveal the changing atmosphere of late Joseon.",
+    buzzStat:
+      "A compact palace route that pairs well with Jeong-dong and modern history.",
+    recommendationItems: [
+      "Deoksugung Stonewall Walk",
+      "Jeong-dong",
+      "Gojong's Coffee Story",
+    ],
+  },
+  geumjeongsanseong: {
+    name: "Geumjeongsanseong Fortress",
+    rankLabel: "Busan Pick",
+    era: "Late Joseon",
+    airportLabel: "Gimhae Airport",
+    foreignerNote: "Good for a quiet visit",
+    sourceTitle: "Geumjeongsanseong, Korea's Largest Mountain Fortress",
+    summary:
+      "A Busan route where fortress walls, mountain trails, and temple stories connect into one historical landscape.",
+    buzzStat:
+      "Best for travelers who want a slower route beyond central Busan.",
+    recommendationItems: [
+      "Geumjeongsanseong Festival",
+      "Fortress Trail",
+      "Beomeosa Temple",
+    ],
+  },
+  "suyeong-yaryu": {
+    name: "Suyeong Yaryu",
+    rankLabel: "Busan Pick",
+    era: "Late Joseon",
+    airportLabel: "Gimhae Airport",
+    foreignerNote: "Good for a quiet visit",
+    sourceTitle: "Suyeong Yaryu, Busan's First Full-Moon Mask Play",
+    summary:
+      "A light cultural story route that introduces Busan's mask play tradition and old fishing village culture.",
+    buzzStat:
+      "A distinctive local theme for travelers interested in performance and folklore.",
+    recommendationItems: [
+      "Gwangalli Eobang Festival",
+      "Suyeong-dong",
+      "Folk Stories",
+    ],
+  },
+  "gimandeok-route": {
+    name: "Kim Mandeok Route",
+    rankLabel: "Jeju Pick",
+    era: "Late Joseon",
+    airportLabel: "Jeju Airport",
+    foreignerNote: "Highly satisfying for first-time visitors",
+    sourceTitle: "Kim Mandeok, the Great Merchant of Jeju",
+    summary:
+      "A foreigner-friendly Jeju story course connecting commerce, generosity, and old government spaces.",
+    buzzStat:
+      "A human-centered route that adds narrative depth to a Jeju trip.",
+    recommendationItems: [
+      "Jeju Mokgwana",
+      "Honghwagak",
+      "Kim Mandeok Story",
+    ],
+  },
+  "chusa-yubaegil": {
+    name: "Chusa Exile Trail",
+    rankLabel: "Jeju Pick",
+    era: "Late Joseon",
+    airportLabel: "Jeju Airport",
+    foreignerNote: "Easy to add to a travel route",
+    sourceTitle: "Chusa Kim Jeong-hui's Exile Trail to Jeju",
+    summary:
+      "A route where the clear narrative of exile turns Jeju from scenery into an emotional journey.",
+    buzzStat:
+      "A reflective Jeju course shaped by art, writing, and displacement.",
+    recommendationItems: ["Chusa Exile Trail", "Myeongwoldae", "Jeju Lore Route"],
+  },
 };
 
 function PlaceImageFallback({

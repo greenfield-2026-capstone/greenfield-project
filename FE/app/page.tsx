@@ -94,11 +94,8 @@ export default async function HomePage({
   );
 
   return (
-    <section className="page-section relative isolate overflow-hidden rounded-[34px] bg-[radial-gradient(circle_at_18%_0%,rgba(191,219,254,0.26),transparent_32%),radial-gradient(circle_at_82%_12%,rgba(141,63,53,0.08),transparent_26%),linear-gradient(180deg,#ffffff_0%,#f9fbff_24%,#FAF7F2_66%,#F8F5EF_100%)] px-0 pb-8">
-      <div className="pointer-events-none absolute -right-24 top-0 z-0 h-72 w-[58%] bg-[url('/assets/background/palace-roof.svg')] bg-contain bg-right-top bg-no-repeat opacity-[0.18] blur-[0.2px] [mask-image:linear-gradient(90deg,transparent_0%,black_24%,black_76%,transparent_100%)] max-md:hidden" />
-      <div className="pointer-events-none absolute right-0 top-0 z-0 h-52 w-72 bg-[url('/assets/background/cherry-blossom.svg')] bg-contain bg-right-top bg-no-repeat opacity-25 max-md:h-36 max-md:w-48 max-md:opacity-12" />
-      <div className="pointer-events-none absolute inset-x-0 top-72 z-0 h-56 bg-[url('/assets/background/mountain-silhouette.svg')] bg-cover bg-center opacity-70 max-md:top-80 max-md:opacity-35" />
-      <div className="pointer-events-none absolute inset-0 z-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.24)_0%,rgba(255,255,255,0.62)_38%,rgba(250,247,242,0.84)_100%)]" />
+    <section className="page-section relative isolate overflow-hidden rounded-[34px] bg-white/20 px-0 pb-8 backdrop-blur-[1px]">
+      <div className="pointer-events-none absolute inset-0 z-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.18)_0%,rgba(255,255,255,0.34)_38%,rgba(250,247,242,0.52)_100%)]" />
 
       <div className="relative z-10">
         <HeroSection lang={lang} />

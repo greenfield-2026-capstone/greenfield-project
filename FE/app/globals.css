@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #faf7f2;
+  --bg: #fbfdff;
   --surface: #ffffff;
   --surface-alt: #f6f1e8;
   --ink: #1d2430;
@@ -29,7 +29,9 @@ body {
 }
 
 body {
-  background: var(--bg);
+  background:
+    radial-gradient(circle at 12% 0%, rgba(191, 219, 254, 0.28), transparent 30%),
+    linear-gradient(180deg, #ffffff 0%, #f8fbff 36%, #faf7f2 100%);
   color: var(--ink);
   font-family: "Noto Sans KR", sans-serif;
 }
@@ -45,7 +47,45 @@ select {
 }
 
 .page-shell {
+  position: relative;
   min-height: 100vh;
+  overflow: hidden;
+}
+
+.page-shell::before,
+.page-shell::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.page-shell::before {
+  top: 76px;
+  right: max(-120px, -6vw);
+  width: min(760px, 58vw);
+  height: 330px;
+  background:
+    url("/assets/background/cherry-blossom.svg") right top / 300px auto no-repeat,
+    url("/assets/background/palace-roof.svg") right 44px / 720px auto no-repeat;
+  opacity: 0.22;
+  filter: blur(0.2px);
+  mask-image: linear-gradient(90deg, transparent 0%, black 18%, black 76%, transparent 100%);
+}
+
+.page-shell::after {
+  top: 360px;
+  left: 0;
+  right: 0;
+  height: 280px;
+  background: url("/assets/background/mountain-silhouette.svg") center top / cover no-repeat;
+  opacity: 0.48;
+}
+
+.site-header,
+.page-content {
+  position: relative;
+  z-index: 1;
 }
 
 .site-header {
@@ -110,6 +150,25 @@ select {
   width: min(1260px, calc(100% - 48px));
   margin: 0 auto;
   padding: 24px 0 56px;
+}
+
+@media (max-width: 768px) {
+  .page-shell::before {
+    top: 72px;
+    right: -120px;
+    width: 360px;
+    height: 220px;
+    background:
+      url("/assets/background/cherry-blossom.svg") right top / 190px auto no-repeat,
+      url("/assets/background/palace-roof.svg") right 52px / 360px auto no-repeat;
+    opacity: 0.12;
+  }
+
+  .page-shell::after {
+    top: 430px;
+    height: 190px;
+    opacity: 0.24;
+  }
 }
 
 .page-section {
