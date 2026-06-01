@@ -1,4 +1,4 @@
-import { FilterBar } from "@/components/home/FilterBar";
+import { SearchFilterBar } from "@/components/home/FilterBar";
 import { HeroSection } from "@/components/home/HeroSection";
 import { PlaceCard } from "@/components/places/PlaceCard";
 import { getFilteredPlaces } from "@/lib/culture-data";
@@ -93,9 +93,9 @@ export default async function HomePage({
   );
 
   return (
-    <section className="page-section bg-[linear-gradient(180deg,#fffaf1_0%,#fbf8f3_42%,#f5efe5_100%)]">
+    <section className="page-section bg-[radial-gradient(circle_at_16%_0%,rgba(141,63,53,0.08),transparent_34%),linear-gradient(180deg,#FAF7F2_0%,#F8F5EF_48%,#F4EEE6_100%)]">
       <HeroSection lang={lang} />
-      <FilterBar lang={lang} />
+      <SearchFilterBar lang={lang} />
 
       <div id="places" className="mt-10 flex items-end justify-between gap-4">
         <div>
@@ -106,7 +106,7 @@ export default async function HomePage({
             {t.title}
           </h2>
         </div>
-        <span className="rounded-full border border-[#eadfce] bg-white px-4 py-2 text-sm font-black text-[#1f2a5c] shadow-sm">
+        <span className="rounded-full border border-[#E6D8C5] bg-white/85 px-4 py-2 text-sm font-black text-[#1f2a5c] shadow-sm">
           {filteredPlaces.length}
         </span>
       </div>
@@ -118,7 +118,7 @@ export default async function HomePage({
           ))}
         </div>
       ) : (
-        <div className="mt-5 rounded-3xl border border-[#eadfce] bg-white p-10 text-center text-[#6b7280] shadow-sm">
+        <div className="mt-5 rounded-3xl border border-[#E6D8C5] bg-white/85 p-10 text-center text-[#6b7280] shadow-sm">
           {t.empty}
         </div>
       )}

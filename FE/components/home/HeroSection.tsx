@@ -8,9 +8,9 @@ const heroCopy = {
       "궁궐과 성곽을 둘러보는 데서 끝나지 않고, 그 장소에 얽힌 인물과 AI 대화를 이어가며 한국사를 여행처럼 경험하세요.",
     browse: "장소 둘러보기",
     chat: "AI 인물과 대화 시작",
-    statPlaces: "추천 장소",
-    statStories: "AI 스토리",
-    statRoutes: "공항 기준 탐색",
+    statPlaces: "역사 여행지",
+    statStories: "인물 대화",
+    statRoutes: "공항 추천 기준",
   },
   en: {
     eyebrow: "HISTOUR",
@@ -19,9 +19,9 @@ const heroCopy = {
       "Explore palaces and heritage sites through AI conversations with the people connected to each place.",
     browse: "Browse Places",
     chat: "Start an AI Story",
-    statPlaces: "Curated places",
-    statStories: "AI stories",
-    statRoutes: "Airport-based discovery",
+    statPlaces: "Historic places",
+    statStories: "Figure chats",
+    statRoutes: "Airport filters",
   },
 };
 
@@ -31,7 +31,7 @@ export function HeroSection({ lang = "ko" }: { lang?: string }) {
   return (
     <section className="relative overflow-hidden rounded-[28px] bg-[#161d38] text-white shadow-[0_30px_80px_rgba(31,42,92,0.22)]">
       <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(16,24,48,0.88),rgba(16,24,48,0.42),rgba(16,24,48,0.18)),url('/places/gyeongbokgung.jpg')] bg-cover bg-center" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(244,202,142,0.26),transparent_34%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(230,216,197,0.22),transparent_34%)]" />
 
       <div className="relative grid min-h-[430px] content-end px-6 py-8 sm:px-10 lg:px-14 lg:py-12">
         <div className="max-w-3xl">

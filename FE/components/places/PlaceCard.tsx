@@ -11,6 +11,7 @@ const texts = {
     detail: "장소 자세히",
     airport: "공항 기준",
     route: "추천 동선",
+    imageSoon: "Image coming soon",
   },
   en: {
     people: "figures",
@@ -20,6 +21,7 @@ const texts = {
     detail: "Place Details",
     airport: "Airport route",
     route: "Suggested route",
+    imageSoon: "Image coming soon",
   },
 };
 
@@ -71,6 +73,35 @@ const placeEn: Record<string, any> = {
   },
 };
 
+function PlaceImageFallback({
+  name,
+  label,
+}: {
+  name: string;
+  label: string;
+}) {
+  return (
+    <div
+      aria-label={`${name} image placeholder`}
+      className="absolute inset-0 grid place-items-center overflow-hidden bg-[radial-gradient(circle_at_24%_18%,rgba(141,63,53,0.14),transparent_32%),linear-gradient(135deg,#f6efe5_0%,#f1e7d8_48%,#e9dcc8_100%)]"
+    >
+      <div className="absolute inset-0 opacity-[0.18] [background-image:linear-gradient(45deg,rgba(31,42,92,0.16)_1px,transparent_1px),linear-gradient(-45deg,rgba(141,63,53,0.13)_1px,transparent_1px)] [background-size:22px_22px]" />
+      <div className="absolute inset-x-8 top-8 h-px bg-gradient-to-r from-transparent via-[#8d3f35]/30 to-transparent" />
+      <div className="relative mx-6 max-w-[260px] text-center">
+        <p className="text-[11px] font-black uppercase tracking-[0.22em] text-[#8d3f35]">
+          Histour Archive
+        </p>
+        <p className="mt-3 text-2xl font-black leading-tight text-[#1f2a5c]">
+          {name}
+        </p>
+        <p className="mt-3 text-xs font-black uppercase tracking-[0.16em] text-[#6d6257]">
+          {label}
+        </p>
+      </div>
+    </div>
+  );
+}
+
 export function PlaceCard({
   place,
   lang = "ko",
@@ -84,18 +115,29 @@ export function PlaceCard({
   const primaryCharacter = place.characters[0];
   const countLabel = (count: number, label: string) =>
     lang === "en" ? `${count} ${label}` : `${count}${label}`;
+  const hasRealImage = Boolean(place.imageUrl) && !place.imageUrl.endsWith(".svg");
 
   return (
-    <article className="group overflow-hidden rounded-[24px] border border-[#eadfce] bg-white shadow-[0_18px_40px_rgba(45,35,23,0.08)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_28px_60px_rgba(45,35,23,0.15)]">
-      <div className="relative aspect-[4/3] overflow-hidden bg-[#efe5d5]">
-        <Image
-          src={place.imageUrl}
-          alt={display.name}
-          fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className="object-cover transition duration-500 group-hover:scale-105"
+    <article className="group flex h-full flex-col overflow-hidden rounded-[26px] border border-[#E6D8C5] bg-white/95 shadow-[0_16px_40px_rgba(31,42,92,0.08)] transition duration-300 hover:-translate-y-1.5 hover:shadow-[0_28px_68px_rgba(31,42,92,0.16)]">
+      <div className="relative h-56 overflow-hidden bg-[#f1e7d8] sm:h-60">
+        {hasRealImage ? (
+          <Image
+            src={place.imageUrl}
+            alt={display.name}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className="object-cover transition duration-500 group-hover:scale-105"
+          />
+        ) : (
+          <PlaceImageFallback name={display.name} label={t.imageSoon} />
+        )}
+        <div
+          className={
+            hasRealImage
+              ? "absolute inset-0 bg-gradient-to-t from-black/48 via-black/8 to-transparent"
+              : "absolute inset-0 bg-gradient-to-t from-[#1f2a5c]/16 via-transparent to-transparent"
+          }
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/48 via-black/8 to-transparent" />
         <span className="absolute left-4 top-4 rounded-full bg-white/92 px-3 py-1.5 text-xs font-black text-[#8d3f35] shadow-sm backdrop-blur">
           {display.rankLabel}
         </span>
@@ -104,7 +146,7 @@ export function PlaceCard({
         </span>
       </div>
 
-      <div className="p-5">
+      <div className="flex flex-1 flex-col p-5">
         <div className="flex items-start justify-between gap-4">
           <div>
             <h3 className="text-xl font-black leading-tight text-[#1d2430]">
@@ -121,7 +163,7 @@ export function PlaceCard({
         </p>
 
         <div className="mt-4 grid grid-cols-2 gap-2">
-          <div className="rounded-2xl bg-[#f8f2e8] p-3">
+          <div className="rounded-2xl border border-[#E6D8C5]/70 bg-[#F8F5EF] p-3">
             <p className="text-xs font-black uppercase tracking-[0.12em] text-[#8d3f35]">
               AI
             </p>
@@ -129,7 +171,7 @@ export function PlaceCard({
               {countLabel(place.characters.length, t.people)}
             </p>
           </div>
-          <div className="rounded-2xl bg-[#eef2fb] p-3">
+          <div className="rounded-2xl border border-[#d9deee] bg-[#eef2fb] p-3">
             <p className="text-xs font-black uppercase tracking-[0.12em] text-[#1f2a5c]">
               {t.route}
             </p>
@@ -150,19 +192,19 @@ export function PlaceCard({
           {display.recommendationItems.slice(0, 3).map((item: string) => (
             <span
               key={item}
-              className="rounded-full border border-[#eadfce] bg-[#fffdf8] px-3 py-1 text-xs font-bold text-[#5f4b3a]"
+              className="rounded-full border border-[#E6D8C5] bg-[#FAF7F2] px-3 py-1 text-xs font-bold text-[#5f4b3a]"
             >
               {item}
             </span>
           ))}
         </div>
 
-        <div className="mt-5 grid gap-2 sm:grid-cols-2">
+        <div className="mt-auto grid gap-2 pt-5 sm:grid-cols-2">
           {primaryCharacter ? (
             <Link
               href={`/story/${place.id}/${primaryCharacter.id}?lang=${lang}`}
               prefetch
-              className="inline-flex min-h-11 items-center justify-center rounded-2xl bg-[#1f2a5c] px-4 text-sm font-black text-white transition hover:bg-[#172149] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1f2a5c]"
+              className="inline-flex min-h-12 items-center justify-center rounded-2xl bg-[#1f2a5c] px-4 text-sm font-black text-white shadow-[0_12px_24px_rgba(31,42,92,0.22)] transition hover:-translate-y-0.5 hover:bg-[#172149] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1f2a5c]"
             >
               {t.aiStory}
             </Link>
@@ -170,7 +212,7 @@ export function PlaceCard({
           <Link
             href={`/places/${place.id}?lang=${lang}`}
             prefetch
-            className="inline-flex min-h-11 items-center justify-center rounded-2xl border border-[#eadfce] bg-[#fffdf8] px-4 text-sm font-black text-[#1f2a5c] transition hover:border-[#1f2a5c]/35 hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1f2a5c]"
+            className="inline-flex min-h-12 items-center justify-center rounded-2xl border border-[#E6D8C5] bg-white px-4 text-sm font-black text-[#1f2a5c] transition hover:-translate-y-0.5 hover:border-[#1f2a5c]/35 hover:bg-[#FAF7F2] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1f2a5c]"
           >
             {t.detail}
           </Link>
