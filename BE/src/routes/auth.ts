@@ -5,6 +5,8 @@ import { pool } from "../db";
 const router = express.Router();
 
 router.post("/signup", async (req, res) => {
+  console.log("signup request body:", req.body);
+  
   const { email, name, password } = req.body;
 
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -20,6 +22,8 @@ router.post("/signup", async (req, res) => {
 });
 
 router.post("/login", async (req, res) => {
+  console.log("login request body:", req.body);
+
   const { email, password } = req.body;
 
   const result = await pool.query(
