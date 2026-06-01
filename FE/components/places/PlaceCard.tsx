@@ -11,6 +11,7 @@ const texts = {
     detail: "장소 자세히",
     airport: "공항 기준",
     route: "추천 동선",
+    ai: "AI 인물",
     imageSoon: "Image coming soon",
   },
   en: {
@@ -21,6 +22,7 @@ const texts = {
     detail: "Place Details",
     airport: "Airport route",
     route: "Suggested route",
+    ai: "AI figures",
     imageSoon: "Image coming soon",
   },
 };
@@ -74,29 +76,26 @@ const placeEn: Record<string, any> = {
 };
 
 function PlaceImageFallback({
-  name,
   label,
+  placeId,
 }: {
-  name: string;
   label: string;
+  placeId: string;
 }) {
+  const scenicTone =
+    placeId === "gimandeok-route"
+      ? "from-[#e8f0ef] via-[#d8e3da] to-[#b7c8b9]"
+      : "from-[#f2eadc] via-[#e6d8c5] to-[#cdbb9e]";
+
   return (
     <div
-      aria-label={`${name} image placeholder`}
-      className="absolute inset-0 grid place-items-center overflow-hidden bg-[radial-gradient(circle_at_24%_18%,rgba(141,63,53,0.14),transparent_32%),linear-gradient(135deg,#f6efe5_0%,#f1e7d8_48%,#e9dcc8_100%)]"
+      aria-label="image placeholder"
+      className={`absolute inset-0 overflow-hidden bg-gradient-to-br ${scenicTone}`}
     >
-      <div className="absolute inset-0 opacity-[0.18] [background-image:linear-gradient(45deg,rgba(31,42,92,0.16)_1px,transparent_1px),linear-gradient(-45deg,rgba(141,63,53,0.13)_1px,transparent_1px)] [background-size:22px_22px]" />
-      <div className="absolute inset-x-8 top-8 h-px bg-gradient-to-r from-transparent via-[#8d3f35]/30 to-transparent" />
-      <div className="relative mx-6 max-w-[260px] text-center">
-        <p className="text-[11px] font-black uppercase tracking-[0.22em] text-[#8d3f35]">
-          Histour Archive
-        </p>
-        <p className="mt-3 text-2xl font-black leading-tight text-[#1f2a5c]">
-          {name}
-        </p>
-        <p className="mt-3 text-xs font-black uppercase tracking-[0.16em] text-[#6d6257]">
-          {label}
-        </p>
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_22%_18%,rgba(255,255,255,0.62),transparent_28%),radial-gradient(circle_at_82%_22%,rgba(31,42,92,0.16),transparent_30%),linear-gradient(180deg,transparent_0%,rgba(29,36,48,0.50)_100%)]" />
+      <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#1d2430]/65 to-transparent" />
+      <div className="absolute left-5 top-5 rounded-full border border-white/40 bg-white/55 px-3 py-1.5 text-[11px] font-black uppercase tracking-[0.18em] text-[#1f2a5c] backdrop-blur">
+        {label}
       </div>
     </div>
   );
@@ -118,8 +117,8 @@ export function PlaceCard({
   const hasRealImage = Boolean(place.imageUrl) && !place.imageUrl.endsWith(".svg");
 
   return (
-    <article className="group flex h-full flex-col overflow-hidden rounded-[26px] border border-[#E6D8C5] bg-white/95 shadow-[0_16px_40px_rgba(31,42,92,0.08)] transition duration-300 hover:-translate-y-1.5 hover:shadow-[0_28px_68px_rgba(31,42,92,0.16)]">
-      <div className="relative h-56 overflow-hidden bg-[#f1e7d8] sm:h-60">
+    <article className="group flex h-full flex-col overflow-hidden rounded-[28px] border border-[#E6D8C5] bg-white shadow-[0_18px_46px_rgba(31,42,92,0.09)] transition duration-300 hover:-translate-y-2 hover:shadow-[0_30px_78px_rgba(31,42,92,0.18)]">
+      <div className="relative h-[276px] overflow-hidden bg-[#f1e7d8]">
         {hasRealImage ? (
           <Image
             src={place.imageUrl}
@@ -129,57 +128,54 @@ export function PlaceCard({
             className="object-cover transition duration-500 group-hover:scale-105"
           />
         ) : (
-          <PlaceImageFallback name={display.name} label={t.imageSoon} />
+          <PlaceImageFallback
+            label={t.imageSoon}
+            placeId={place.id}
+          />
         )}
         <div
           className={
             hasRealImage
-              ? "absolute inset-0 bg-gradient-to-t from-black/48 via-black/8 to-transparent"
-              : "absolute inset-0 bg-gradient-to-t from-[#1f2a5c]/16 via-transparent to-transparent"
+              ? "absolute inset-0 bg-gradient-to-t from-[#101830]/82 via-[#101830]/16 to-transparent"
+              : "absolute inset-0 bg-gradient-to-t from-[#101830]/10 via-transparent to-transparent"
           }
         />
-        <span className="absolute left-4 top-4 rounded-full bg-white/92 px-3 py-1.5 text-xs font-black text-[#8d3f35] shadow-sm backdrop-blur">
+        <span className="absolute left-5 top-5 rounded-full bg-[#8d3f35] px-3 py-1.5 text-xs font-black text-white shadow-sm backdrop-blur">
           {display.rankLabel}
         </span>
-        <span className="absolute bottom-4 left-4 rounded-full border border-white/25 bg-black/35 px-3 py-1.5 text-xs font-black text-white backdrop-blur">
-          {display.era}
-        </span>
-      </div>
+        <button
+          type="button"
+          aria-label={`${display.name} 저장`}
+          className="absolute right-5 top-5 grid h-11 w-11 place-items-center rounded-full border border-white/35 bg-[#101830]/45 text-xl text-white shadow-sm backdrop-blur transition hover:scale-105 hover:bg-[#101830]/65 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+        >
+          ♡
+        </button>
 
-      <div className="flex flex-1 flex-col p-5">
-        <div className="flex items-start justify-between gap-4">
-          <div>
-            <h3 className="text-xl font-black leading-tight text-[#1d2430]">
-              {display.name}
-            </h3>
-            <p className="mt-2 text-sm font-bold text-[#8d3f35]">
-              {t.airport} · {display.airportLabel}
-            </p>
+        <div className="absolute bottom-5 left-5 right-5 text-white">
+          <h3 className="text-3xl font-black leading-tight drop-shadow sm:text-4xl">
+            {display.name}
+          </h3>
+          <p className="mt-2 max-w-md text-sm font-black leading-6 text-white/90">
+            {display.foreignerNote}
+          </p>
+          <div className="mt-4 flex flex-wrap gap-2">
+            <span className="rounded-full bg-white/18 px-3 py-1.5 text-xs font-black text-white shadow-sm backdrop-blur">
+              {display.airportLabel}
+            </span>
+            <span className="rounded-full bg-white/18 px-3 py-1.5 text-xs font-black text-white shadow-sm backdrop-blur">
+              {t.ai} {place.characters.length}
+            </span>
+            <span className="rounded-full bg-white/18 px-3 py-1.5 text-xs font-black text-white shadow-sm backdrop-blur">
+              {countLabel(place.experiences.length, t.points)}
+            </span>
           </div>
         </div>
+      </div>
 
+      <div className="flex flex-1 flex-col p-5 sm:p-6">
         <p className="mt-4 line-clamp-3 text-sm leading-7 text-[#5f6673]">
           {display.summary}
         </p>
-
-        <div className="mt-4 grid grid-cols-2 gap-2">
-          <div className="rounded-2xl border border-[#E6D8C5]/70 bg-[#F8F5EF] p-3">
-            <p className="text-xs font-black uppercase tracking-[0.12em] text-[#8d3f35]">
-              AI
-            </p>
-            <p className="mt-1 text-sm font-black text-[#1d2430]">
-              {countLabel(place.characters.length, t.people)}
-            </p>
-          </div>
-          <div className="rounded-2xl border border-[#d9deee] bg-[#eef2fb] p-3">
-            <p className="text-xs font-black uppercase tracking-[0.12em] text-[#1f2a5c]">
-              {t.route}
-            </p>
-            <p className="mt-1 text-sm font-black text-[#1d2430]">
-              {countLabel(place.experiences.length, t.points)}
-            </p>
-          </div>
-        </div>
 
         <p className="mt-4 text-xs font-black uppercase tracking-[0.14em] text-[#9b7652]">
           {t.story}
@@ -199,20 +195,20 @@ export function PlaceCard({
           ))}
         </div>
 
-        <div className="mt-auto grid gap-2 pt-5 sm:grid-cols-2">
+        <div className="mt-auto grid gap-3 pt-6 sm:grid-cols-[1.25fr_1fr]">
           {primaryCharacter ? (
             <Link
               href={`/story/${place.id}/${primaryCharacter.id}?lang=${lang}`}
               prefetch
-              className="inline-flex min-h-12 items-center justify-center rounded-2xl bg-[#1f2a5c] px-4 text-sm font-black text-white shadow-[0_12px_24px_rgba(31,42,92,0.22)] transition hover:-translate-y-0.5 hover:bg-[#172149] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1f2a5c]"
+              className="inline-flex min-h-14 items-center justify-center gap-2 rounded-[22px] bg-[#1f2a5c] px-4 text-sm font-black text-white shadow-[0_18px_34px_rgba(31,42,92,0.26)] transition hover:-translate-y-0.5 hover:bg-[#172149] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1f2a5c]"
             >
-              {t.aiStory}
+              ✦ {t.aiStory}
             </Link>
           ) : null}
           <Link
             href={`/places/${place.id}?lang=${lang}`}
             prefetch
-            className="inline-flex min-h-12 items-center justify-center rounded-2xl border border-[#E6D8C5] bg-white px-4 text-sm font-black text-[#1f2a5c] transition hover:-translate-y-0.5 hover:border-[#1f2a5c]/35 hover:bg-[#FAF7F2] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1f2a5c]"
+            className="inline-flex min-h-14 items-center justify-center rounded-[22px] border border-[#E6D8C5] bg-white px-4 text-sm font-black text-[#1f2a5c] shadow-sm transition hover:-translate-y-0.5 hover:border-[#1f2a5c]/35 hover:bg-[#FAF7F2] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1f2a5c]"
           >
             {t.detail}
           </Link>

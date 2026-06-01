@@ -1,4 +1,5 @@
 import { SearchFilterBar } from "@/components/home/FilterBar";
+import { ExperienceFlow } from "@/components/home/ExperienceFlow";
 import { HeroSection } from "@/components/home/HeroSection";
 import { PlaceCard } from "@/components/places/PlaceCard";
 import { getFilteredPlaces } from "@/lib/culture-data";
@@ -112,11 +113,14 @@ export default async function HomePage({
       </div>
 
       {filteredPlaces.length > 0 ? (
-        <div className="mt-5 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {filteredPlaces.map((place) => (
-            <PlaceCard key={place.id} place={place} lang={lang} />
-          ))}
-        </div>
+        <>
+          <div className="mt-5 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {filteredPlaces.map((place) => (
+              <PlaceCard key={place.id} place={place} lang={lang} />
+            ))}
+          </div>
+          <ExperienceFlow lang={lang} />
+        </>
       ) : (
         <div className="mt-5 rounded-3xl border border-[#E6D8C5] bg-white/85 p-10 text-center text-[#6b7280] shadow-sm">
           {t.empty}
