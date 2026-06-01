@@ -1569,12 +1569,11 @@ select {
   cursor: pointer;
   text-decoration: underline;
 }
-
 }
-.password-error {
-  margin-top: 4px;
-  margin-left: 4px;
-  font-size: 10px;
-  color: #ef4444;
+.account-form .locale-field .password-error {
+  margin-top: -2px;
+  margin-left: 7px;
+  font-size: 11px;
+  color: #ef4444 !important;
   font-weight: 500;
 }
