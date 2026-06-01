@@ -1571,4 +1571,12 @@ select {
   text-decoration: underline;
 }
 
+.password-error {
+  margin-top: 4px;
+  margin-left: 4px;
+  font-size: 10px;
+  color: #ef4444;
+  font-weight: 500;
+}
+
 }
