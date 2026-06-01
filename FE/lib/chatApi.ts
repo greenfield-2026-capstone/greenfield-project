@@ -19,7 +19,11 @@ export async function askTaejo(
   reply: string;
   choices: TaejoChoice[];
 }> {
-  const response = await fetch("http://localhost:8080/api/chat/taejo", {
+
+  const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8080";
+  
+  const response = await fetch(`${API_BASE_URL}/api/chat/taejo`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

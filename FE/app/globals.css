@@ -1537,4 +1537,37 @@ select {
     font-weight: 600;
     color: var(--ink);
   }
+.account-switch {
+  margin-top: 20px;
+  width: 100%;
+  border: none;
+  background: transparent;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  color: #7b7280;
+
+  text-decoration: underline;
+  text-underline-offset: 3px;
+
+  cursor: pointer;
+}
+
+.account-switch-button {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  margin-left: 4px;
+  color: #991b1b;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
 }
