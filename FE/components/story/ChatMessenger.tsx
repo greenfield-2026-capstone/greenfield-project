@@ -1,5 +1,7 @@
 "use client";
 
+import { supabase } from "@/lib/supabase";
+
 import { useState } from "react";
 import { Character, Place } from "@/types/place";
 import { askTaejo, ChatMessage, TaejoChoice } from "@/lib/chatApi";
@@ -183,6 +185,35 @@ In particular, his conflict with Bangwon greatly influenced the early history of
 특히 방원과의 갈등은 조선 초기 역사에 큰 영향을 주었습니다.`;
 }
 
+async function saveEnding(
+  email: string,
+  endingType: string,
+  endingContent: string,
+  language: string
+) {
+  const { error } = await supabase
+    .from("story_endings")
+    .insert({
+      user_email: email,
+      story_id: "gyeongbokgung-taejo",
+      character_name:
+        language === "en"
+          ? "King Taejo Lee Seong-gye"
+          : "태조 이성계",
+      ending_type: endingType,
+      ending_title:
+        endingType === "great"
+          ? "🏛️ Great Founder"
+          : "👑 Lonely Father",
+      ending_content: endingContent,
+      language,
+    });
+
+  if (error) {
+    console.error(error);
+  }
+}
+
 export function ChatMessenger({
   place,
   character,
@@ -336,6 +367,20 @@ export function ChatMessenger({
 
     if (nextProgress >= TOTAL_CHAPTERS - 1) {
       const nextEnding = nextNationScore >= nextEmotionScore ? "great" : "lonely";
+      
+      const savedUser = localStorage.getItem("histour-account");
+
+       if (savedUser) {
+       const user = JSON.parse(savedUser);
+
+       await saveEnding(
+      user.email,
+      nextEnding,
+      endingText,
+      language
+    );
+  }
+  
       setEnding(nextEnding);
 
       setMessages((prev) => [

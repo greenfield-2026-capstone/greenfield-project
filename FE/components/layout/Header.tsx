@@ -67,12 +67,7 @@ export function Header() {
           <p className="mt-1 text-sm text-gray-500">{user.email}</p>
         </div>
 
-        <Link
-          href="/account"
-          className="block rounded-2xl bg-[#FAF7F2] px-4 py-3 text-center text-sm font-bold text-[#1f2a5c]"
-        >
-          계정 더보기
-        </Link>
+        <Link href="/profile">계정 더보기</Link>
 
         <button
           type="button"
