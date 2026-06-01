@@ -62,6 +62,11 @@ const LOCAL_CHARACTER_IMAGES: Record<string, string> = {
   taejo: "/characters/taejo.jpg",
 };
 
+const LOCAL_PLACE_IMAGES: Record<string, string> = {
+  "gimandeok-route": "/places/gimandeok-route.png",
+  "chusa-yubaegil": "/places/chusa-yubaegil.jpeg",
+};
+
 const LOCAL_CHARACTER_IMAGE_POSITIONS: Record<string, string> = {
   taejo: "center 12%",
   taejong: "center 14%",
@@ -97,7 +102,7 @@ function toPlace(place: SeedPlace): Place {
     era: place.era,
     summary: place.summary,
     storyIntro: place.story_intro,
-    imageUrl: place.image_url,
+    imageUrl: LOCAL_PLACE_IMAGES[place.id] ?? place.image_url,
     tags: place.tags,
     sourceTitle: place.source_title,
     sourceUrl: place.source_url ?? undefined,
