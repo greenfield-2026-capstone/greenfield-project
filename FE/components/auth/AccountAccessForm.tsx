@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { languageOptions, regionOptions } from "@/lib/locale";
 
@@ -14,7 +14,6 @@ export function AccountAccessForm() {
   const [loginPassword, setLoginPassword] = useState("");
 
   const [nickname, setNickname] = useState("");
-  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -27,12 +26,29 @@ export function AccountAccessForm() {
   process.env.NEXT_PUBLIC_API_BASE_URL ??
   "http://localhost:8080";
 
+  useEffect(() => {
+  const savedUser =
+    window.localStorage.getItem("histour-account");
+
+  if (savedUser) {
+    setCurrentUser(JSON.parse(savedUser));
+  }
+}, []);
+
+  type User = {
+  id: number;
+  email: string;
+  name: string;
+};
+
+const [currentUser, setCurrentUser] =
+  useState<User | null>(null);
+
   const canLogin = Boolean(loginId.trim() && loginPassword.trim());
 
   const canSignup = useMemo(() => {
     return Boolean(
       nickname.trim() &&
-        username.trim() &&
         email.trim() &&
         password.trim() &&
         confirmPassword.trim() &&
@@ -40,7 +56,7 @@ export function AccountAccessForm() {
         region &&
         language
     );
-  }, [confirmPassword, email, language, nickname, password, region, username]);
+  }, [confirmPassword, email, language, nickname, password, region]);
 
   function moveToHome(nextRegion: string, nextLanguage: string) {
     const params = new URLSearchParams();
@@ -80,7 +96,6 @@ export function AccountAccessForm() {
         "histour-account",
         JSON.stringify({
           nickname,
-          username,
           email,
           region,
           language,
@@ -128,6 +143,8 @@ export function AccountAccessForm() {
         "histour-account",
         JSON.stringify(data.user)
       );
+
+      setCurrentUser(data.user);
 
       alert("로그인 성공!");
 
@@ -239,18 +256,6 @@ export function AccountAccessForm() {
                     setNickname(event.target.value)
                   }
                   placeholder="닉네임을 입력해 주세요"
-                />
-              </label>
-
-              <label className="locale-field">
-                <span>아이디</span>
-
-                <input
-                  value={username}
-                  onChange={(event) =>
-                    setUsername(event.target.value)
-                  }
-                  placeholder="영문/숫자 아이디"
                 />
               </label>
 
