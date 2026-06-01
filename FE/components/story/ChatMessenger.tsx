@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { Character, Place } from "@/types/place";
 import { askTaejo, ChatMessage, TaejoChoice } from "@/lib/chatApi";
-import { TranslatedText } from "@/components/translate/TranslatedText";
 import { useRouter } from "next/navigation";
+import { StoryChoiceButton } from "@/components/story/StoryChoiceButton";
 
 const TOTAL_CHAPTERS = 6;
 const CONVERSATIONS_BEFORE_DECISION = 3;
@@ -19,7 +19,7 @@ const chatTexts = {
     choiceMoment:
       "지금은 중요한 선택의 순간이오. 아래 선택지 중 하나를 골라 주시오.",
     choiceGuide:
-      "⚠️ 중요한 선택입니다. 아래 선택은 이야기의 결말에 영향을 줍니다.",
+      "결정의 순간입니다. 선택에 따라 이야기의 결말이 달라집니다.",
     error: "지금은 답하기 어렵소. 잠시 후 다시 말해 주시오.",
     choiceError: "그 선택은 중요하오. 잠시 후 다시 이야기해 보겠소.",
   },
@@ -32,7 +32,7 @@ const chatTexts = {
     choiceMoment:
       "This is an important moment of choice. Please choose one of the options below.",
     choiceGuide:
-      "⚠️ This is an important choice. Your decision will affect the ending.",
+      "Decision moment. Your choice will affect the ending.",
     error: "It is difficult to answer now. Please speak again in a moment.",
     choiceError: "That choice is important. Let us speak of it again shortly.",
   },
@@ -228,6 +228,7 @@ export function ChatMessenger({
 
   const [input, setInput] = useState("");
   const [choices, setChoices] = useState<TaejoChoice[]>([]);
+  const [selectedChoiceText, setSelectedChoiceText] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [ending, setEnding] = useState<"great" | "lonely" | null>(null);
   const [conversationCount, setConversationCount] = useState(0);
@@ -304,6 +305,8 @@ export function ChatMessenger({
   const handleChoice = async (choice: TaejoChoice) => {
     if (isLoading || ending) return;
 
+    setSelectedChoiceText(choice.text);
+
     const nextProgress = progress + 1;
     const nextNationScore =
       choice.type === "nation" ? nationScore + 1 : nationScore;
@@ -321,7 +324,6 @@ export function ChatMessenger({
     setProgress(nextProgress);
     setNationScore(nextNationScore);
     setEmotionScore(nextEmotionScore);
-    setChoices([]);
     setConversationCount(0);
     setMessages(nextMessages);
     setIsLoading(true);
@@ -346,6 +348,7 @@ export function ChatMessenger({
 
       setChoices([]);
       setIsLoading(false);
+      setSelectedChoiceText(null);
 
       setTimeout(() => {
         router.push(`/ending/${place.id}/${character.id}?result=${nextEnding === "great" ? "good" : "bad"}`);
@@ -389,6 +392,7 @@ export function ChatMessenger({
       ]);
     } finally {
       setIsLoading(false);
+      setSelectedChoiceText(null);
     }
   };
 
@@ -493,19 +497,23 @@ export function ChatMessenger({
       </div>
 
       {choices.length > 0 && (
-        <div className="choice-panel">
-          <p className="choice-guide">{t.choiceGuide}</p>
+        <div className="mt-5 rounded-3xl border border-[#E6D8C5] bg-white/85 p-4 shadow-[0_18px_42px_rgba(31,42,92,0.08)] backdrop-blur sm:p-5">
+          <p className="mb-4 text-xs font-black uppercase tracking-[0.18em] text-[#8d3f35]">
+            {t.choiceGuide}
+          </p>
 
-          {choices.map((choice, index) => (
-            <button
-              key={`${choice.text}-${index}`}
-              type="button"
-              onClick={() => handleChoice(choice)}
-              disabled={isLoading}
-            >
-              {choice.text}
-            </button>
-          ))}
+          <div className="grid gap-3 md:grid-cols-2">
+            {choices.map((choice, index) => (
+              <StoryChoiceButton
+                key={`${choice.text}-${index}`}
+                choice={choice}
+                index={index}
+                selected={selectedChoiceText === choice.text}
+                disabled={isLoading}
+                onChoose={handleChoice}
+              />
+            ))}
+          </div>
         </div>
       )}
 

@@ -41,8 +41,8 @@ export default async function StoryPage({
   if (!place || !character) notFound();
 
   return (
-    <section className="page-section">
-      <div className="section-heading">
+    <section className="page-section story-experience-section">
+      <div className="section-heading story-experience-heading">
         <div>
           <p className="eyebrow">
             {lang === "en" ? placeEn[place.id] ?? place.name : place.name}

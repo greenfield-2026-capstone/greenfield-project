@@ -39,7 +39,7 @@ export default async function PlacePage({
   if (!place) notFound();
 
   return (
-    <section className="page-section">
+    <section className="page-section place-detail-section">
       <PlaceHero place={place} lang={lang} />
       <ExperienceSection place={place} lang={lang} />
 
