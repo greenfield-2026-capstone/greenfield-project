@@ -13,7 +13,7 @@ export function Header() {
   }).toString()}`;
 
   return (
-    <header className="sticky top-0 z-40 border-b border-[#eadfce]/80 bg-[#fffaf1]/88 backdrop-blur-xl">
+    <header className="sticky top-0 z-40 border-b border-[#E6D8C5]/80 bg-[#FAF7F2]/88 backdrop-blur-xl">
       <div className="mx-auto flex w-[min(1260px,calc(100%-48px))] items-center justify-between gap-4 py-4">
         <Link
           href={`/?lang=${currentLang}`}
@@ -24,7 +24,7 @@ export function Header() {
         <nav className="flex items-center gap-2" aria-label="Primary">
           <Link
             href={settingsHref}
-            className="inline-flex min-h-11 items-center justify-center rounded-full border border-[#eadfce] bg-white px-4 text-sm font-black text-[#1f2a5c] shadow-sm transition hover:-translate-y-0.5 hover:border-[#1f2a5c]/30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1f2a5c]"
+            className="inline-flex min-h-11 items-center justify-center rounded-full border border-[#E6D8C5] bg-white px-4 text-sm font-black text-[#1f2a5c] shadow-sm transition hover:-translate-y-0.5 hover:border-[#1f2a5c]/30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1f2a5c]"
           >
             지역 / 언어
           </Link>
