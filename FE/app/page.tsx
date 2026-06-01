@@ -1,69 +1,127 @@
-import { AirportFilter } from "@/components/filters/AirportFilter";
+import { FilterBar } from "@/components/home/FilterBar";
+import { HeroSection } from "@/components/home/HeroSection";
 import { PlaceCard } from "@/components/places/PlaceCard";
 import { getFilteredPlaces } from "@/lib/culture-data";
 import { AirportCode } from "@/types/place";
 
 const texts = {
   ko: {
-    eyebrow: "Places",
-    title: "역사 속 인물과 만나는 여행",
-    description:
-      "공항에서 가까운 문화 장소를 고르고, 그 장소와 이어진 역사 인물의 이야기를 따라가 보세요.",
-    popularPlaces: "인기 장소",
-    airportRecommend: "공항 기준 추천",
+    eyebrow: "Recommended Places",
+    title: "지금 떠나기 좋은 역사 장소",
+    empty: "조건에 맞는 장소가 없습니다. 검색어나 필터를 다시 조정해 주세요.",
   },
   en: {
-    eyebrow: "Places",
-    title: "Travel Through Stories",
-    description:
-      "Choose a cultural place near your airport, then follow the historical figures connected to that location.",
-    popularPlaces: "Popular Places",
-    airportRecommend: "Airport Recommendations",
+    eyebrow: "Recommended Places",
+    title: "Historic Places to Explore Now",
+    empty: "No places match your filters. Try another keyword or category.",
   },
 };
+
+function matchesQuery(place: ReturnType<typeof getFilteredPlaces>[number], query: string) {
+  if (!query) return true;
+  const normalized = query.toLowerCase();
+  const haystack = [
+    place.name,
+    place.summary,
+    place.storyIntro,
+    place.sourceTitle,
+    place.era,
+    ...place.tags,
+    ...place.recommendationItems,
+    ...place.characters.flatMap((character) => [
+      character.name,
+      character.role,
+      character.summary,
+      ...character.focusKeywords,
+    ]),
+  ]
+    .join(" ")
+    .toLowerCase();
+
+  return haystack.includes(normalized);
+}
+
+function matchesCategory(
+  place: ReturnType<typeof getFilteredPlaces>[number],
+  category: string
+) {
+  if (!category || category === "all") return true;
+  const target = category.toLowerCase();
+  const text = [place.name, place.era, place.summary, ...place.tags]
+    .join(" ")
+    .toLowerCase();
+
+  const categoryMatchers: Record<string, string[]> = {
+    "궁궐": ["궁", "궁궐", "palace"],
+    palace: ["궁", "궁궐", "palace"],
+    "성곽": ["성곽", "산성", "화성", "fortress"],
+    fortress: ["성곽", "산성", "화성", "fortress"],
+    "유적지": ["유적", "역사", "heritage", "historic"],
+    "historic site": ["유적", "역사", "heritage", "historic"],
+    "박물관": ["박물관", "museum"],
+    museum: ["박물관", "museum"],
+    "자연/정원": ["정원", "숲", "산", "garden", "nature"],
+    "nature/garden": ["정원", "숲", "산", "garden", "nature"],
+  };
+
+  return (categoryMatchers[target] ?? [target]).some((keyword) =>
+    text.includes(keyword)
+  );
+}
 
 export default async function HomePage({
   searchParams,
 }: {
   searchParams: Promise<{
     airport?: AirportCode | "all";
+    category?: string;
     lang?: string;
+    q?: string;
   }>;
 }) {
   const params = (await searchParams) ?? {};
 
   const airport = params.airport ?? "all";
+  const category = params.category ?? "all";
   const lang = params.lang ?? "ko";
+  const query = params.q?.trim() ?? "";
 
   const t = lang === "en" ? texts.en : texts.ko;
 
-  const filteredPlaces = getFilteredPlaces(airport);
+  const filteredPlaces = getFilteredPlaces(airport).filter(
+    (place) => matchesQuery(place, query) && matchesCategory(place, category)
+  );
 
   return (
-    <section className="page-section home-experience-section">
-      <div className="home-intro">
+    <section className="page-section bg-[linear-gradient(180deg,#fffaf1_0%,#fbf8f3_42%,#f5efe5_100%)]">
+      <HeroSection lang={lang} />
+      <FilterBar lang={lang} />
+
+      <div id="places" className="mt-10 flex items-end justify-between gap-4">
         <div>
-          <p className="eyebrow">{t.eyebrow}</p>
-          <h1>{t.title}</h1>
-          <p>{t.description}</p>
+          <p className="text-xs font-black uppercase tracking-[0.18em] text-[#8d3f35]">
+            {t.eyebrow}
+          </p>
+          <h2 className="mt-2 text-2xl font-black text-[#1d2430] sm:text-3xl">
+            {t.title}
+          </h2>
         </div>
-      </div>
-
-      <div className="card toolbar-card">
-        <AirportFilter />
-
-        <span className="toolbar-note">
-          {airport === "all"
-            ? t.popularPlaces
-            : t.airportRecommend}
+        <span className="rounded-full border border-[#eadfce] bg-white px-4 py-2 text-sm font-black text-[#1f2a5c] shadow-sm">
+          {filteredPlaces.length}
         </span>
       </div>
 
-      <div className="place-grid">
-        {filteredPlaces.map((place) => (
-          <PlaceCard key={place.id} place={place} lang={lang} />
-        ))}
-      </div>
+      {filteredPlaces.length > 0 ? (
+        <div className="mt-5 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+          {filteredPlaces.map((place) => (
+            <PlaceCard key={place.id} place={place} lang={lang} />
+          ))}
+        </div>
+      ) : (
+        <div className="mt-5 rounded-3xl border border-[#eadfce] bg-white p-10 text-center text-[#6b7280] shadow-sm">
+          {t.empty}
+        </div>
+      )}
     </section>
   );
 }
