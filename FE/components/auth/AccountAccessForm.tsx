@@ -23,7 +23,9 @@ export function AccountAccessForm() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const API_BASE_URL = "http://localhost:8080";
+  const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_BASE_URL ??
+  "http://localhost:8080";
 
   const canLogin = Boolean(loginId.trim() && loginPassword.trim());
 
@@ -217,9 +219,9 @@ export function AccountAccessForm() {
               </button>
 
                 <button
-  type="button"
-  className="account-switch"
-  onClick={() => setMode("signup")}
+                type="button"
+                className="account-switch"
+                onClick={() => setMode("signup")}
 >
   {language === "en"
     ? "Don't have an account? Sign up"
