@@ -32,6 +32,8 @@ export function HeroSection({ lang = "ko" }: { lang?: string }) {
     <section className="relative overflow-hidden rounded-[32px] border border-[#E6D8C5] bg-[#fbf8f3] text-[#1d2430] shadow-[0_28px_90px_rgba(31,42,92,0.12)]">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_12%_12%,rgba(141,63,53,0.12),transparent_30%),linear-gradient(115deg,#fffdf9_0%,#f7f2eb_48%,#edf2fb_100%)]" />
       <div className="absolute inset-y-0 right-0 hidden w-[58%] bg-[linear-gradient(90deg,rgba(251,248,243,0.96)_0%,rgba(251,248,243,0.58)_20%,rgba(31,42,92,0.10)_100%),url('/places/gyeongbokgung.jpg')] bg-cover bg-center lg:block" />
+      <div className="pointer-events-none absolute right-0 top-0 h-48 w-72 bg-[url('/assets/background/cherry-blossom.svg')] bg-contain bg-right-top bg-no-repeat opacity-25 sm:h-56 sm:w-80" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-[url('/assets/background/mountain-silhouette.svg')] bg-cover bg-bottom opacity-35" />
       <div className="absolute right-8 top-8 hidden h-28 w-28 rounded-full border border-[#E6D8C5] bg-white/35 blur-sm lg:block" />
 
       <div className="relative grid min-h-[430px] content-end px-6 py-8 sm:px-10 lg:px-14 lg:py-12">
