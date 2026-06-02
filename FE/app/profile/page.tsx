@@ -38,7 +38,20 @@ export default function ProfilePage() {
       return;
     }
 
-    const parsedUser = JSON.parse(savedUser);
+    let parsedUser = null;
+
+try {
+  parsedUser = JSON.parse(savedUser);
+} catch {
+  localStorage.removeItem("histour-account");
+  setIsLoading(false);
+  return;
+}
+
+if (!parsedUser?.email) {
+  setIsLoading(false);
+  return;
+}
     setUser(parsedUser);
 
     const loadEndings = async () => {
