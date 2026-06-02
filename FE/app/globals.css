@@ -1039,7 +1039,7 @@ select {
   z-index: -2;
   background:
     linear-gradient(rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0.24)),
-    url("/places/gyeongbokgung.jpg") center / cover no-repeat;
+    url("/places/경복궁채팅.jpg") center / cover no-repeat;
 }
 
 .story-experience-section::after {
