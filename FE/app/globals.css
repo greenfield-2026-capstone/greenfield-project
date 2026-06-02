@@ -1048,8 +1048,11 @@ select {
   inset: 0;
   z-index: -1;
   background:
-    linear-gradient(90deg, rgba(29, 25, 20, 0.38), rgba(29, 25, 20, 0.06)),
-    rgba(255, 248, 236, 0.08);
+    linear-gradient(
+      90deg,
+      rgba(255,255,255,0.55),
+      rgba(255,255,255,0.15)
+    );
 }
 
 .story-experience-heading {
@@ -1063,8 +1066,12 @@ select {
 }
 
 .story-experience-heading h1 {
-  color: #17120d;
+   color: #17120d;
   text-shadow: 0 1px 12px rgba(255, 255, 255, 0.45);
+  font-family: "Plus Jakarta Sans", "Noto Sans KR", sans-serif;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  font-size: clamp(2.8rem, 5vw, 4rem);
 }
 
 .story-experience-section .messenger-layout {
@@ -1106,7 +1113,10 @@ select {
 }
 
 .story-experience-section .messenger-side h2 {
-  font-size: 1.5rem;
+  font-size: 1.8rem;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  color: #171c2f;
 }
 
 .story-experience-section .info-block {
@@ -1161,9 +1171,12 @@ select {
 .story-experience-section .story-guide-card {
   margin: 18px 0;
   padding: 18px;
-  border: 1px solid rgba(216, 198, 170, 0.9);
+
+  border: 1px solid #e2c8a7;
   border-radius: 18px;
-  background: rgba(255, 247, 237, 0.86);
+
+  background: #fff7ec;
+
   color: #2f2418;
   line-height: 1.72;
 }
@@ -1199,7 +1212,7 @@ select {
 }
 
 .story-experience-section .bubble-npc {
-  background: rgba(255, 255, 255, 0.94);
+  background: #fffdfa;
   border-left-color: #2b7a78;
 }
 
