@@ -1039,7 +1039,7 @@ select {
   z-index: -2;
   background:
     linear-gradient(rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0.24)),
-    url("/places/gyeongbokgung.jpg") center / cover no-repeat;
+    url("/places/경복궁채팅.jpg") center / cover no-repeat;
 }
 
 .story-experience-section::after {
@@ -1072,7 +1072,7 @@ select {
   margin: 0 auto;
   grid-template-columns: 330px minmax(0, 1fr);
   gap: 20px;
-  align-items: start;
+  align-items: stretch;
 }
 
 .story-experience-section .card {
