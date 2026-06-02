@@ -1636,3 +1636,140 @@ select {
   color: #ef4444 !important;
   font-weight: 500;
 }
+/* Profile Page */
+.profile-page {
+  padding: 18px 0 56px;
+}
+
+.profile-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(360px, 1.15fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.profile-card {
+  padding: 24px;
+}
+
+.profile-head {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.profile-avatar {
+  width: 82px;
+  height: 82px;
+  border-radius: 50%;
+  background: var(--daeja);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-size: 2rem;
+  font-weight: 800;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.profile-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-name {
+  margin: 0;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 1.7rem;
+  color: var(--ink);
+}
+
+.profile-email {
+  margin: 4px 0 0;
+  color: var(--muted);
+}
+
+.profile-edit-form {
+  display: grid;
+  gap: 14px;
+  margin-top: 24px;
+}
+
+.profile-edit-form label {
+  display: grid;
+  gap: 8px;
+  font-weight: 800;
+  color: var(--ink);
+}
+
+.profile-edit-form input {
+  width: 100%;
+  padding: 15px 16px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #fffdf8;
+  outline: none;
+}
+
+.profile-edit-form input:focus {
+  border-color: var(--namsaek);
+}
+
+.profile-save-button {
+  margin-top: 8px;
+  width: 100%;
+  padding: 15px 18px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--namsaek);
+  color: #fff;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.profile-section-list {
+  display: grid;
+  gap: 14px;
+}
+
+.profile-section-card {
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: #fffdfa;
+}
+
+.profile-section-card h2 {
+  margin: 0 0 8px;
+  font-size: 1.15rem;
+}
+
+.profile-section-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.ending-item {
+  margin-top: 14px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #fff;
+}
+
+.ending-item h3 {
+  margin: 0 0 8px;
+}
+
+.ending-content {
+  margin-top: 12px !important;
+  white-space: pre-line;
+}
+
+@media (max-width: 1080px) {
+  .profile-layout {
+    grid-template-columns: 1fr;
+  }
+}
