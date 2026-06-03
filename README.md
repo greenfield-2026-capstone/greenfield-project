@@ -81,7 +81,7 @@ ChatGPT 기반 실시간 역사 인물 챗봇과 AI 영상 콘텐츠를 활용�
 
 ---
 
-## 🔗 배포 및 데모
+## 🔗 Deployment & Demo
 
 - 서비스 URL: https://histour.vercel.app
 - 데모 영상: https://m.youtube.com/watch?v=CWdD6fGb-Yc
@@ -91,7 +91,7 @@ Histour는 웹 기반 서비스로 배포되어, 사용자가 별도 설치 없�
 
 ---
 
-## 🗂️ 데이터 활용
+## 🗂️ Data Source & Processing
 
 Histour는 문화빅데이터 플랫폼에서 제공하는 문화·관광 데이터를 기반으로 관광지 정보를 구성했다.
 
@@ -104,7 +104,7 @@ Histour는 문화빅데이터 플랫폼에서 제공하는 문화·관광 데이
 
 ---
 
-## 🧭 검색 및 필터 기능
+## 🧭 Search & Filter
 
 - 키워드 기반 관광지 검색
 - 장소명, 설명, 시대, 태그, 역사 인물 이름을 검색 대상에 포함
@@ -114,7 +114,7 @@ Histour는 문화빅데이터 플랫폼에서 제공하는 문화·관광 데이
 
 ---
 
-## 🤖 AI 활용 투명성
+## 🤖 AI Usage Transparency
 
 Histour는 AI를 서비스 구현과 콘텐츠 생성의 보조 도구로 활용했다.
 
