@@ -805,6 +805,10 @@ select {
   border-top: 3px solid var(--namsaek);
 }
 
+/* =========================
+   Messenger / Ending layout
+   ========================= */
+
 .messenger-layout,
 .ending-layout {
   display: grid;
@@ -817,6 +821,11 @@ select {
 .ending-main,
 .ending-side {
   padding: 20px;
+}
+
+.messenger-main {
+  display: flex;
+  flex-direction: column;
 }
 
 .messenger-side-top {
@@ -889,6 +898,7 @@ select {
   border-radius: 14px;
   box-shadow: none;
 }
+
 .bubble p {
   margin: 0;
   white-space: pre-line;
@@ -922,25 +932,25 @@ select {
 .choice-panel {
   margin-top: 18px;
   padding: 16px;
+  border: 1px solid #ead8c0;
   border-radius: 18px;
   background: #fffaf0;
-  border: 1px solid #ead8c0;
   display: grid;
   gap: 12px;
 }
 
 .choice-guide {
   margin: 0 0 4px;
+  color: #7a3b2e;
   font-size: 14px;
   font-weight: 700;
-  color: #7a3b2e;
 }
 
 .choice-panel button {
   width: 100%;
   padding: 16px 18px;
-  border-radius: 14px;
   border: 1px solid #d8c6aa;
+  border-radius: 14px;
   background: #ffffff;
   text-align: left;
   font-size: 15px;
@@ -1023,6 +1033,10 @@ select {
   margin-top: 10px;
 }
 
+/* =========================
+   Story experience page
+   ========================= */
+
 .story-experience-section {
   position: relative;
   min-height: calc(100vh - 118px);
@@ -1047,12 +1061,11 @@ select {
   position: absolute;
   inset: 0;
   z-index: -1;
-  background:
-    linear-gradient(
-      90deg,
-      rgba(255,255,255,0.55),
-      rgba(255,255,255,0.15)
-    );
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.55),
+    rgba(255, 255, 255, 0.15)
+  );
 }
 
 .story-experience-heading {
@@ -1066,12 +1079,12 @@ select {
 }
 
 .story-experience-heading h1 {
-   color: #17120d;
+  color: #17120d;
   text-shadow: 0 1px 12px rgba(255, 255, 255, 0.45);
   font-family: "Plus Jakarta Sans", "Noto Sans KR", sans-serif;
+  font-size: clamp(2.8rem, 5vw, 4rem);
   font-weight: 900;
   letter-spacing: -0.04em;
-  font-size: clamp(2.8rem, 5vw, 4rem);
 }
 
 .story-experience-section .messenger-layout {
@@ -1082,10 +1095,11 @@ select {
   align-items: stretch;
 }
 
+
 .story-experience-section .card {
   border: 1px solid rgba(255, 255, 255, 0.42);
-  background: rgba(255, 250, 241, 0.9);
   border-radius: 20px;
+  background: rgba(255, 250, 241, 0.9);
   box-shadow: 0 24px 54px rgba(36, 24, 15, 0.18);
   backdrop-filter: blur(12px);
 }
@@ -1093,6 +1107,12 @@ select {
 .story-experience-section .messenger-side,
 .story-experience-section .messenger-main {
   padding: 22px;
+}
+
+.story-experience-section .messenger-main {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
 }
 
 .story-experience-section .messenger-side {
@@ -1113,10 +1133,10 @@ select {
 }
 
 .story-experience-section .messenger-side h2 {
+  color: #171c2f;
   font-size: 1.8rem;
   font-weight: 900;
   letter-spacing: -0.03em;
-  color: #171c2f;
 }
 
 .story-experience-section .info-block {
@@ -1171,12 +1191,9 @@ select {
 .story-experience-section .story-guide-card {
   margin: 18px 0;
   padding: 18px;
-
   border: 1px solid #e2c8a7;
   border-radius: 18px;
-
   background: #fff7ec;
-
   color: #2f2418;
   line-height: 1.72;
 }
@@ -1195,14 +1212,19 @@ select {
 }
 
 .story-experience-section .messenger-thread {
-  max-height: 52vh;
-  min-height: 390px;
+  flex: 1 1 0;
+  min-height: 0;
+  height: auto;
+  max-height: none;
+  align-content: start;
   padding: 18px;
   overflow-y: auto;
+  overflow-x: hidden;
   border: 1px solid rgba(216, 198, 170, 0.78);
   border-radius: 18px;
   background: rgba(255, 255, 255, 0.56);
 }
+
 
 .story-experience-section .bubble {
   max-width: min(78%, 760px);
@@ -1217,10 +1239,13 @@ select {
 }
 
 .story-experience-section .bubble-user {
+  border-color: #1f2a5c;
   background: #1f2a5c;
   color: #fff;
-  border-color: #1f2a5c;
-  border-left-color: #1f2a5c;
+}
+.story-experience-section .bubble-user,
+.story-experience-section .bubble-user p {
+  color: #fff;
 }
 
 .story-experience-section .choice-panel {
@@ -1240,6 +1265,8 @@ select {
 }
 
 .story-experience-section .messenger-input {
+  flex-shrink: 0;
+  margin-top: 14px;
   border-color: rgba(216, 198, 170, 0.9);
   border-radius: 18px;
   background: rgba(255, 255, 255, 0.9);
