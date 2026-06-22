@@ -3,7 +3,7 @@ import { EndingVideoCard } from "@/components/video/EndingVideoCard";
 import { getAllPlaces, getCharacter, getPlace } from "@/lib/culture-data";
 
 export const dynamicParams = false;
-export const dynamic = "force-static";
+export const dynamic = "force-dynamic";
 
 export function generateStaticParams() {
   const places = getAllPlaces();
