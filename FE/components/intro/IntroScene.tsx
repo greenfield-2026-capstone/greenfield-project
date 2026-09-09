@@ -110,8 +110,8 @@ export default function IntroScene({
             absolute
             bottom-[17%]
             z-10
-            h-[75%]
-            w-[500px]
+            h-[85%]
+            w-[650px]
 
             ${
               currentDialogue.position === "left"
