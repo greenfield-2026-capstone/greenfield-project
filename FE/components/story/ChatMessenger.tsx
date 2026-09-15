@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import { StoryChoiceButton } from "@/components/story/StoryChoiceButton";
 
 const TOTAL_CHAPTERS = 6;
-const CONVERSATIONS_BEFORE_DECISION = 3;
+const CONVERSATIONS_BEFORE_DECISION = 2;
 
 const chatTexts = {
   ko: {
@@ -263,6 +263,8 @@ export function ChatMessenger({
   const [isLoading, setIsLoading] = useState(false);
   const [ending, setEnding] = useState<"great" | "lonely" | null>(null);
   const [conversationCount, setConversationCount] = useState(0);
+  const [freeChatCount, setFreeChatCount] = useState(0);
+  const MAX_FREE_CHAT = 2;
   const router = useRouter();
 
   const handleSend = async () => {
@@ -294,6 +296,8 @@ export function ChatMessenger({
     setMessages(nextMessages);
     setIsLoading(true);
 
+    setFreeChatCount((prev) => prev + 1);
+
     try {
       const result = await askTaejo(
         userMessage,
@@ -312,14 +316,18 @@ export function ChatMessenger({
         },
       ]);
 
-      const nextConversationCount = conversationCount + 1;
-      setConversationCount(nextConversationCount);
+const nextConversationCount = conversationCount + 1;
+setConversationCount(nextConversationCount);
 
-      if (nextConversationCount >= CONVERSATIONS_BEFORE_DECISION) {
-        setChoices(result.choices ?? []);
-      } else {
-        setChoices([]);
-      }
+const shouldShowChoices =
+  nextConversationCount >= 2 ||
+  (nextConversationCount >= 1 && Math.random() < 0.5);
+
+if (shouldShowChoices) {
+  setChoices(result.choices ?? []);
+} else {
+  setChoices([]);
+}
     } catch {
       setMessages((prev) => [
         ...prev,
@@ -356,6 +364,7 @@ export function ChatMessenger({
     setNationScore(nextNationScore);
     setEmotionScore(nextEmotionScore);
     setConversationCount(0);
+    setFreeChatCount(0);
     setMessages(nextMessages);
     setIsLoading(true);
 
@@ -575,7 +584,7 @@ export function ChatMessenger({
             placeholder={t.placeholder(displayCharacter.name)}
           />
 
-          <button type="button" onClick={handleSend} disabled={isLoading}>
+          <button type="button" onClick={handleSend} disabled={isLoading || freeChatCount >= MAX_FREE_CHAT}>
             {t.send}
           </button>
         </div>
