@@ -1,420 +1,341 @@
 "use client";
 
-import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
+import { stories } from "../../../data/stories";
+import styles from "./roleplay.module.css";
 
-type DialogueLine = {
+type Line = {
   speaker: string;
-  emotion: string;
+  emotion: string | null;
   text: string;
 };
 
-type DialogueOption = {
+type Option = {
   id: number;
   type: "supportive" | "playful" | "curious" | "challenging";
   text: string;
   affinity_score: number;
 };
 
-type DialogueResponse = {
-  dialogue: DialogueLine[];
-  options?: DialogueOption[];
-
-  meta?: {
-    storyId: string;
-    turn: number;
-    mode: "scene" | "reaction";
-    background: string;
-  };
-
+type ApiResponse = {
+  dialogue?: Line[];
+  options?: Option[];
   error?: string;
 };
 
-export default function RoleplayPage() {
-  const params = useParams();
+const names: Record<string, string> = {
+  sejong: "세종대왕",
+  young_sejong: "어린 세종",
+  taejong: "태종",
+  kimmun: "신하 김문",
+  narration: "",
+};
 
-  // /roleplay/sejong → "sejong"
-  // /roleplay/gojong → "gojong"
-  const characterId = params.characterId as string;
+function getCharacterImage(speaker: string, emotion: string | null) {
+  if (!emotion) return null;
+
+  if (speaker === "sejong" || speaker === "young_sejong")
+    return `/images/sejong/characters/${emotion}.png`;
+
+  if (speaker === "taejong")
+    return `/images/taejong/${emotion}.png`;
+
+  if (speaker === "kimmun")
+    return `/images/kimmun/${emotion}.png`;
+
+  return null;
+}
+
+export default function RoleplayPage() {
+  const { characterId } = useParams<{ characterId: string }>();
+  const story = stories[characterId as keyof typeof stories];
 
   const [turn, setTurn] = useState(1);
+  const [scriptIndex, setScriptIndex] = useState(0);
+  const [phase, setPhase] = useState<"script" | "choices" | "reaction">("script");
+
   const [affinity, setAffinity] = useState(0);
-
-  const [dialogue, setDialogue] = useState<DialogueLine[]>([]);
-  const [options, setOptions] = useState<DialogueOption[]>([]);
-
+  const [options, setOptions] = useState<Option[]>([]);
+  const [reaction, setReaction] = useState<Line | null>(null);
   const [history, setHistory] = useState<any[]>([]);
 
-  const [background, setBackground] = useState<string | null>(null);
-
+  const [typedText, setTypedText] = useState("");
+  const [isTyping, setIsTyping] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  const scene = story?.turns[turn as keyof typeof story.turns] as any;
+  const script: Line[] = scene?.script ?? [];
+  const currentLine = script[scriptIndex];
+  const activeLine = phase === "reaction" ? reaction : currentLine;
 
-  // ==========================================
-  // Turn 시작
-  // ==========================================
+  const fullText = activeLine?.text ?? "";
+  const speakerName = activeLine ? names[activeLine.speaker] ?? activeLine.speaker : "";
+  const characterImage = activeLine
+    ? getCharacterImage(activeLine.speaker, activeLine.emotion)
+    : null;
 
-  async function loadScene(currentTurn: number) {
-    try {
-      setLoading(true);
-      setError("");
+  const backgroundImage = scene
+    ? `/images/${characterId}/backgrounds/${scene.background}.png`
+    : "";
 
-      const response = await fetch("/api/dialogue", {
-        method: "POST",
+  // 대사 타이핑
+  useEffect(() => {
+    if (!fullText) return;
 
-        headers: {
-          "Content-Type": "application/json",
-        },
+    setTypedText("");
+    setIsTyping(true);
 
-        body: JSON.stringify({
-          storyId: characterId,
-          turn: currentTurn,
-          mode: "scene",
-          history,
-          affinity,
-        }),
-      });
+    let index = 0;
 
-      const data: DialogueResponse =
-        await response.json();
+    const timer = window.setInterval(() => {
+      index++;
+      setTypedText(fullText.slice(0, index));
 
-      if (!response.ok) {
-        throw new Error(
-          data.error || "대화를 생성하지 못했습니다."
-        );
+      if (index >= fullText.length) {
+        clearInterval(timer);
+        setIsTyping(false);
       }
+    }, 28);
 
-      setDialogue(data.dialogue ?? []);
-      setOptions(data.options ?? []);
+    return () => clearInterval(timer);
+  }, [fullText]);
 
-      if (data.meta?.background) {
-        setBackground(data.meta.background);
-      }
-    } catch (err) {
-      console.error(err);
+  // 인물이 바뀌면 게임 초기화
+  useEffect(() => {
+    setTurn(1);
+    setScriptIndex(0);
+    setPhase("script");
+    setAffinity(0);
+    setOptions([]);
+    setReaction(null);
+    setHistory([]);
+    setError("");
+  }, [characterId]);
 
-      setError(
-        err instanceof Error
-          ? err.message
-          : "오류가 발생했습니다."
-      );
-    } finally {
-      setLoading(false);
-    }
-  }
-
-
-  // ==========================================
-  // 선택지 클릭
-  // ==========================================
-
-  async function selectOption(option: DialogueOption) {
+  // 선택지 생성
+  async function loadChoices() {
     if (loading) return;
 
     try {
       setLoading(true);
       setError("");
 
-      // 선택한 점수까지 포함한 새로운 호감도
-      const nextAffinity =
-        affinity + option.affinity_score;
-
-      setAffinity(nextAffinity);
-
-      // 플레이어가 선택한 문장도 기록
-      const newHistory = [
-        ...history,
-
-        {
-          role: "player",
-          text: option.text,
-          type: option.type,
-          affinity_score: option.affinity_score,
-        },
-      ];
-
-      setHistory(newHistory);
-
-      // 선택지는 클릭하자마자 숨김
-      setOptions([]);
-
-      const response = await fetch("/api/dialogue", {
+      const res = await fetch("/api/dialogue", {
         method: "POST",
-
-        headers: {
-          "Content-Type": "application/json",
-        },
-
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           storyId: characterId,
           turn,
-          mode: "reaction",
-
-          selectedOption: option,
-
-          history: newHistory,
-
-          affinity: nextAffinity,
+          mode: "choices",
+          history,
+          affinity,
         }),
       });
 
-      const data: DialogueResponse =
-        await response.json();
+      const data: ApiResponse = await res.json();
 
-      if (!response.ok) {
-        throw new Error(
-          data.error || "반응을 생성하지 못했습니다."
-        );
-      }
+      if (!res.ok) throw new Error(data.error || "선택지를 생성하지 못했습니다.");
+      if (!data.options?.length) throw new Error("AI가 선택지를 반환하지 않았습니다.");
 
-      // 기존 대사 뒤에 반응 추가
-      setDialogue((previous) => [
-        ...previous,
-
-        // 플레이어 선택 대사
-        {
-          speaker: "player",
-          emotion: "neutral",
-          text: option.text,
-        },
-
-        ...(data.dialogue ?? []),
-      ]);
-
-      // AI 반응도 history에 저장
-      setHistory((previous) => [
-        ...previous,
-
-        ...(data.dialogue ?? []).map((line) => ({
-          role: "character",
-          speaker: line.speaker,
-          text: line.text,
-        })),
-      ]);
+      setOptions(data.options);
+      setPhase("choices");
     } catch (err) {
-      console.error(err);
-
-      setError(
-        err instanceof Error
-          ? err.message
-          : "오류가 발생했습니다."
-      );
+      setError(err instanceof Error ? err.message : "오류가 발생했습니다.");
     } finally {
       setLoading(false);
     }
   }
 
+  // 대사창 클릭
+  function nextDialogue() {
+    if (loading) return;
 
-  // ==========================================
-  // 다음 Turn
-  // ==========================================
+    // 타이핑 중이면 문장 전체 표시
+    if (isTyping) {
+      setTypedText(fullText);
+      setIsTyping(false);
+      return;
+    }
 
-  async function nextTurn() {
-    const next = turn + 1;
+    if (phase !== "script") return;
 
-    setTurn(next);
+    // 다음 고정 대사
+    if (scriptIndex < script.length - 1) {
+      setScriptIndex((i) => i + 1);
+      return;
+    }
 
-    setDialogue([]);
-    setOptions([]);
-
-    await loadScene(next);
+    // 고정 대본 종료 → AI 선택지
+    loadChoices();
   }
 
+  // 선택지 클릭 → AI 반응
+  async function selectOption(option: Option) {
+    if (loading) return;
 
-  // ==========================================
-  // 페이지 들어오면 Turn 1 자동 시작
-  // ==========================================
+    const nextAffinity = affinity + option.affinity_score;
 
-  useEffect(() => {
-    if (!characterId) return;
+    const newHistory = [
+      ...history,
+      {
+        role: "player",
+        text: option.text,
+        type: option.type,
+        affinity_score: option.affinity_score,
+      },
+    ];
 
-    loadScene(1);
+    setAffinity(nextAffinity);
+    setHistory(newHistory);
+    setOptions([]);
+    setLoading(true);
+    setError("");
 
-    // 첫 진입 때만 실행
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [characterId]);
+    try {
+      const res = await fetch("/api/dialogue", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          storyId: characterId,
+          turn,
+          mode: "reaction",
+          selectedOption: option,
+          history: newHistory,
+          affinity: nextAffinity,
+        }),
+      });
 
+      const data: ApiResponse = await res.json();
+
+      if (!res.ok) throw new Error(data.error || "반응을 생성하지 못했습니다.");
+
+      const npcReaction = data.dialogue?.[0];
+      if (!npcReaction) throw new Error("AI가 반응을 반환하지 않았습니다.");
+
+      setReaction(npcReaction);
+      setHistory((prev) => [
+        ...prev,
+        {
+          role: "character",
+          speaker: npcReaction.speaker,
+          text: npcReaction.text,
+        },
+      ]);
+
+      setPhase("reaction");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "오류가 발생했습니다.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  // 다음 Turn
+  function nextTurn() {
+    setTurn((t) => t + 1);
+    setScriptIndex(0);
+    setOptions([]);
+    setReaction(null);
+    setPhase("script");
+    setError("");
+  }
+
+  if (!story)
+    return <main className={styles.messageScreen}>스토리를 찾을 수 없습니다.</main>;
+
+  if (!scene)
+    return <main className={styles.messageScreen}>이야기가 종료되었습니다.</main>;
 
   return (
     <main
-      style={{
-        minHeight: "100vh",
-        padding: "40px",
-        maxWidth: "900px",
-        margin: "0 auto",
-      }}
+      className={styles.game}
+      style={{ backgroundImage: `url("${backgroundImage}")` }}
     >
-      {/* ============================= */}
-      {/* 테스트용 상태 표시 */}
-      {/* ============================= */}
+      <div className={styles.overlay} />
 
-      <div
-        style={{
-          marginBottom: "30px",
-          paddingBottom: "20px",
-          borderBottom: "1px solid #ddd",
-        }}
-      >
-        <h1>역사 Roleplay 테스트</h1>
-
-        <p>
-          인물: <strong>{characterId}</strong>
-        </p>
-
-        <p>
-          Turn: <strong>{turn}</strong>
-        </p>
-
-        <p>
-          호감도: <strong>{affinity}</strong>
-        </p>
-
-        {background && (
-          <p>
-            배경: <strong>{background}</strong>
-          </p>
-        )}
-      </div>
-
-
-      {/* ============================= */}
-      {/* 오류 */}
-      {/* ============================= */}
-
-      {error && (
-        <div
-          style={{
-            padding: "15px",
-            marginBottom: "20px",
-            color: "red",
-            border: "1px solid red",
-          }}
-        >
-          {error}
+      {/* 상단 */}
+      <header className={styles.header}>
+        <div>
+          <div className={styles.logo}>HISTOUR</div>
+          <div className={styles.storyTitle}>{story.title}</div>
         </div>
+
+        <div className={styles.turn}>
+          {turn} / {Object.keys(story.turns).length}
+        </div>
+      </header>
+
+      {/* 캐릭터 */}
+      {characterImage && (
+        <img
+          key={`${activeLine?.speaker}-${activeLine?.emotion}-${scriptIndex}`}
+          src={characterImage}
+          alt={speakerName}
+          className={styles.character}
+        />
       )}
 
-
-      {/* ============================= */}
-      {/* 대사 */}
-      {/* ============================= */}
-
-      <section>
-        {dialogue.map((line, index) => (
-          <div
-            key={index}
-            style={{
-              marginBottom: "15px",
-              padding: "15px",
-              border: "1px solid #ddd",
-              borderRadius: "10px",
-            }}
-          >
-            <strong>
-              {line.speaker}
-            </strong>
-
-            {line.speaker !== "player" && (
-              <span
-                style={{
-                  marginLeft: "10px",
-                  color: "#777",
-                }}
-              >
-                {line.emotion}
-              </span>
-            )}
-
-            <p
-              style={{
-                marginBottom: 0,
-              }}
-            >
-              {line.text}
-            </p>
-          </div>
-        ))}
-      </section>
-
-
-      {/* ============================= */}
       {/* 선택지 */}
-      {/* ============================= */}
+      {phase === "choices" && !loading && (
+        <section className={styles.choices}>
+          <div className={styles.choiceTitle}>어떻게 대답할까?</div>
 
-      {!loading && options.length > 0 && (
-        <section
-          style={{
-            marginTop: "30px",
-          }}
-        >
-          <h2>어떻게 대답할까?</h2>
-
-          {options.map((option) => (
+          {options.map((option, index) => (
             <button
               key={option.id}
-              onClick={() =>
-                selectOption(option)
-              }
-              style={{
-                display: "block",
-                width: "100%",
-                padding: "15px",
-                marginBottom: "10px",
-                textAlign: "left",
-                cursor: "pointer",
-              }}
+              className={styles.choice}
+              style={{ animationDelay: `${index * 90}ms` }}
+              onClick={() => selectOption(option)}
             >
+              <span className={styles.choiceNumber}>{index + 1}</span>
               {option.text}
-
-              <span
-                style={{
-                  marginLeft: "10px",
-                  opacity: 0.6,
-                }}
-              >
-                ({option.type} / {option.affinity_score >= 0 ? "+" : ""}
-                {option.affinity_score})
-              </span>
             </button>
           ))}
         </section>
       )}
 
+      {/* 대사창 */}
+      {phase !== "choices" && activeLine && (
+        <section className={styles.dialogueBox} onClick={nextDialogue}>
+          {speakerName && (
+            <div className={styles.nameTag}>{speakerName}</div>
+          )}
 
-      {/* ============================= */}
-      {/* 로딩 */}
-      {/* ============================= */}
+          <div className={styles.dialogueText}>
+            {typedText}
+            {isTyping && <span className={styles.cursor} />}
+          </div>
 
-      {loading && (
-        <p
-          style={{
-            marginTop: "30px",
-          }}
-        >
-          AI가 대사를 생성하고 있습니다...
-        </p>
+          {phase === "script" && !isTyping && (
+            <div className={styles.nextIndicator}>▼</div>
+          )}
+
+          {phase === "reaction" && !isTyping && (
+            <button
+              className={styles.nextTurn}
+              onClick={(e) => {
+                e.stopPropagation();
+                nextTurn();
+              }}
+            >
+              다음 이야기 →
+            </button>
+          )}
+        </section>
       )}
 
+      {/* AI 로딩 */}
+      {loading && (
+        <div className={styles.loading}>
+          <span className={styles.loadingDot}>·</span>
+          <span className={styles.loadingDot}>·</span>
+          <span className={styles.loadingDot}>·</span>
+        </div>
+      )}
 
-      {/* ============================= */}
-      {/* 선택 후 다음 Turn */}
-      {/* ============================= */}
-
-      {!loading &&
-        dialogue.length > 0 &&
-        options.length === 0 && (
-          <button
-            onClick={nextTurn}
-            style={{
-              marginTop: "30px",
-              padding: "12px 24px",
-              cursor: "pointer",
-            }}
-          >
-            다음 이야기 →
-          </button>
-        )}
+      {error && <div className={styles.error}>{error}</div>}
     </main>
   );
 }
