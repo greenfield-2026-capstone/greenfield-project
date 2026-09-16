@@ -1,17 +1,13 @@
-import {
-  NextRequest,
-  NextResponse,
-} from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-import { stories } from "@/data/stories";
-import { characters } from "@/data/characters";
-import { buildDialoguePrompt } from "@/lib/dialoguePrompt";
+import { stories } from "../../../data/stories";
+import { characters } from "../../../data/characters";
+import { buildDialoguePrompt } from "../../../lib/dialoguePrompt";
 
 
-export async function POST(
-  req: NextRequest
-) {
+export async function POST(req: NextRequest) {
   try {
+    // 1. 프론트에서 보낸 정보 받기
     const body = await req.json();
 
     const {
@@ -24,313 +20,118 @@ export async function POST(
     } = body;
 
 
-    // ========================================
-    // 기본 요청 검사
-    // ========================================
-
+    // 2. storyId / turn 확인
     if (!storyId || !turn) {
       return NextResponse.json(
-        {
-          error:
-            "storyId and turn are required",
-        },
-        {
-          status: 400,
-        }
+        { error: "storyId와 turn이 필요합니다." },
+        { status: 400 }
       );
     }
 
 
-    if (
-      mode !== "scene" &&
-      mode !== "reaction"
-    ) {
-      return NextResponse.json(
-        {
-          error: "Invalid mode",
-        },
-        {
-          status: 400,
-        }
-      );
-    }
-
-
-    // ========================================
-    // Story 가져오기
-    // ========================================
-
+    // 3. 현재 스토리 찾기
     const story =
-      stories[
-        storyId as keyof typeof stories
-      ];
+      stories[storyId as keyof typeof stories];
 
     if (!story) {
       return NextResponse.json(
-        {
-          error: "Story not found",
-        },
-        {
-          status: 404,
-        }
+        { error: "스토리를 찾을 수 없습니다." },
+        { status: 404 }
       );
     }
 
 
-    // ========================================
-    // Turn 가져오기
-    // ========================================
-
+    // 4. 현재 장면 찾기
     const scene =
-      story.turns[
-        turn as keyof typeof story.turns
-      ];
+      story.turns[turn as keyof typeof story.turns];
 
     if (!scene) {
       return NextResponse.json(
-        {
-          error: "Turn not found",
-        },
-        {
-          status: 404,
-        }
+        { error: "장면을 찾을 수 없습니다." },
+        { status: 404 }
       );
     }
 
 
-    // ========================================
-    // 등장인물 정보 가져오기
-    // ========================================
-
-    const characterData =
-      scene.characters
-        .map((characterId) => {
-          return characters[
-            characterId as keyof typeof characters
-          ];
-        })
-        .filter(Boolean);
+    // 5. 현재 장면의 등장인물 정보 가져오기
+    const characterData = scene.characters
+      .map(
+        (id) =>
+          characters[id as keyof typeof characters]
+      )
+      .filter(Boolean);
 
 
-    // ========================================
-    // Prompt 만들기
-    // ========================================
-
-    const prompt =
-      buildDialoguePrompt({
-        story,
-        scene,
-        characterData,
-        turn,
-        mode,
-        history,
-        selectedOption,
-        affinity,
-      });
+    // 6. 우리가 만든 게임 규칙으로 프롬프트 생성
+    const prompt = buildDialoguePrompt({
+      story,
+      scene,
+      characterData,
+      turn,
+      mode,
+      history,
+      selectedOption,
+      affinity,
+    });
 
 
-    // ========================================
-    // LiteLLM 호출
-    // ========================================
-
-    const baseUrl =
-      process.env.LITELLM_BASE_URL;
-
-    const apiKey =
-      process.env.LITELLM_API_KEY;
-
-    const model =
-      process.env.LITELLM_MODEL;
-
-
-    if (!baseUrl || !apiKey || !model) {
-      console.error(
-        "LiteLLM environment variables are missing"
-      );
-
-      return NextResponse.json(
-        {
-          error:
-            "LiteLLM configuration missing",
-        },
-        {
-          status: 500,
-        }
-      );
-    }
-
-
+    // 7. BE의 게임용 AI API 호출
     const response = await fetch(
-      `${baseUrl}/chat/completions`,
+      "http://localhost:8000/api/dialogue",
       {
         method: "POST",
 
         headers: {
-          "Content-Type":
-            "application/json",
-
-          Authorization:
-            `Bearer ${apiKey}`,
+          "Content-Type": "application/json",
         },
 
+        // BE는 완성된 프롬프트만 받음
         body: JSON.stringify({
-          model,
-
-          messages: [
-            {
-              role: "system",
-              content: prompt,
-            },
-          ],
-
-          temperature: 0.85,
-
-          response_format: {
-            type: "json_object",
-          },
+          prompt,
         }),
       }
     );
 
 
-    // ========================================
-    // LiteLLM 오류
-    // ========================================
+    // 8. BE 응답 받기
+    const data = await response.json();
 
+
+    // BE에서 오류가 발생한 경우
     if (!response.ok) {
-      const errorText =
-        await response.text();
-
-      console.error(
-        "LiteLLM Error:",
-        response.status,
-        errorText
-      );
+      console.error("BE Dialogue Error:", data);
 
       return NextResponse.json(
         {
           error:
-            "LiteLLM request failed",
+            data?.detail ??
+            "AI 대화 생성에 실패했습니다.",
         },
         {
-          status: 500,
+          status: response.status,
         }
       );
     }
 
 
-    const data =
-      await response.json();
-
-
-    const content =
-      data?.choices?.[0]
-        ?.message?.content;
-
-
-    if (!content) {
-      throw new Error(
-        "LiteLLM returned empty content"
-      );
-    }
-
-
-    // ========================================
-    // JSON 파싱
-    // ========================================
-
-    let result;
-
-    try {
-      result = JSON.parse(content);
-    } catch {
-      console.error(
-        "Invalid AI JSON:",
-        content
-      );
-
-      return NextResponse.json(
-        {
-          error:
-            "AI returned invalid JSON",
-        },
-        {
-          status: 500,
-        }
-      );
-    }
-
-
-    // ========================================
-    // 호감도 서버 안전장치
-    // ========================================
-
-    if (
-      mode === "scene" &&
-      Array.isArray(result.options)
-    ) {
-      result.options =
-        result.options.map(
-          (option: any) => {
-            let score =
-              Number(
-                option.affinity_score
-              );
-
-            if (
-              Number.isNaN(score)
-            ) {
-              score = 0;
-            }
-
-            // 절대 -5 아래로 못 내려감
-            score = Math.max(
-              -5,
-              score
-            );
-
-            // 절대 +20 위로 못 올라감
-            score = Math.min(
-              20,
-              score
-            );
-
-            return {
-              ...option,
-              affinity_score: score,
-            };
-          }
-        );
-    }
-
-
-    // ========================================
-    // 응답
-    // ========================================
-
+    // 9. 프론트로 결과 전달
     return NextResponse.json({
-      ...result,
+      ...data,
 
       meta: {
         storyId,
         turn,
         mode,
-
-        background:
-          scene.background,
+        background: scene.background,
       },
     });
 
   } catch (error) {
-    console.error(
-      "Dialogue API Error:",
-      error
-    );
+    console.error("Dialogue API Error:", error);
 
     return NextResponse.json(
       {
-        error:
-          "Failed to generate dialogue",
+        error: "대화 생성 중 오류가 발생했습니다.",
       },
       {
         status: 500,
