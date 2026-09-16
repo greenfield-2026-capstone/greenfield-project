@@ -53,15 +53,15 @@ export function SearchFilterBar({ lang = "ko" }: { lang?: string }) {
   return (
     <section
       aria-label={lang === "en" ? "Place filters" : "장소 필터"}
-      className="-mt-8 rounded-[28px] border border-[#E6D8C5] bg-white/88 p-4 shadow-[0_24px_70px_rgba(31,42,92,0.12)] backdrop-blur-xl md:p-5"
+      className="-mt-8 rounded-[20px] border border-[#d8c7ad] bg-[#fffdf8]/92 p-4 shadow-[0_22px_60px_rgba(25,22,17,0.12)] backdrop-blur-xl md:p-5"
     >
       <form onSubmit={onSubmit} className="grid gap-3 lg:grid-cols-[1fr_220px_auto]">
         <label className="grid gap-2">
-          <span className="text-xs font-black uppercase tracking-[0.16em] text-[#8d3f35]">
+          <span className="text-xs font-black uppercase tracking-[0.18em] text-[#9a6f2d]">
             {t.searchLabel}
           </span>
-          <span className="flex min-h-14 items-center gap-3 rounded-[22px] border border-[#E6D8C5] bg-white px-4 shadow-[0_12px_26px_rgba(31,42,92,0.06)] transition focus-within:border-[#1f2a5c] focus-within:ring-4 focus-within:ring-[#1f2a5c]/10">
-            <span className="text-lg text-[#1f2a5c]" aria-hidden="true">
+          <span className="flex min-h-14 items-center gap-3 rounded-xl border border-[#d8c7ad] bg-white px-4 shadow-[0_12px_26px_rgba(25,22,17,0.05)] transition focus-within:border-[#b89455] focus-within:ring-4 focus-within:ring-[#c9a96b]/14">
+            <span className="text-lg text-[#111827]" aria-hidden="true">
               ⌕
             </span>
             <input
@@ -74,13 +74,13 @@ export function SearchFilterBar({ lang = "ko" }: { lang?: string }) {
         </label>
 
         <label className="grid gap-2">
-          <span className="text-xs font-black uppercase tracking-[0.16em] text-[#8d3f35]">
+          <span className="text-xs font-black uppercase tracking-[0.18em] text-[#9a6f2d]">
             {t.airportLabel}
           </span>
           <select
             value={airport}
             onChange={(event) => updateParams({ airport: event.target.value })}
-            className="min-h-14 rounded-[22px] border border-[#E6D8C5] bg-white px-5 text-sm font-bold text-[#1d2430] shadow-[0_12px_26px_rgba(31,42,92,0.06)] outline-none transition focus-visible:border-[#1f2a5c] focus-visible:ring-4 focus-visible:ring-[#1f2a5c]/10"
+            className="min-h-14 rounded-xl border border-[#d8c7ad] bg-white px-5 text-sm font-bold text-[#1d2430] shadow-[0_12px_26px_rgba(25,22,17,0.05)] outline-none transition focus-visible:border-[#b89455] focus-visible:ring-4 focus-visible:ring-[#c9a96b]/14"
           >
             {airports.map((item) => (
               <option key={item.code} value={item.code}>
@@ -92,7 +92,7 @@ export function SearchFilterBar({ lang = "ko" }: { lang?: string }) {
 
         <button
           type="submit"
-          className="min-h-14 self-end rounded-[22px] bg-[#1f2a5c] px-6 text-sm font-black text-white shadow-[0_18px_38px_rgba(31,42,92,0.25)] transition hover:-translate-y-0.5 hover:bg-[#172149] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1f2a5c]"
+          className="min-h-14 self-end rounded-xl bg-[#111827] px-6 text-sm font-black text-white shadow-[0_18px_38px_rgba(17,24,39,0.22)] transition hover:-translate-y-0.5 hover:bg-[#1f2937] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#111827]"
         >
           ✦ {t.recommendation}
         </button>
@@ -108,10 +108,10 @@ export function SearchFilterBar({ lang = "ko" }: { lang?: string }) {
               key={category}
               type="button"
               onClick={() => updateParams({ category: value })}
-              className={`rounded-full border px-4 py-2.5 text-sm font-black shadow-sm transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1f2a5c] ${
+              className={`rounded-full border px-4 py-2.5 text-sm font-black shadow-sm transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#111827] ${
                 isActive
-                  ? "border-[#1f2a5c] bg-[#1f2a5c] text-white shadow-[0_12px_24px_rgba(31,42,92,0.18)]"
-                  : "border-[#E6D8C5] bg-white text-[#5f4b3a] hover:-translate-y-0.5 hover:border-[#1f2a5c]/35 hover:text-[#1f2a5c]"
+                  ? "border-[#111827] bg-[#111827] text-white shadow-[0_12px_24px_rgba(17,24,39,0.18)]"
+                  : "border-[#d8c7ad] bg-white text-[#5f4b3a] hover:-translate-y-0.5 hover:border-[#b89455] hover:text-[#111827]"
               }`}
             >
               {category}

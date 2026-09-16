@@ -30,18 +30,18 @@ export function Header() {
   }).toString()}`;
 
   return (
-    <header className="sticky top-0 z-40 border-b border-[#E6D8C5]/80 bg-[#FAF7F2]/88 backdrop-blur-xl">
+    <header className="sticky top-0 z-40 border-b border-[#d8c7ad]/70 bg-[#fcfaf5]/88 backdrop-blur-xl">
       <div className="mx-auto flex w-[min(1260px,calc(100%-48px))] items-center justify-between gap-4 py-4">
         <Link
           href={`/?lang=${currentLang}`}
-          className="text-3xl font-black tracking-normal text-[#1f2a5c] transition hover:text-[#8d3f35] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#1f2a5c]"
+          className="text-3xl font-black tracking-normal text-[#111827] transition hover:text-[#9a6f2d] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#111827]"
         >
           Histour
         </Link>
         <nav className="flex items-center gap-2" aria-label="Primary">
           <Link
             href={settingsHref}
-            className="inline-flex min-h-11 items-center justify-center rounded-full border border-[#E6D8C5] bg-white px-4 text-sm font-black text-[#1f2a5c] shadow-sm transition hover:-translate-y-0.5 hover:border-[#1f2a5c]/30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1f2a5c]"
+            className="inline-flex min-h-11 items-center justify-center rounded-full border border-[#d8c7ad] bg-white/86 px-4 text-sm font-black text-[#111827] shadow-sm transition hover:-translate-y-0.5 hover:border-[#b89455] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#111827]"
           >
             지역 / 언어
           </Link>
@@ -86,7 +86,7 @@ export function Header() {
 ) : (
   <Link
     href="/account"
-    className="inline-flex min-h-11 items-center justify-center rounded-full bg-[#8d3f35] px-4 text-sm font-black text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-[#78342c]"
+    className="inline-flex min-h-11 items-center justify-center rounded-full bg-[#111827] px-4 text-sm font-black text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-[#1f2937]"
   >
     로그인
   </Link>
