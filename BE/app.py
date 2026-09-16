@@ -4,6 +4,8 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
+from dialogue import router as dialogue_router
+
 try:
     from .sql_repository import (
         get_place,
@@ -22,6 +24,8 @@ except ImportError:
     )
 
 app = FastAPI()
+
+app.include_router(dialogue_router)
 
 # CORS 허용
 app.add_middleware(

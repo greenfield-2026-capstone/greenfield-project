@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "main": "src/index.js",
   "scripts": {
-    "dev": "tsx watch src/index.ts",
+    "dev": "concurrently \"npm run dev:node\" \"npm run dev:python\"",
+    "dev:node": "tsx watch src/index.ts",
+    "dev:python": "python -m uvicorn app:app --host 127.0.0.1 --port 8000 --reload",
     "build": "tsc",
     "start": "node dist/index.js"
   },
@@ -21,6 +23,7 @@
     "@types/express": "^5.0.6",
     "@types/node": "^25.9.1",
     "@types/pg": "^8.20.0",
+    "concurrently": "^10.0.5",
     "tsx": "^4.22.3",
     "typescript": "^6.0.3"
   }
