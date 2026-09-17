@@ -138,16 +138,51 @@ export const sejongStory = {
       title: "고기를 사랑한 왕",
     
         transition: {
-        title: "몇 년 뒤... 1426년, 세종 8년",
+        title: "몇 년 뒤... 1426년, 세종 8년 경복궁 사정전",
         text: "책을 사랑하던 소년은 어느덧 조선의 왕이 되었다.",
         },
 
-      background: "library",
+      background: "step2",
 
-      characters: [
-        "sejong",
-        "kimmun",
-      ],
+      characters: ["sejong", "kimmun",],
+
+        script: [
+    {
+      speaker: "kimmun",
+      emotion: "nagging",
+      text: "전하, 또 고기 반찬을 찾으시는 겁니까? 게다가 출산한 관비에게 넉넉히 쉴 시간을 주라 하시고, 그 남편에게까지 휴가를 주라 하시니... 나라 일도 생각하셔야 하지 않겠습니까?"
+    },
+    {
+      speaker: "sejong",
+      emotion: "angry",
+      text: "에잇, 김문! 먹는 것까지 그리 잔소리를 할 셈인가?"
+    },
+    {
+      speaker: "sejong",
+      emotion: "suggest",
+      text: "그리고 아이를 낳은 이가 제대로 쉬지도 못한다면 어찌 되겠는가. 그 남편 또한 곁에서 돌볼 시간이 있어야 하지 않겠느냐."
+    },
+    {
+      speaker: "kimmun",
+      emotion: "nagging",
+      text: "전하께서는 참... 이런 일에는 고집을 꺾으시는 법이 없으십니다."
+    },
+    {
+      speaker: "narration",
+      emotion: null,
+      text: "(김문이 한숨을 내쉬며 물러난다.)"
+    },
+    {
+      speaker: "sejong",
+      emotion: "smile",
+      text: "허허, 저 친구는 참 깐깐하다니까."
+    },
+    {
+      speaker: "sejong",
+      emotion: "suggest",
+      text: "자네 생각은 어떤가? 내가 너무 유별난 왕처럼 보이는가?"
+    }
+    ],
 
       historicalFacts: [
         "세종이 육식을 좋아했다는 내용은 세종과 관련된 기록과 일화에서 전한다.",
