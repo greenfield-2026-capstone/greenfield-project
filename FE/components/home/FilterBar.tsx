@@ -12,7 +12,7 @@ const filterCopy = {
     airportLabel: "공항 기준",
     recommendation: "장소 찾기",
     all: "전체",
-    categories: ["궁궐", "성곽", "유적지", "박물관", "자연/정원"],
+    categories: ["궁궐", "성곽", "유적지", "자연/정원"],
   },
   en: {
     searchLabel: "Search places",
@@ -20,7 +20,7 @@ const filterCopy = {
     airportLabel: "Airport",
     recommendation: "Find places",
     all: "All",
-    categories: ["Palace", "Fortress", "Historic Site", "Museum", "Nature/Garden"],
+    categories: ["Palace", "Fortress", "Historic Site", "Nature/Garden"],
   },
 };
 
@@ -31,7 +31,8 @@ export function SearchFilterBar({ lang = "ko" }: { lang?: string }) {
 
   const [query, setQuery] = useState(params.get("q") ?? "");
   const airport = params.get("airport") ?? "all";
-  const activeCategory = params.get("category") ?? "all";
+  const category = params.get("category") ?? "all";
+  const activeCategory = ["박물관", "museum"].includes(category.toLowerCase()) ? "all" : category;
 
   const updateParams = (updates: Record<string, string | null>) => {
     const search = new URLSearchParams(params.toString());

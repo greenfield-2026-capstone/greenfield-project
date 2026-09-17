@@ -1,17 +1,18 @@
 .panel {
   position: relative;
   margin: 24px 0 0;
-  padding: 24px 28px 0;
-  border: 1px solid #dedbd4;
-  border-radius: 12px;
-  background: #fffefa;
+  padding: 22px 0 0;
+  border: 0;
+  border-bottom: 1px solid #d7d3c8;
+  border-radius: 0;
+  background: transparent;
   color: #25332f;
 }
 
 .form { display: grid; grid-template-columns: minmax(0, 1fr) 220px auto; gap: 24px; align-items: end; }
 .searchField, .airportField { display: grid; gap: 9px; min-width: 0; }
 .label { font-size: 12px; font-weight: 600; color: #69716b; }
-.inputWrap, .selectWrap { display: flex; align-items: center; position: relative; height: 48px; border: 1px solid #d9ddd6; border-radius: 6px; background: #fff; }
+.inputWrap, .selectWrap { display: flex; align-items: center; position: relative; height: 48px; border: 1px solid #d9ddd6; border-radius: 2px; background: #fcfaf4; }
 .inputWrap { gap: 12px; padding: 0 14px; }
 .inputWrap svg { flex-shrink: 0; color: #778078; }
 .inputWrap input { width: 100%; min-width: 0; height: 100%; border: 0; background: transparent; outline: none; color: #25332f; font: inherit; font-size: 14px; }
@@ -19,7 +20,7 @@
 .selectWrap select { appearance: none; width: 100%; height: 100%; padding: 0 40px 0 14px; border: 0; border-radius: inherit; background: transparent; color: #25332f; font: inherit; font-size: 14px; cursor: pointer; }
 .selectWrap svg { position: absolute; right: 14px; pointer-events: none; }
 .inputWrap:focus-within, .selectWrap:focus-within { outline: 2px solid #657969; outline-offset: 2px; }
-.submit { display: flex; align-items: center; justify-content: center; gap: 24px; height: 48px; padding: 0 22px; border: 0; border-radius: 6px; background: #293e34; color: white; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; transition: background .18s; }
+.submit { display: flex; align-items: center; justify-content: center; gap: 24px; height: 48px; padding: 0 22px; border: 0; border-radius: 2px; background: #293e34; color: white; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; transition: background .18s; }
 .submit:hover { background: #3e5547; }
 .submit span { font-size: 20px; font-weight: 400; }
 .categories { display: flex; gap: 28px; overflow-x: auto; margin-top: 24px; border-top: 1px solid #e9e8e1; scrollbar-width: thin; }
@@ -28,7 +29,7 @@
 .category[aria-pressed="true"] { border-bottom-color: #293e34; color: #293e34; font-weight: 700; }
 .category:focus-visible, .submit:focus-visible { outline: 2px solid #657969; outline-offset: -3px; }
 @media (max-width: 760px) {
-  .panel { padding: 20px 18px 0; margin-top: 18px; }
+  .panel { padding: 18px 0 0; margin-top: 18px; }
   .form { grid-template-columns: minmax(0, 1fr) auto; gap: 16px 12px; }
   .searchField { grid-column: 1 / -1; }
   .submit { gap: 16px; padding: 0 18px; }

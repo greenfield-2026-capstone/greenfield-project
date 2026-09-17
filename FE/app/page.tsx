@@ -1,3 +1,4 @@
+import styles from "./home.module.css";
 import { SearchFilterBar } from "@/components/home/FilterBar";
 import { HeroSection } from "@/components/home/HeroSection";
 import { PlaceCard } from "@/components/places/PlaceCard";
@@ -58,8 +59,6 @@ function matchesCategory(
     fortress: ["성곽", "산성", "화성", "fortress"],
     "유적지": ["유적", "역사", "heritage", "historic"],
     "historic site": ["유적", "역사", "heritage", "historic"],
-    "박물관": ["박물관", "museum"],
-    museum: ["박물관", "museum"],
     "자연/정원": ["정원", "숲", "산", "garden", "nature"],
     "nature/garden": ["정원", "숲", "산", "garden", "nature"],
   };
@@ -82,7 +81,7 @@ export default async function HomePage({
   const params = (await searchParams) ?? {};
 
   const airport = params.airport ?? "all";
-  const category = params.category ?? "all";
+  const category = ["박물관", "museum"].includes((params.category ?? "").toLowerCase()) ? "all" : params.category ?? "all";
   const lang = params.lang ?? "ko";
   const query = params.q?.trim() ?? "";
 
@@ -93,41 +92,28 @@ export default async function HomePage({
   );
 
   return (
-    <section className="page-section relative isolate overflow-hidden rounded-[28px] px-0 pb-8">
-      <div className="pointer-events-none absolute inset-0 z-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.0)_0%,rgba(255,255,255,0.26)_46%,rgba(239,231,217,0.34)_100%)]" />
-
-      <div className="relative z-10">
-        <HeroSection lang={lang} />
-        <SearchFilterBar lang={lang} />
-
-        <div id="places" className="mt-10 flex items-end justify-between gap-4">
+    <section className={`home-page ${styles.page}`}>
+      <HeroSection lang={lang} />
+      <div id="places" className={styles.collection}>
+        <div className={styles.heading}>
           <div>
-            <p className="text-xs font-black uppercase tracking-[0.2em] text-[#9a6f2d]">
-              {t.eyebrow}
-            </p>
-            <h2 className="mt-2 text-2xl font-black text-[#141923] sm:text-3xl">
-              {t.title}
-            </h2>
+            <p className={styles.eyebrow}>{lang === "en" ? "THE COLLECTION" : "발길이 닿는 곳, 이야기가 시작되는 곳"}</p>
+            <h2>{lang === "en" ? "Find your next story" : "어디로 떠나볼까요"}</h2>
           </div>
-          <span className="rounded-full border border-[#d8c7ad] bg-[#fffdf8]/90 px-4 py-2 text-sm font-black text-[#111827] shadow-sm backdrop-blur">
-            {filteredPlaces.length}
-          </span>
+          <p className={styles.count}>{lang === "en" ? `${filteredPlaces.length} places` : `총 ${filteredPlaces.length}곳`}</p>
         </div>
-
+        <SearchFilterBar lang={lang} />
         {filteredPlaces.length > 0 ? (
-          <>
-            <div className="mt-5 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {filteredPlaces.map((place) => (
-                <PlaceCard key={place.id} place={place} lang={lang} />
-              ))}
-            </div>
-          </>
-        ) : (
-          <div className="mt-5 rounded-3xl border border-[#E6D8C5] bg-white/85 p-10 text-center text-[#6b7280] shadow-sm backdrop-blur">
-            {t.empty}
+          <div className={styles.grid}>
+            {filteredPlaces.map((place) => <PlaceCard key={place.id} place={place} lang={lang} />)}
           </div>
-        )}
+        ) : <div className={styles.empty}>{t.empty}</div>}
       </div>
+      <footer className={styles.footer}>
+        <span>Histour<span className={styles.footerDot}>.</span></span>
+        <p>{lang === "en" ? "Places hold stories. Take a moment to listen." : "장소에 담긴 시간, 당신과 이어지는 이야기."}</p>
+        <a href="#">{lang === "en" ? "Back to top ↑" : "맨 위로 ↑"}</a>
+      </footer>
     </section>
   );
 }

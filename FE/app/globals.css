@@ -1825,3 +1825,13 @@ select {
     grid-template-columns: 1fr;
   }
 }
+
+/* A restrained paper-and-ink palette for the home collection. */
+body:has(.home-page) { background: #f5f2e9; }
+.page-shell:has(.home-page)::before,
+.page-shell:has(.home-page)::after { display: none; }
+.page-shell:has(.home-page) > header { background: #f5f2e9; backdrop-filter: none; border-color: #d7d3c8; }
+.page-shell:has(.home-page) > header > div { max-width: 1200px; }
+.page-shell:has(.home-page) > header > div > a { color: #2e4437; font-family: Georgia, "Times New Roman", serif; font-weight: 500; letter-spacing: -.04em; }
+.page-shell:has(.home-page) > header nav > a { border: 0; background: transparent; box-shadow: none; color: #495644; border-radius: 0; font-size: 12px; font-weight: 500; transform: none; }
+.page-shell:has(.home-page) > header nav > a + a { border-left: 1px solid #d7d3c8; }
