@@ -138,7 +138,7 @@ export async function POST(req: NextRequest) {
     // =========================================================
 
     const response = await fetch(
-    "http://histour.vercel.app/api/dialogue",
+    "http://histour=be.vercel.app/api/dialogue",
     {
         method: "POST",
         headers: {
