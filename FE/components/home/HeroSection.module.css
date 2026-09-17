@@ -1,23 +1,32 @@
-.hero { display: grid; grid-template-columns: .95fr 1.15fr; gap: 36px; align-items: center; padding: 20px 0 38px; }
-.copy { padding: 16px 0; }
-.eyebrow { display: flex; align-items: center; gap: 8px; margin: 0 0 24px; font-size: 13px; font-weight: 600; color: #4b7567; }
-.seal { color: #bc674c; font-size: 9px; }
-.copy h1 { margin: 0; font-size: clamp(38px, 4.2vw, 58px); line-height: 1.28; font-weight: 750; letter-spacing: -.065em; color: #233c33; word-break: keep-all; }
-.copy h1 em { font-family: "Noto Serif KR", "Nanum Myeongjo", "Batang", "Songti SC", serif; font-weight: 500; font-style: normal; color: #34765c; }
-.description { margin: 22px 0 0; color: #626e68; font-size: 16px; line-height: 1.8; word-break: keep-all; }
-.actions { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
-.primary, .secondary { display: inline-flex; align-items: center; justify-content: center; gap: 18px; min-height: 50px; padding: 0 20px; border-radius: 9px; font-size: 14px; font-weight: 600; transition: background .2s; }
-.primary { background: #286249; color: white; }
-.primary:hover { background: #1c4d38; }
-.secondary { border: 1px solid #d8ded7; background: white; color: #344d40; }
-.secondary:hover { background: #edf3ed; }
-.note { margin: 22px 0 0; color: #78867b; font-size: 12px; }
-.figure { position: relative; margin: 0; min-width: 0; }
-.image { position: relative; height: 400px; background: #e6ece5; overflow: hidden; border-radius: 16px; }
-.image img { object-fit: cover; object-position: center; }
-.imageLabel { position: absolute; top: 18px; left: 18px; padding: 7px 11px; border-radius: 5px; font-size: 11px; font-weight: 600; background: #fff; color: #344537; }
-.figure figcaption { display: flex; justify-content: space-between; gap: 12px; padding: 16px 0 0; font-size: 12px; color: #7a847d; }
-.figure figcaption span:first-child { font-weight: 600; color: #374737; }
-.primary:focus-visible, .secondary:focus-visible { outline: 3px solid #bc674c; outline-offset: 4px; }
-@media (max-width: 1000px) { .hero { gap: 24px; } .image { height: 370px; } .primary, .secondary { padding: 0 14px; gap: 12px; } }
-@media (max-width: 760px) { .hero { grid-template-columns: 1fr; gap: 24px; padding: 8px 0 24px; } .copy { padding: 8px 0 0; } .copy h1 { font-size: 40px; } .eyebrow { margin-bottom: 18px; font-size: 12px; } .description { font-size: 14px; margin-top: 16px; } .actions { margin-top: 22px; } .primary, .secondary { flex: 1; padding: 0 12px; font-size: 13px; } .note { margin-top: 18px; } .image { height: auto; aspect-ratio: 16 / 10; border-radius: 12px; } .figure figcaption { padding-top: 12px; font-size: 11px; } }
+.hero { position: relative; overflow: hidden; isolation: isolate; border-radius: 18px; background: #182625; color: #f7f5ee; }
+.photo { position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, #182625 0%, rgba(24,38,37,.96) 27%, rgba(24,38,37,.58) 52%, rgba(24,38,37,.08) 100%), url('/places/gyeongbokgung.jpg') right center / cover no-repeat; }
+.content { padding: 52px 48px 34px; }
+.eyebrow { display: flex; align-items: center; gap: 12px; margin: 0 0 26px; color: #d2c29e; font-size: 10px; font-weight: 500; letter-spacing: .13em; }
+.eyebrow span { height: 1px; width: 24px; background: #b5a580; opacity: .6; }
+.title { margin: 0; max-width: 540px; font-size: clamp(30px, 3.4vw, 44px); font-weight: 400; line-height: 1.5; letter-spacing: -.045em; word-break: keep-all; }
+.description { max-width: 390px; margin: 20px 0 0; color: #c3cbc7; font-size: 14px; font-weight: 400; line-height: 1.9; word-break: keep-all; }
+.actions { display: flex; align-items: center; flex-wrap: wrap; gap: 24px; margin-top: 28px; }
+.primary, .secondary { display: inline-flex; align-items: center; justify-content: center; gap: 20px; min-height: 44px; font-size: 12px; font-weight: 500; transition: background .2s, color .2s; }
+.primary { padding: 0 18px; border-radius: 4px; background: #dfd2b5; color: #24332e; }
+.primary:hover { background: #efe4ce; }
+.secondary { color: #e0e4dc; border-bottom: 1px solid #7b8880; }
+.secondary:hover { color: #dfd2b5; }
+.primary:focus-visible, .secondary:focus-visible { outline: 2px solid #dfd2b5; outline-offset: 5px; }
+.stats { display: flex; gap: 28px; width: fit-content; margin: 36px 0 0; padding-top: 22px; border-top: 1px solid #ffffff24; }
+.stats > div { display: flex; align-items: baseline; gap: 9px; }
+.stats dt { font-size: 11px; font-weight: 400; color: #b5c0b8; }
+.stats dd { order: -1; margin: 0; color: #ded0af; font-size: 20px; font-weight: 400; }
+.caption { position: absolute; right: 28px; bottom: 24px; margin: 0; color: #fff; font-size: 10px; letter-spacing: .15em; text-shadow: 0 1px 6px #000; }
+@media (max-width: 760px) {
+  .content { padding: 36px 26px 28px; }
+  .photo { background-position: 60% center; background-image: linear-gradient(90deg, rgba(24,38,37,.97), rgba(24,38,37,.72)), url('/places/gyeongbokgung.jpg'); }
+  .eyebrow { font-size: 9px; gap: 9px; margin-bottom: 22px; }
+  .title { font-size: 32px; }
+  .description { font-size: 13px; max-width: 350px; }
+  .actions { gap: 18px; }
+  .stats { width: 100%; gap: 0; justify-content: space-between; }
+  .stats > div { flex-direction: column; gap: 4px; }
+  .stats dd { font-size: 19px; }
+  .stats dt { font-size: 10px; }
+  .caption { display: none; }
+}
