@@ -53,7 +53,7 @@ export default function RoleplayPage() {
 
   const [turn, setTurn] = useState(1);
   const [scriptIndex, setScriptIndex] = useState(0);
-  const [phase, setPhase] = useState<"script" | "choices" | "reaction">("script");
+  const [phase, setPhase] = useState<"script" | "choices" | "reaction" | "transition">("script");
 
   const [affinity, setAffinity] = useState(0);
   const [options, setOptions] = useState<Option[]>([]);
@@ -234,20 +234,33 @@ export default function RoleplayPage() {
 
   // 다음 Turn
   function nextTurn() {
-    setTurn((t) => t + 1);
+  const next = turn + 1;
+  const nextScene = story.turns[next as keyof typeof story.turns] as any;
+
+  if (!nextScene) {
+    setTurn(next);
+    return;
+  }
+
+  setPhase("transition");
+  setReaction(null);
+
+  setTimeout(() => {
+    setTurn(next);
     setScriptIndex(0);
     setOptions([]);
-    setReaction(null);
     setPhase("script");
     setError("");
-  }
+  }, 2200);
+}
 
   if (!story)
     return <main className={styles.messageScreen}>스토리를 찾을 수 없습니다.</main>;
 
   if (!scene)
     return <main className={styles.messageScreen}>이야기가 종료되었습니다.</main>;
-
+  
+  const nextScene = story.turns[(turn + 1) as keyof typeof story.turns] as any;
   return (
     <main
       className={styles.game}
@@ -336,6 +349,24 @@ export default function RoleplayPage() {
       )}
 
       {error && <div className={styles.error}>{error}</div>}
+    
+    {/* 챕터 전환 */}
+      {phase === "transition" && (
+        <div className={styles.chapterTransition}>
+          <div className={styles.transitionContent}>
+            <div className={styles.transitionTitle}>
+              {nextScene?.transition?.title ?? "시간이 흐르고..."}
+            </div>
+
+            {nextScene?.transition?.text && (
+              <div className={styles.transitionText}>
+                {nextScene.transition.text}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+      
     </main>
   );
 }
