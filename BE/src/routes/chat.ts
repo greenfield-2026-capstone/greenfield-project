@@ -3,6 +3,7 @@ dotenv.config();
 
 import express from "express";
 import OpenAI from "openai";
+import { search } from "../rag/vectorStore";
 
 const router = express.Router();
 
@@ -254,6 +255,9 @@ content: `
 나라 중심 점수: ${nationScore ?? 0}
 감정 중심 점수: ${emotionScore ?? 0}
 
+참고 자료 (검증된 역사 정보):
+${search("태조 이성계", message).join("\n")}
+
 이전 대화:
 ${JSON.stringify(history ?? [])}
 
@@ -263,6 +267,7 @@ ${message}
 규칙:
 - 현재 대화 언어는 user prompt의 "현재 언어" 값을 따른다.
 - 반드시 현재 역사 단계 안에서만 답하라.
+- 위 "참고 자료"에 근거하여 역사적 사실을 답하라. 참고 자료에 없는 내용은 추측하지 말고 일반적인 서술로 답하라.
 - 역사 배경을 먼저 쉽게 설명하라.
 - 사용자가 모를 수 있는 인물은 짧게 설명하라.
 - 예: 방석은 태조의 어린 아들이다. 방원은 태조의 아들이며 조선을 세우는 데 큰 역할을 했다.
