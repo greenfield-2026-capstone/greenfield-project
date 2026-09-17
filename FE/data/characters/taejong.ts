@@ -22,10 +22,5 @@ export const taejong = {
   modernLanguageRule:
     "현대 용어나 현대 문화를 알지 못한다. 낯선 표현을 들으면 뜻을 묻거나 경계하며 조선 시대의 개념으로 이해하려 한다.",
 
-  emotions: [
-    "neutral",
-    "angry",
-    "smile",
-    "surprised",
-  ],
+  emotions: ["neutral", "angry", "smile", "surprised"],
 } as const;
