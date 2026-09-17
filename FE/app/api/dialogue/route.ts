@@ -137,11 +137,11 @@ export async function POST(req: NextRequest) {
     // Python FastAPI → LiteLLM
     // =========================================================
 
-const response = await fetch(
-  "http://histour.vercel.app/api/dialogue",
-  {
-    method: "POST",
-    headers: {
+    const response = await fetch(
+    "http://histour.vercel.app/api/dialogue",
+    {
+        method: "POST",
+        headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
