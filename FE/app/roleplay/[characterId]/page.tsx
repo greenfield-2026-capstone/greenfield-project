@@ -187,9 +187,6 @@ export default function RoleplayPage() {
       },
     ];
 
-    setAffinity(nextAffinity);
-    setHistory(newHistory);
-    setOptions([]);
     setLoading(true);
     setError("");
 
@@ -214,9 +211,11 @@ export default function RoleplayPage() {
       const npcReaction = data.dialogue?.[0];
       if (!npcReaction) throw new Error("AI가 반응을 반환하지 않았습니다.");
 
+      setAffinity(nextAffinity);
+      setOptions([]);
       setReaction(npcReaction);
-      setHistory((prev) => [
-        ...prev,
+      setHistory(() => [
+        ...newHistory,
         {
           role: "character",
           speaker: npcReaction.speaker,

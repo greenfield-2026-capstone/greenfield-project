@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <defs>
+    <style>
+      .bg { fill: #f8f5ef; }
+      .title { font: 700 34px Arial, sans-serif; fill: #1d2430; }
+      .subtitle { font: 500 18px Arial, sans-serif; fill: #5c6470; }
+      .box { fill: #ffffff; stroke: #d9c8b2; stroke-width: 2; rx: 18; }
+      .primary { fill: #1f2a5c; }
+      .primaryText { font: 700 22px Arial, sans-serif; fill: #ffffff; }
+      .label { font: 700 22px Arial, sans-serif; fill: #1d2430; }
+      .small { font: 500 16px Arial, sans-serif; fill: #5c6470; }
+      .arrow { stroke: #8d3f35; stroke-width: 3; fill: none; marker-end: url(#arrowhead); }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#8d3f35"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1280" height="720"/>
+  <text x="70" y="70" class="title">Histour 전체 시스템 아키텍처</text>
+  <text x="70" y="105" class="subtitle">관광지 탐색부터 AI 역사 인물 대화, 결말 영상 제공까지의 계층 구조</text>
+
+  <rect x="80" y="170" width="180" height="86" class="primary" rx="20"/>
+  <text x="170" y="205" text-anchor="middle" class="primaryText">사용자</text>
+  <text x="170" y="232" text-anchor="middle" class="primaryText">Web Browser</text>
+
+  <rect x="360" y="145" width="260" height="140" class="box"/>
+  <text x="490" y="187" text-anchor="middle" class="label">Frontend</text>
+  <text x="490" y="218" text-anchor="middle" class="small">Next.js App Router</text>
+  <text x="490" y="244" text-anchor="middle" class="small">탐색 / 상세 / 대화 / 엔딩</text>
+
+  <rect x="745" y="135" width="210" height="120" class="box"/>
+  <text x="850" y="178" text-anchor="middle" class="label">데이터 계층</text>
+  <text x="850" y="209" text-anchor="middle" class="small">places.json</text>
+  <text x="850" y="234" text-anchor="middle" class="small">관광지 API</text>
+
+  <rect x="745" y="300" width="210" height="120" class="box"/>
+  <text x="850" y="343" text-anchor="middle" class="label">AI 처리 계층</text>
+  <text x="850" y="374" text-anchor="middle" class="small">Chat API</text>
+  <text x="850" y="399" text-anchor="middle" class="small">OpenAI API</text>
+
+  <rect x="745" y="465" width="210" height="120" class="box"/>
+  <text x="850" y="508" text-anchor="middle" class="label">콘텐츠 계층</text>
+  <text x="850" y="539" text-anchor="middle" class="small">이미지 / 배경</text>
+  <text x="850" y="564" text-anchor="middle" class="small">Runway 엔딩 영상</text>
+
+  <rect x="1035" y="300" width="185" height="120" class="box"/>
+  <text x="1127" y="343" text-anchor="middle" class="label">Supabase</text>
+  <text x="1127" y="374" text-anchor="middle" class="small">사용자 엔딩</text>
+  <text x="1127" y="399" text-anchor="middle" class="small">프로필 기록</text>
+
+  <path d="M260 213 H360" class="arrow"/>
+  <path d="M620 205 H745" class="arrow"/>
+  <path d="M620 228 C680 228 680 360 745 360" class="arrow"/>
+  <path d="M620 252 C680 252 680 525 745 525" class="arrow"/>
+  <path d="M955 360 H1035" class="arrow"/>
+
+  <text x="490" y="355" text-anchor="middle" class="small">스토리 상태와 선택 점수는 프론트엔드에서 관리</text>
+  <text x="490" y="385" text-anchor="middle" class="small">AI는 역사 인물 응답과 선택지 생성을 담당</text>
+</svg>
