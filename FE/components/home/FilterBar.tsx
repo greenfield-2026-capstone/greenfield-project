@@ -3,13 +3,14 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { FormEvent, useState } from "react";
 import { airports } from "@/lib/airports";
+import styles from "./FilterBar.module.css";
 
 const filterCopy = {
   ko: {
     searchLabel: "장소 검색",
-    searchPlaceholder: "궁궐, 성곽, 인물, 테마를 검색해보세요",
+    searchPlaceholder: "장소, 인물 또는 이야기 검색",
     airportLabel: "공항 기준",
-    recommendation: "공항 기준 추천",
+    recommendation: "장소 찾기",
     all: "전체",
     categories: ["궁궐", "성곽", "유적지", "박물관", "자연/정원"],
   },
@@ -17,7 +18,7 @@ const filterCopy = {
     searchLabel: "Search places",
     searchPlaceholder: "Search palaces, fortresses, figures, themes",
     airportLabel: "Airport",
-    recommendation: "Airport recommendations",
+    recommendation: "Find places",
     all: "All",
     categories: ["Palace", "Fortress", "Historic Site", "Museum", "Nature/Garden"],
   },
@@ -51,72 +52,30 @@ export function SearchFilterBar({ lang = "ko" }: { lang?: string }) {
   };
 
   return (
-    <section
-      aria-label={lang === "en" ? "Place filters" : "장소 필터"}
-      className="-mt-8 rounded-[20px] border border-[#d8c7ad] bg-[#fffdf8]/92 p-4 shadow-[0_22px_60px_rgba(25,22,17,0.12)] backdrop-blur-xl md:p-5"
-    >
-      <form onSubmit={onSubmit} className="grid gap-3 lg:grid-cols-[1fr_220px_auto]">
-        <label className="grid gap-2">
-          <span className="text-xs font-black uppercase tracking-[0.18em] text-[#9a6f2d]">
-            {t.searchLabel}
-          </span>
-          <span className="flex min-h-14 items-center gap-3 rounded-xl border border-[#d8c7ad] bg-white px-4 shadow-[0_12px_26px_rgba(25,22,17,0.05)] transition focus-within:border-[#b89455] focus-within:ring-4 focus-within:ring-[#c9a96b]/14">
-            <span className="text-lg text-[#111827]" aria-hidden="true">
-              ⌕
-            </span>
-            <input
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-              placeholder={t.searchPlaceholder}
-              className="min-h-12 flex-1 border-0 bg-transparent text-sm font-bold text-[#1d2430] outline-none placeholder:text-[#9a9186]"
-            />
+    <section aria-label={lang === "en" ? "Place filters" : "장소 필터"} className={styles.panel}>
+      <form onSubmit={onSubmit} className={styles.form}>
+        <label className={styles.searchField}>
+          <span className={styles.label}>{t.searchLabel}</span>
+          <span className={styles.inputWrap}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/></svg>
+            <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder={t.searchPlaceholder} />
           </span>
         </label>
-
-        <label className="grid gap-2">
-          <span className="text-xs font-black uppercase tracking-[0.18em] text-[#9a6f2d]">
-            {t.airportLabel}
+        <label className={styles.airportField}>
+          <span className={styles.label}>{t.airportLabel}</span>
+          <span className={styles.selectWrap}>
+            <select value={airport} onChange={(event) => updateParams({ airport: event.target.value })}>
+              {airports.map((item) => <option key={item.code} value={item.code}>{lang === "en" ? item.englishLabel : item.label}</option>)}
+            </select>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
           </span>
-          <select
-            value={airport}
-            onChange={(event) => updateParams({ airport: event.target.value })}
-            className="min-h-14 rounded-xl border border-[#d8c7ad] bg-white px-5 text-sm font-bold text-[#1d2430] shadow-[0_12px_26px_rgba(25,22,17,0.05)] outline-none transition focus-visible:border-[#b89455] focus-visible:ring-4 focus-visible:ring-[#c9a96b]/14"
-          >
-            {airports.map((item) => (
-              <option key={item.code} value={item.code}>
-                {lang === "en" ? item.englishLabel : item.label}
-              </option>
-            ))}
-          </select>
         </label>
-
-        <button
-          type="submit"
-          className="min-h-14 self-end rounded-xl bg-[#111827] px-6 text-sm font-black text-white shadow-[0_18px_38px_rgba(17,24,39,0.22)] transition hover:-translate-y-0.5 hover:bg-[#1f2937] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#111827]"
-        >
-          ✦ {t.recommendation}
-        </button>
+        <button type="submit" className={styles.submit}>{t.recommendation}<span aria-hidden="true">↗</span></button>
       </form>
-
-      <div className="mt-4 flex flex-wrap gap-2">
+      <div className={styles.categories} aria-label={lang === "en" ? "Place categories" : "장소 유형"}>
         {[t.all, ...t.categories].map((category) => {
           const value = category === t.all ? "all" : category;
-          const isActive = activeCategory === value;
-
-          return (
-            <button
-              key={category}
-              type="button"
-              onClick={() => updateParams({ category: value })}
-              className={`rounded-full border px-4 py-2.5 text-sm font-black shadow-sm transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#111827] ${
-                isActive
-                  ? "border-[#111827] bg-[#111827] text-white shadow-[0_12px_24px_rgba(17,24,39,0.18)]"
-                  : "border-[#d8c7ad] bg-white text-[#5f4b3a] hover:-translate-y-0.5 hover:border-[#b89455] hover:text-[#111827]"
-              }`}
-            >
-              {category}
-            </button>
-          );
+          return <button key={category} type="button" aria-pressed={activeCategory === value} onClick={() => updateParams({ category: value })} className={styles.category}>{category}</button>;
         })}
       </div>
     </section>

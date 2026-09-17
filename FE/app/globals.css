@@ -557,7 +557,8 @@ select {
 }
 
 .character-image {
-  height: 228px;
+  aspect-ratio: 4 / 3;
+  background: #eee9df;
 }
 
 .card-body {
@@ -1379,8 +1380,7 @@ select {
   box-shadow: 0 24px 48px rgba(36, 24, 15, 0.14);
 }
 
-.home-experience-section .place-image,
-.place-detail-section .character-image {
+.home-experience-section .place-image {
   height: 250px;
 }
 
