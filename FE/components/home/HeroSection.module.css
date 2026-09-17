@@ -1,20 +1,23 @@
-.hero { display: grid; grid-template-columns: 1fr 1.1fr; gap: 64px; align-items: center; padding: 42px 0 52px; border-bottom: 1px solid #d7d3c8; }
-.copy { padding: 12px 0; }
-.eyebrow { display: flex; align-items: center; gap: 12px; margin: 0 0 30px; font-size: 12px; letter-spacing: .1em; color: #696b5e; }
-.seal { display: grid; place-items: center; width: 28px; height: 32px; border: 1px solid #944e3b; color: #944e3b; font-family: serif; font-size: 19px; }
-.copy h1 { margin: 0; font-family: "Noto Serif KR", "Nanum Myeongjo", "Batang", "Songti SC", serif; font-size: clamp(40px, 4.6vw, 64px); line-height: 1.4; font-weight: 500; letter-spacing: -.065em; color: #29382e; word-break: keep-all; }
-.description { margin: 26px 0 0; color: #686a60; font-size: 15px; line-height: 1.95; word-break: keep-all; }
-.actions { display: flex; align-items: center; flex-wrap: wrap; gap: 22px; margin-top: 30px; }
-.primary { display: inline-flex; align-items: center; gap: 28px; min-height: 48px; padding: 0 22px; background: #2e4437; color: #faf8f1; font-size: 13px; border-radius: 2px; transition: background .2s; }
-.primary:hover { background: #48604c; }
-.secondary { display: inline-flex; align-items: center; gap: 14px; color: #384738; font-size: 13px; padding: 12px 0; border-bottom: 1px solid #a7ad9e; }
-.note { margin: 34px 0 0; color: #808173; font-size: 11px; letter-spacing: .06em; }
-.figure { margin: 0; min-width: 0; }
-.image { position: relative; height: 470px; background: #dfdfd2; overflow: hidden; border-radius: 180px 180px 2px 2px; }
-.image img { object-fit: cover; object-position: 53% center; filter: saturate(.76); }
-.imageLabel { position: absolute; bottom: 20px; left: 22px; padding: 7px 10px; font-size: 10px; letter-spacing: .15em; background: #f5f2e9; color: #344537; }
-.figure figcaption { display: flex; justify-content: space-between; gap: 12px; padding-top: 14px; font-size: 11px; color: #777b6e; }
-.figure figcaption span:first-child { color: #374737; }
-.primary:focus-visible, .secondary:focus-visible { outline: 2px solid #8c503c; outline-offset: 5px; }
-@media (max-width: 1000px) { .hero { gap: 32px; } .image { height: 420px; } .actions { gap: 14px; } }
-@media (max-width: 760px) { .hero { grid-template-columns: 1fr; gap: 32px; padding: 30px 0 34px; } .copy h1 { font-size: 44px; } .eyebrow { margin-bottom: 22px; font-size: 11px; } .description { font-size: 14px; margin-top: 20px; } .note { margin-top: 24px; } .image { height: 320px; border-radius: 130px 130px 2px 2px; } .figure figcaption { font-size: 10px; } }
+.hero { display: grid; grid-template-columns: .95fr 1.15fr; gap: 36px; align-items: center; padding: 20px 0 38px; }
+.copy { padding: 16px 0; }
+.eyebrow { display: flex; align-items: center; gap: 8px; margin: 0 0 24px; font-size: 13px; font-weight: 600; color: #4b7567; }
+.seal { color: #bc674c; font-size: 9px; }
+.copy h1 { margin: 0; font-size: clamp(38px, 4.2vw, 58px); line-height: 1.28; font-weight: 750; letter-spacing: -.065em; color: #233c33; word-break: keep-all; }
+.copy h1 em { font-family: "Noto Serif KR", "Nanum Myeongjo", "Batang", "Songti SC", serif; font-weight: 500; font-style: normal; color: #34765c; }
+.description { margin: 22px 0 0; color: #626e68; font-size: 16px; line-height: 1.8; word-break: keep-all; }
+.actions { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+.primary, .secondary { display: inline-flex; align-items: center; justify-content: center; gap: 18px; min-height: 50px; padding: 0 20px; border-radius: 9px; font-size: 14px; font-weight: 600; transition: background .2s; }
+.primary { background: #286249; color: white; }
+.primary:hover { background: #1c4d38; }
+.secondary { border: 1px solid #d8ded7; background: white; color: #344d40; }
+.secondary:hover { background: #edf3ed; }
+.note { margin: 22px 0 0; color: #78867b; font-size: 12px; }
+.figure { position: relative; margin: 0; min-width: 0; }
+.image { position: relative; height: 400px; background: #e6ece5; overflow: hidden; border-radius: 16px; }
+.image img { object-fit: cover; object-position: center; }
+.imageLabel { position: absolute; top: 18px; left: 18px; padding: 7px 11px; border-radius: 5px; font-size: 11px; font-weight: 600; background: #fff; color: #344537; }
+.figure figcaption { display: flex; justify-content: space-between; gap: 12px; padding: 16px 0 0; font-size: 12px; color: #7a847d; }
+.figure figcaption span:first-child { font-weight: 600; color: #374737; }
+.primary:focus-visible, .secondary:focus-visible { outline: 3px solid #bc674c; outline-offset: 4px; }
+@media (max-width: 1000px) { .hero { gap: 24px; } .image { height: 370px; } .primary, .secondary { padding: 0 14px; gap: 12px; } }
+@media (max-width: 760px) { .hero { grid-template-columns: 1fr; gap: 24px; padding: 8px 0 24px; } .copy { padding: 8px 0 0; } .copy h1 { font-size: 40px; } .eyebrow { margin-bottom: 18px; font-size: 12px; } .description { font-size: 14px; margin-top: 16px; } .actions { margin-top: 22px; } .primary, .secondary { flex: 1; padding: 0 12px; font-size: 13px; } .note { margin-top: 18px; } .image { height: auto; aspect-ratio: 16 / 10; border-radius: 12px; } .figure figcaption { padding-top: 12px; font-size: 11px; } }
