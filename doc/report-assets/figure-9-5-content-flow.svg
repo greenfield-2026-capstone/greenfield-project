@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <defs>
+    <style>
+      .bg { fill: #f8f5ef; }
+      .title { font: 700 34px Arial, sans-serif; fill: #1d2430; }
+      .box { fill: #ffffff; stroke: #d9c8b2; stroke-width: 2; rx: 16; }
+      .video { fill: #1f2a5c; rx: 16; }
+      .videoText { font: 700 22px Arial, sans-serif; fill: #ffffff; }
+      .label { font: 700 22px Arial, sans-serif; fill: #1d2430; }
+      .small { font: 500 16px Arial, sans-serif; fill: #5c6470; }
+      .mono { font: 500 15px Menlo, Consolas, monospace; fill: #354052; }
+      .arrow { stroke: #8d3f35; stroke-width: 3; fill: none; marker-end: url(#arrowhead); }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#8d3f35"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1280" height="720"/>
+  <text x="70" y="70" class="title">결말 영상 콘텐츠 제공 구조</text>
+
+  <rect x="95" y="155" width="255" height="135" class="box"/>
+  <text x="222" y="198" text-anchor="middle" class="label">사용자 선택 결과</text>
+  <text x="222" y="232" text-anchor="middle" class="small">nationScore</text>
+  <text x="222" y="258" text-anchor="middle" class="small">emotionScore</text>
+
+  <rect x="465" y="120" width="310" height="100" class="box"/>
+  <text x="620" y="160" text-anchor="middle" class="label">Great Founder</text>
+  <text x="620" y="190" text-anchor="middle" class="small">나라와 백성을 우선한 결말</text>
+
+  <rect x="465" y="300" width="310" height="100" class="box"/>
+  <text x="620" y="340" text-anchor="middle" class="label">Lonely Father</text>
+  <text x="620" y="370" text-anchor="middle" class="small">가족과 감정을 우선한 결말</text>
+
+  <rect x="880" y="105" width="315" height="130" class="video"/>
+  <text x="1037" y="151" text-anchor="middle" class="videoText">Runway 제작 영상</text>
+  <text x="1037" y="184" text-anchor="middle" class="videoText">Great_Founder_Yi_Seonggye.mp4</text>
+
+  <rect x="880" y="285" width="315" height="130" class="video"/>
+  <text x="1037" y="331" text-anchor="middle" class="videoText">Runway 제작 영상</text>
+  <text x="1037" y="364" text-anchor="middle" class="videoText">Lonely_Father_Yi_Seonggye.mp4</text>
+
+  <rect x="345" y="515" width="590" height="95" class="box"/>
+  <text x="640" y="553" text-anchor="middle" class="label">FE/public 디렉터리에서 정적 파일로 제공</text>
+  <text x="640" y="583" text-anchor="middle" class="mono">/Great_Founder_Yi_Seonggye.mp4, /Lonely_Father_Yi_Seonggye.mp4</text>
+
+  <path d="M350 222 C405 222 405 170 465 170" class="arrow"/>
+  <path d="M350 222 C405 222 405 350 465 350" class="arrow"/>
+  <path d="M775 170 H880" class="arrow"/>
+  <path d="M775 350 H880" class="arrow"/>
+  <path d="M1037 235 V515" class="arrow"/>
+  <path d="M1037 415 V515" class="arrow"/>
+</svg>

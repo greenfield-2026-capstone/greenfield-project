@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <defs>
+    <style>
+      .bg { fill: #f8f5ef; }
+      .title { font: 700 34px Arial, sans-serif; fill: #1d2430; }
+      .box { fill: #ffffff; stroke: #d9c8b2; stroke-width: 2; rx: 16; }
+      .head { fill: #1f2a5c; rx: 16; }
+      .headText { font: 700 21px Arial, sans-serif; fill: #ffffff; }
+      .label { font: 700 21px Arial, sans-serif; fill: #1d2430; }
+      .small { font: 500 16px Arial, sans-serif; fill: #5c6470; }
+      .mono { font: 500 16px Menlo, Consolas, monospace; fill: #354052; }
+      .arrow { stroke: #8d3f35; stroke-width: 3; fill: none; marker-end: url(#arrowhead); }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#8d3f35"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1280" height="720"/>
+  <text x="70" y="70" class="title">원천 데이터와 서비스용 정제 데이터 구조</text>
+
+  <rect x="80" y="135" width="330" height="445" class="box"/>
+  <rect x="80" y="135" width="330" height="62" class="head"/>
+  <text x="245" y="174" text-anchor="middle" class="headText">원천 CSV 데이터</text>
+  <text x="110" y="235" class="mono">FE/data/archive/raw-source/</text>
+  <text x="125" y="280" class="small">관광지 정보</text>
+  <text x="125" y="315" class="small">지역 문화 이야기</text>
+  <text x="125" y="350" class="small">역사 인물</text>
+  <text x="125" y="385" class="small">옛길 / 추천 관광지</text>
+  <text x="125" y="420" class="small">축제 / 외국인 이용 정보</text>
+  <text x="125" y="470" class="small">공공데이터 원본 보관</text>
+
+  <rect x="505" y="185" width="270" height="345" class="box"/>
+  <text x="640" y="235" text-anchor="middle" class="label">장소 중심 재구성</text>
+  <text x="640" y="280" text-anchor="middle" class="small">장소명 / 위치 / 시대</text>
+  <text x="640" y="315" text-anchor="middle" class="small">관련 인물 / 핵심 스토리</text>
+  <text x="640" y="350" text-anchor="middle" class="small">태그 / 추천 포인트</text>
+  <text x="640" y="385" text-anchor="middle" class="small">공항 접근성</text>
+  <text x="640" y="420" text-anchor="middle" class="small">엔딩 영상 정보</text>
+
+  <rect x="870" y="135" width="330" height="445" class="box"/>
+  <rect x="870" y="135" width="330" height="62" class="head"/>
+  <text x="1035" y="174" text-anchor="middle" class="headText">서비스용 정제 데이터</text>
+  <text x="905" y="235" class="mono">FE/data/curated/places.json</text>
+  <text x="915" y="285" class="small">장소 카드 표시</text>
+  <text x="915" y="320" class="small">검색 및 카테고리 필터</text>
+  <text x="915" y="355" class="small">공항 기준 추천</text>
+  <text x="915" y="390" class="small">장소 상세 페이지</text>
+  <text x="915" y="425" class="small">역사 인물 연결</text>
+  <text x="915" y="460" class="small">결말 영상 매핑</text>
+
+  <path d="M410 357 H505" class="arrow"/>
+  <path d="M775 357 H870" class="arrow"/>
+</svg>
