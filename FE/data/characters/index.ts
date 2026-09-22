@@ -5,8 +5,8 @@ import { taejong } from "./taejong";
 export const characters = {
   sejong,
   young_sejong: youngSejong,
-  kimmun,
   taejong,
+  kimmun,
 } as const;
 
 export type CharacterId = keyof typeof characters;

@@ -9,7 +9,7 @@
       "GMP"
     ],
     "airport_label": "인천 · 김포공항",
-    "rank_label": "인기 1위",
+    "rank_label": "대표 궁궐 코스",
     "era": "조선 전기 ~ 대한제국",
     "summary": "왕실의 중심 공간과 큰 사건의 흔적이 한곳에 겹쳐 있어 처음 방문하는 사람도 흥미를 느끼기 쉬운 장소다.",
     "story_intro": "조선을 대표하는 궁궐로, 연회 공간부터 왕실의 긴장감이 남은 장소까지 분위기가 빠르게 바뀌는 점이 매력입니다.",
@@ -56,43 +56,43 @@
       {
         "id": "taejo",
         "name": "태조 이성계",
-        "role": "도읍과 왕조의 시작",
-        "summary": "조선 건국의 시작점에서 경복궁이 왜 중요한지 설명해 줄 수 있는 인물입니다.",
-        "image_url": "/character-fallback.svg",
-        "opening_line": "경복궁은 단순히 큰 궁궐이 아니라 조선이라는 나라의 시작이 담긴 곳이오.",
+        "role": "조선 건국과 궁궐의 시작",
+        "summary": "조선 건국과 한양 도읍의 의미를 설명하기 좋은 대표 인물입니다.",
+        "image_url": "/characters/taejo.jpg",
+        "opening_line": "경복궁은 단순한 궁궐이 아니라 새 왕조가 어떤 나라를 꿈꾸었는지 보여주는 시작점입니다.",
         "source_title": "조선을 떠바친 한 기둥 사직단",
         "focus_keywords": [
           "건국",
-          "왕조",
-          "도읍"
+          "한양",
+          "왕조"
         ]
       },
       {
-        "id": "taejong",
-        "name": "태종",
-        "role": "경회루와 궁궐 질서",
-        "summary": "경회루와 궁궐 배치를 통해 왕실 공간이 어떻게 운영됐는지 풀어낼 수 있는 인물입니다.",
-        "image_url": "/characters/jeongjo.jpg",
-        "opening_line": "경회루부터 보면 이 궁궐이 왜 이렇게 설계되었는지 조금씩 보이기 시작할 것이오.",
-        "source_title": "인간과 하늘이 교감하는 작은 우주, 경복궁 경회루",
+        "id": "sejong",
+        "name": "세종대왕",
+        "role": "조선의 문화와 제도 발전",
+        "summary": "경복궁을 중심으로 국정을 운영하며 조선의 문화와 과학, 제도를 발전시킨 인물입니다.",
+        "image_url": "https://wimg.sedaily.com/news/legacy/2020/05/13/1Z2QG18AJV_1.jpg",
+        "opening_line": "궁궐은 왕이 머무는 곳이지만, 결국 백성을 위한 결정이 시작되는 곳이기도 합니다.",
+        "source_title": "경복궁과 조선 왕실 이야기",
         "focus_keywords": [
-          "경회루",
-          "질서",
-          "궁궐"
+          "한글",
+          "정치",
+          "문화"
         ]
       },
       {
-        "id": "heungseon",
-        "name": "흥선대원군",
-        "role": "중건과 권위의 상징",
-        "summary": "다시 세워진 경복궁의 상징성과 권위를 가장 잘 설명해 줄 수 있는 인물입니다.",
-        "image_url": "/characters/heungseon.jpg",
-        "opening_line": "이 궁궐이 다시 어떤 얼굴로 세워졌는지 알고 보면 광화문 앞 풍경도 다르게 보일 것이오.",
-        "source_title": "화재를 막고 정의를 수호하는 신수, 해태상",
+        "id": "gojong-gyeongbokgung",
+        "name": "고종",
+        "role": "경복궁 중건 이후의 왕",
+        "summary": "경복궁 중건 이후 조선 말기의 변화와 긴장을 이해하는 데 중요한 인물입니다.",
+        "image_url": "/characters/gojong.jpg",
+        "opening_line": "다시 세운 궁궐의 위엄 뒤에는 흔들리던 나라의 고민도 함께 남아 있습니다.",
+        "source_title": "명성황후의 넋이 어린, 경복궁 옥호루",
         "focus_keywords": [
+          "대한제국",
           "중건",
-          "권위",
-          "광화문"
+          "근대"
         ]
       }
     ],
@@ -125,7 +125,7 @@
       "GMP"
     ],
     "airport_label": "인천 · 김포공항",
-    "rank_label": "인기 2위",
+    "rank_label": "세계유산 궁궐",
     "era": "조선 중기 ~ 조선 후기",
     "summary": "후원과 정자, 세자 공간이 이어지며 천천히 분위기를 느끼기 좋은 궁궐입니다.",
     "story_intro": "화려하게 몰아치기보다 차분하게 좋아지는 궁궐이라 여유 있게 둘러볼 때 매력이 살아납니다.",
@@ -169,45 +169,17 @@
     },
     "characters": [
       {
-        "id": "heonjong",
-        "name": "헌종",
-        "role": "궁궐 안의 일상과 취향",
-        "summary": "궁 안에서 실제로 머물던 공간을 통해 왕실의 일상을 풀어낼 수 있는 인물입니다.",
-        "image_url": "/characters/jeongjo.jpg",
-        "opening_line": "창덕궁의 재미는 조용한 데 있습니다. 사람의 흔적이 많이 남아 있거든요.",
-        "source_title": "활을 쏘며 심신을 단련했던, 창덕궁 괘궁정",
-        "focus_keywords": [
-          "일상",
-          "왕실",
-          "정자"
-        ]
-      },
-      {
-        "id": "jeongjo",
+        "id": "jeongjo-changdeokgung",
         "name": "정조",
-        "role": "세자 교육과 질서",
-        "summary": "세자 공간과 학습 분위기를 설명해 줄 수 있는 인물입니다.",
-        "image_url": "/character-fallback.svg",
-        "opening_line": "승화루부터 보면 이 궁궐이 단지 조용한 곳만은 아니라는 걸 알게 될 거예요.",
-        "source_title": "세자가 놀고 공부하던, 창덕궁 승화루",
-        "focus_keywords": [
-          "세자",
-          "교육",
-          "승화루"
-        ]
-      },
-      {
-        "id": "hyegyeong",
-        "name": "혜경궁 홍씨",
-        "role": "후원에 남은 기억",
-        "summary": "후원의 풍경과 왕실의 감정선을 더 깊게 풀 수 있는 인물입니다.",
-        "image_url": "/character-fallback.svg",
-        "opening_line": "부용지 주변은 잠깐만 서 있어도 분위기가 달라요. 그 여백을 꼭 느껴보세요.",
+        "role": "개혁과 학문을 중시한 왕",
+        "summary": "창덕궁과 후원의 공간을 통해 조선 후기 왕실의 학문과 정치 분위기를 연결해 볼 수 있는 인물입니다.",
+        "image_url": "/characters/jeongjo.jpg",
+        "opening_line": "궁궐의 조용한 후원에서도 나라를 바꾸려는 생각은 멈추지 않았습니다.",
         "source_title": "연꽃 향기 머금은 신선의 세상, 창덕궁 부용정",
         "focus_keywords": [
+          "정조",
           "후원",
-          "부용정",
-          "기억"
+          "개혁"
         ]
       }
     ],
@@ -232,7 +204,7 @@
       "GMP"
     ],
     "airport_label": "인천 · 김포공항",
-    "rank_label": "인기 3위",
+    "rank_label": "정조 대표 코스",
     "era": "조선 후기",
     "summary": "성곽 자체보다 누가 왜 이 도시를 만들었는지 알 때 훨씬 재미있어지는 장소입니다.",
     "story_intro": "거대한 성곽과 도시 계획, 그리고 정조의 의도가 함께 보이는 곳이라 스토리형 관광에 잘 맞습니다.",
@@ -279,43 +251,15 @@
       {
         "id": "jeongjo",
         "name": "정조",
-        "role": "도시를 설계한 군주",
-        "summary": "수원화성을 단순 성곽이 아닌 도시 계획으로 보게 해주는 핵심 인물입니다.",
+        "role": "수원화성을 세운 왕",
+        "summary": "수원화성을 단순한 성곽이 아니라 도시 계획과 왕권 개혁의 상징으로 보게 해주는 대표 인물입니다.",
         "image_url": "/characters/jeongjo.jpg",
-        "opening_line": "수원화성은 그저 높은 성벽이 아닙니다. 내가 만들고 싶었던 도시의 생각이 담겨 있지요.",
-        "source_title": "정조의 꿈과 애달픈 효심이 아로새겨진 용주사와 융건릉",
-        "focus_keywords": [
-          "도시",
-          "정조",
-          "설계"
-        ]
-      },
-      {
-        "id": "chaejegong",
-        "name": "채제공",
-        "role": "화성 축성의 실무",
-        "summary": "기록과 실무를 통해 화성 건설의 구체적인 면을 보여줄 수 있는 인물입니다.",
-        "image_url": "/character-fallback.svg",
-        "opening_line": "기록을 읽으면 이 성이 어떻게 만들어졌는지 사람이 보이기 시작합니다.",
+        "opening_line": "수원화성은 성벽이 아니라 내가 꿈꾸었던 새로운 도시의 모습입니다.",
         "source_title": "수원 화성의 모든 것, 화성성역의궤",
         "focus_keywords": [
-          "기록",
-          "축성",
-          "실무"
-        ]
-      },
-      {
-        "id": "hyegyeong",
-        "name": "혜경궁 홍씨",
-        "role": "원행길과 효의 기억",
-        "summary": "한양과 수원을 잇는 길의 감정선을 더 풍부하게 만들어 주는 인물입니다.",
-        "image_url": "/character-fallback.svg",
-        "opening_line": "한양에서 수원으로 내려오는 길까지 떠올리면 이 도시가 더 특별해져요.",
-        "source_title": "한양에서 수원 화성으로 향하던 수원로",
-        "focus_keywords": [
-          "원행길",
-          "효",
-          "수원로"
+          "정조",
+          "화성",
+          "개혁"
         ]
       }
     ],
@@ -348,7 +292,7 @@
       "GMP"
     ],
     "airport_label": "인천 · 김포공항",
-    "rank_label": "인기 4위",
+    "rank_label": "대한제국 코스",
     "era": "조선 말기",
     "summary": "궁궐의 고요함과 서양 문물의 흔적이 한 공간에 겹쳐 조선 말기의 변화를 느끼기 좋은 장소입니다.",
     "story_intro": "정동 거리의 분위기와 함께 보면 가장 현대적으로 느껴지는 궁궐이기도 합니다.",
@@ -393,43 +337,15 @@
       {
         "id": "gojong",
         "name": "고종",
-        "role": "정동의 전환기",
-        "summary": "궁궐 안으로 들어온 새로운 문물과 시대의 변화를 설명해 줄 수 있는 인물입니다.",
+        "role": "대한제국과 근대 전환의 왕",
+        "summary": "덕수궁과 정동 일대의 근대적 분위기를 가장 직접적으로 연결하는 인물입니다.",
         "image_url": "/characters/gojong.jpg",
-        "opening_line": "덕수궁은 조용해 보여도, 이곳에서는 새로운 세계가 아주 가까이 다가오고 있었지.",
+        "opening_line": "이 궁궐의 고요한 길에는 조선이 대한제국으로 바뀌던 시간이 남아 있습니다.",
         "source_title": "고종황제를 매혹시킨 커피",
         "focus_keywords": [
-          "정동",
-          "고종",
-          "근대"
-        ]
-      },
-      {
-        "id": "myeongseong",
-        "name": "명성황후",
-        "role": "궁중 외교와 긴장",
-        "summary": "조용한 궁궐 안에 숨어 있던 긴장과 외교의 공기를 떠올리게 하는 인물입니다.",
-        "image_url": "/character-fallback.svg",
-        "opening_line": "정동 일대를 같이 보면 궁 안의 긴장도 훨씬 또렷해질 거예요.",
-        "source_title": "정동의 궁중 외교",
-        "focus_keywords": [
-          "궁중",
-          "외교",
-          "긴장"
-        ]
-      },
-      {
-        "id": "sunjong",
-        "name": "순종",
-        "role": "왕조의 마지막 공기",
-        "summary": "덕수궁에 남은 고요함과 시대의 끝자락을 함께 바라보게 하는 인물입니다.",
-        "image_url": "/character-fallback.svg",
-        "opening_line": "해 질 무렵의 덕수궁을 떠올려 보세요. 이곳은 마지막 장면을 오래 붙잡는 공간이거든요.",
-        "source_title": "왕조의 마지막 공기",
-        "focus_keywords": [
           "대한제국",
-          "마지막",
-          "궁궐"
+          "정동",
+          "근대"
         ]
       }
     ],
@@ -445,188 +361,6 @@
     ]
   },
   {
-    "id": "geumjeongsanseong",
-    "name": "금정산성",
-    "location": "부산광역시 금정구 금성동 산 1-1",
-    "district": "부산광역시 금정구",
-    "airport_codes": [
-      "PUS"
-    ],
-    "airport_label": "김해공항",
-    "rank_label": "부산 추천",
-    "era": "조선 후기",
-    "summary": "산성과 산길, 사찰 이야기가 함께 이어져 부산에서 조선 시대 분위기를 느끼기 좋은 장소입니다.",
-    "story_intro": "성곽 하나만 보는 곳이 아니라 넓은 풍경과 방어의 감각을 함께 보는 타입의 장소입니다.",
-    "image_url": "/places/geumjeongsanseong.jpg",
-    "tags": [
-      "조선",
-      "성곽",
-      "부산",
-      "산성"
-    ],
-    "source_title": "우리나라 최대 규모의 성곽 금정산성",
-    "source_url": "https://ncms.nculture.org/castle-road/story/2180",
-    "highlights": [
-      "산성 길",
-      "망루",
-      "범어사"
-    ],
-    "foreigner_note": "조용하게 둘러보기 좋은 편",
-    "buzz_title": "부산에서 색다른 역사 코스",
-    "buzz_stat": "도심 해변 대신 산성과 절을 함께 보고 싶은 여행자에게 잘 맞아요.",
-    "recommendation_items": [
-      "금정산성 축제",
-      "산성 길",
-      "범어사"
-    ],
-    "data_sources": [
-      "지역 인물 데이터"
-    ],
-    "ending_video": {
-      "good": {
-        "title": "산성 위에 남은 시선",
-        "description": "부산의 산성과 방어의 감각을 차분히 따라간 엔딩입니다.",
-        "thumbnailUrl": "/places/geumjeongsanseong.svg"
-      },
-      "bad": {
-        "title": "놓쳐버린 능선의 이야기",
-        "description": "풍경만 보고 지나치며 핵심 흐름을 놓친 결말입니다.",
-        "thumbnailUrl": "/places/beomeosa.svg"
-      }
-    },
-    "characters": [
-      {
-        "id": "hyeonjong",
-        "name": "현종",
-        "role": "산성 방어의 배경",
-        "summary": "조선 후기 방어 체계를 떠올리게 하는 인물 축으로 연결됩니다.",
-        "image_url": "/character-fallback.svg",
-        "opening_line": "금정산성은 풍경만 보는 곳이 아니라, 지키기 위해 세운 곳이라는 걸 먼저 생각해 보아야 합니다.",
-        "source_title": "우리나라 최대 규모의 성곽 금정산성",
-        "focus_keywords": [
-          "방어",
-          "산성",
-          "부산"
-        ]
-      },
-      {
-        "id": "hyejeong",
-        "name": "혜정 스님",
-        "role": "범어사와 연결된 시선",
-        "summary": "산성과 사찰을 함께 보게 만드는 이야기 축을 맡는 인물입니다.",
-        "image_url": "/character-fallback.svg",
-        "opening_line": "산길 끝에 절이 있다는 건 우연이 아니에요. 그 연결을 같이 보면 훨씬 흥미로워집니다.",
-        "source_title": "동래부사 이안눌의 시를 새긴 부산 범어사 청룡암시 목판과 청룡암 시석",
-        "focus_keywords": [
-          "범어사",
-          "산길",
-          "사찰"
-        ]
-      }
-    ],
-    "experiences": [
-      {
-        "title": "산성 능선 따라 보기",
-        "category": "현장 포인트",
-        "description": "성곽 일부만 보기보다 능선을 따라 흐름을 느껴야 금정산성의 규모가 살아납니다.",
-        "address": "부산광역시 금정구 금성동 일대",
-        "distance": null,
-        "source": "지역이야기와 역사인물"
-      }
-    ]
-  },
-  {
-    "id": "suyeong-yaryu",
-    "name": "수영야류",
-    "location": "부산광역시 수영구 수영동 일대",
-    "district": "부산광역시 수영구",
-    "airport_codes": [
-      "PUS"
-    ],
-    "airport_label": "김해공항",
-    "rank_label": "부산 추천",
-    "era": "조선 후기",
-    "summary": "탈놀이와 어촌 문화가 이어지는 부산 지역 스토리를 가볍게 접하기 좋은 주제입니다.",
-    "story_intro": "궁궐이나 성곽이 아니라 지역 사람들이 어떤 방식으로 문화를 즐겼는지 보는 타입의 장소입니다.",
-    "image_url": "/places/beomeosa.jpg",
-    "tags": [
-      "조선",
-      "민속",
-      "부산",
-      "탈놀이"
-    ],
-    "source_title": "부산 수영동 정월대보름 탈놀이, 수영야류",
-    "source_url": "https://ncms.nculture.org/folkplay/story/4438",
-    "highlights": [
-      "수영야류",
-      "광안리어방축제",
-      "전통어촌민속"
-    ],
-    "foreigner_note": "조용하게 둘러보기 좋은 편",
-    "buzz_title": "부산 로컬 문화 포인트",
-    "buzz_stat": "유명 랜드마크보다 지역 문화의 결을 느끼고 싶을 때 잘 맞습니다.",
-    "recommendation_items": [
-      "광안리어방축제",
-      "수영동",
-      "민속 이야기"
-    ],
-    "data_sources": [
-      "지역 인물 데이터"
-    ],
-    "ending_video": {
-      "good": {
-        "title": "수영동의 탈놀이 장면",
-        "description": "지역 사람들의 흥과 리듬을 따라가는 엔딩입니다.",
-        "thumbnailUrl": "/places/beomeosa.svg"
-      },
-      "bad": {
-        "title": "흘려보낸 마당의 분위기",
-        "description": "가벼운 듯 보이지만 중요한 맥락을 놓친 결말입니다.",
-        "thumbnailUrl": "/places/geumjeongsanseong.svg"
-      }
-    },
-    "characters": [
-      {
-        "id": "hanbaeha",
-        "name": "한배하",
-        "role": "야류 장면의 안내자",
-        "summary": "지역 민속과 놀이의 감각을 전해주는 인물 축으로 구성됩니다.",
-        "image_url": "/character-fallback.svg",
-        "opening_line": "수영야류는 그냥 웃고 끝나는 놀이가 아니라, 지역 사람들이 쌓아온 분위기가 담긴 장면이에요.",
-        "source_title": "부산 수영동 정월대보름 탈놀이, 수영야류",
-        "focus_keywords": [
-          "탈놀이",
-          "민속",
-          "수영동"
-        ]
-      },
-      {
-        "id": "choiyeong",
-        "name": "최영",
-        "role": "바다와 수군의 기억",
-        "summary": "부산 해안 지역의 오래된 맥락을 확장해서 풀어낼 수 있는 연결 인물입니다.",
-        "image_url": "/character-fallback.svg",
-        "opening_line": "바다 가까운 곳의 문화는 늘 사람들의 생활과 붙어 있었지요. 그 감각을 같이 보시면 좋겠습니다.",
-        "source_title": "전통어촌민속을 주제로 열리는 광안리어방축제",
-        "focus_keywords": [
-          "바다",
-          "수군",
-          "생활문화"
-        ]
-      }
-    ],
-    "experiences": [
-      {
-        "title": "광안리어방축제 감각으로 보기",
-        "category": "축제",
-        "description": "현대 축제까지 같이 떠올리면 수영야류가 과거 이야기에만 머물지 않고 지금의 부산과도 연결됩니다.",
-        "address": "부산광역시 수영구 광안해변로 일대",
-        "distance": null,
-        "source": "축제"
-      }
-    ]
-  },
-  {
     "id": "gimandeok-route",
     "name": "김만덕 길",
     "location": "제주특별자치도 제주시 관덕로 일대",
@@ -635,11 +369,11 @@
       "CJU"
     ],
     "airport_label": "제주공항",
-    "rank_label": "제주 추천",
+    "rank_label": "제주 인물 코스",
     "era": "조선 후기",
     "summary": "제주에서 상업과 나눔, 관아 공간 이야기를 함께 풀 수 있는 외국인 친화적인 스토리 코스입니다.",
     "story_intro": "실존 여성 상인의 이야기라 외국인도 쉽게 흥미를 느끼고, 제주목관아와 함께 보면 서사가 또렷해집니다.",
-    "image_url": "/places/gimandeok-route.svg",
+    "image_url": "/places/gimandeok-route.png",
     "tags": [
       "조선",
       "제주",
@@ -668,41 +402,27 @@
       "good": {
         "title": "김만덕의 길 위에서",
         "description": "제주의 상업과 나눔의 흐름을 함께 따라간 엔딩입니다.",
-        "thumbnailUrl": "/places/gimandeok-route.svg"
+        "thumbnailUrl": "/places/gimandeok-route.png"
       },
       "bad": {
         "title": "놓쳐버린 제주의 연결",
         "description": "인물과 장소의 맥락이 흐려진 채 남는 결말입니다.",
-        "thumbnailUrl": "/places/chusa-yubaegil.svg"
+        "thumbnailUrl": "/places/gimandeok-route.png"
       }
     },
     "characters": [
       {
         "id": "gimandeok",
         "name": "김만덕",
-        "role": "제주의 거상",
-        "summary": "제주를 대표하는 조선 후기 실존 인물로, 상업과 나눔이라는 뚜렷한 서사를 갖고 있습니다.",
-        "image_url": "/character-fallback.svg",
-        "opening_line": "제주는 풍경만 보고 지나가면 아쉬워요. 사람 이야기를 함께 보면 훨씬 오래 남습니다.",
+        "role": "제주의 나눔을 상징하는 거상",
+        "summary": "제주 상업과 구휼의 이야기를 통해 지역 인물 관광의 매력을 보여주는 대표 인물입니다.",
+        "image_url": "https://www.dwbnews.kr/news/photo/202205/21332_25433_1725.jpg",
+        "opening_line": "제주의 길 위에는 장사로 얻은 것을 사람에게 돌려준 이야기가 남아 있습니다.",
         "source_title": "제주도의 거상 김만덕",
         "focus_keywords": [
           "제주",
-          "상인",
-          "나눔"
-        ]
-      },
-      {
-        "id": "choehaesan",
-        "name": "최해산",
-        "role": "관아 공간의 연결",
-        "summary": "관아와 행정 공간을 통해 제주목관아 이야기를 더해 줄 수 있는 인물 연결입니다.",
-        "image_url": "/character-fallback.svg",
-        "opening_line": "관아 공간까지 같이 보면 제주의 이야기가 단순 인물전에서 끝나지 않아요.",
-        "source_title": "제주목 관아의 사무공간 홍화각 건립 내력을 담은 홍화각기",
-        "focus_keywords": [
-          "관아",
-          "홍화각",
-          "행정"
+          "나눔",
+          "거상"
         ]
       }
     ],
@@ -726,11 +446,11 @@
       "CJU"
     ],
     "airport_label": "제주공항",
-    "rank_label": "제주 추천",
+    "rank_label": "제주 유배 코스",
     "era": "조선 말기",
     "summary": "유배길이라는 이동 서사가 분명해 제주를 풍경이 아닌 감정의 경로로 느끼게 하는 장소입니다.",
     "story_intro": "걷는 행위 자체가 이야기처럼 느껴지는 코스라, 대화형 스토리와 연결하기에도 좋습니다.",
-    "image_url": "/places/chusa-yubaegil.svg",
+    "image_url": "/places/chusa-yubaegil.jpeg",
     "tags": [
       "조선",
       "제주",
@@ -760,54 +480,26 @@
       "good": {
         "title": "제주의 길 위에 남은 문장",
         "description": "유배와 풍류의 흐름을 함께 따라간 엔딩입니다.",
-        "thumbnailUrl": "/places/chusa-yubaegil.svg"
+        "thumbnailUrl": "/places/chusa-yubaegil.jpeg"
       },
       "bad": {
         "title": "끝나지 못한 유배길",
         "description": "길의 의미를 놓치며 흐릿하게 끝나는 결말입니다.",
-        "thumbnailUrl": "/places/gimandeok-route.svg"
+        "thumbnailUrl": "/places/chusa-yubaegil.jpeg"
       }
     },
     "characters": [
       {
         "id": "chusa",
         "name": "추사 김정희",
-        "role": "유배길의 중심 인물",
-        "summary": "제주의 풍경을 감정과 사유의 길로 바꿔 보는 핵심 인물입니다.",
+        "role": "유배와 예술의 인물",
+        "summary": "제주 유배길을 통해 조선 후기 지식인의 삶과 예술을 함께 이해할 수 있는 대표 인물입니다.",
         "image_url": "/characters/chusa.jpg",
-        "opening_line": "제주의 풍경은 유배자를 더 외롭게도 만들고, 더 깊게도 만듭니다.",
+        "opening_line": "유배의 길은 고통스러웠지만, 그 시간 속에서 글씨와 생각은 더 깊어졌습니다.",
         "source_title": "제주도로 귀양간 김정희의 추사 유배길",
         "focus_keywords": [
+          "추사체",
           "유배",
-          "추사",
-          "제주"
-        ]
-      },
-      {
-        "id": "choiikhyeon",
-        "name": "최익현",
-        "role": "면암 유배길",
-        "summary": "도착하기 전부터 감정이 쌓이는 길의 성격을 더 풍성하게 만드는 인물입니다.",
-        "image_url": "/character-fallback.svg",
-        "opening_line": "제주에 닿는 길 자체가 이미 이야기입니다. 도착하기 전부터 마음이 쌓이기 시작하지요.",
-        "source_title": "제주도로 귀양간 최익현의 면암 유배길",
-        "focus_keywords": [
-          "유배길",
-          "제주",
-          "면암"
-        ]
-      },
-      {
-        "id": "hongjongsi",
-        "name": "홍종시",
-        "role": "명월대의 풍류",
-        "summary": "유배 이야기만이 아닌 제주 말기의 풍류와 여백을 함께 보여주는 인물입니다.",
-        "image_url": "/character-fallback.svg",
-        "opening_line": "제주를 유배 이야기로만 보면 아쉬워요. 이 섬에는 풍류의 시간도 분명히 남아 있습니다.",
-        "source_title": "조선말기 시인과 묵객들이 풍류를 즐겼던 명월대",
-        "focus_keywords": [
-          "명월대",
-          "풍류",
           "제주"
         ]
       }
@@ -828,6 +520,534 @@
         "address": "제주특별자치도 제주시 한림읍 명월리 일대",
         "distance": null,
         "source": "지역이야기와 역사인물"
+      }
+    ]
+  },
+  {
+    "id": "ojukheon",
+    "name": "오죽헌",
+    "location": "강원도 강릉시 율곡로3139번길 24",
+    "district": "강원특별자치도 강릉시",
+    "airport_codes": [
+      "GMP"
+    ],
+    "airport_label": "김포공항",
+    "rank_label": "강릉 대표 유적",
+    "era": "조선 전기",
+    "summary": "신사임당과 율곡 이이가 태어난 곳으로, 조선 시대 학문과 예술, 가문의 이야기를 함께 볼 수 있는 강릉 대표 역사 관광지다.",
+    "story_intro": "오죽헌은 한 집안의 공간을 넘어 조선의 예술과 성리학을 대표하는 인물들이 태어난 장소입니다.",
+    "image_url": "https://minio.nculture.org/amsweb-opt/multimedia_assets/106/72785/68625/c/강릉-오죽헌-내부_문화재청_제1유형-thumb.jpg",
+    "tags": [
+      "조선",
+      "강릉",
+      "오죽헌",
+      "유명 인물"
+    ],
+    "source_title": "신사임당과 율곡 이이가 태어난 강릉 오죽헌",
+    "source_url": "https://ncms.nculture.org/house/story/5339",
+    "highlights": [
+      "오죽헌",
+      "신사임당",
+      "율곡 이이"
+    ],
+    "foreigner_note": "한국 지폐 속 인물을 장소와 연결해 보기 좋음",
+    "buzz_title": "지폐 속 인물을 만나는 장소",
+    "buzz_stat": "한국의 대표 인물인 신사임당과 율곡 이이를 실제 장소와 연결해 이해할 수 있습니다.",
+    "recommendation_items": [
+      "오죽헌",
+      "신사임당",
+      "율곡 이이"
+    ],
+    "data_sources": [
+      "지역 인물 데이터"
+    ],
+    "ending_video": {
+      "good": {
+        "title": "오죽헌의 이야기를 따라 걷다",
+        "description": "장소와 인물의 맥락을 이해하며 안정적으로 마무리되는 엔딩입니다.",
+        "thumbnailUrl": "https://minio.nculture.org/amsweb-opt/multimedia_assets/106/72785/68625/c/강릉-오죽헌-내부_문화재청_제1유형-thumb.jpg"
+      },
+      "bad": {
+        "title": "오죽헌에 남은 다른 선택",
+        "description": "다른 선택을 통해 장소의 또 다른 역사적 여운을 확인하는 엔딩입니다.",
+        "thumbnailUrl": "https://minio.nculture.org/amsweb-opt/multimedia_assets/106/72785/68625/c/강릉-오죽헌-내부_문화재청_제1유형-thumb.jpg"
+      }
+    },
+    "characters": [
+      {
+        "id": "shin-saimdang",
+        "name": "신사임당",
+        "role": "조선의 예술가이자 어머니",
+        "summary": "그림과 글씨, 교육으로 기억되는 조선의 대표 여성 인물입니다.",
+        "image_url": "https://theme.archives.go.kr/next/stampposter/stamp/DH20002131/DH20002131-1.jpg",
+        "opening_line": "오죽헌은 한 사람의 재능만이 아니라 그 재능이 자란 환경까지 보여주는 곳입니다.",
+        "source_title": "신사임당과 율곡 이이가 태어난 강릉 오죽헌",
+        "focus_keywords": [
+          "예술",
+          "교육",
+          "조선"
+        ]
+      },
+      {
+        "id": "yulgok",
+        "name": "율곡 이이",
+        "role": "조선 성리학의 대표 학자",
+        "summary": "조선 시대 학문과 정치 사상을 이해하는 데 중요한 대표 학자입니다.",
+        "image_url": "https://tour.paju.go.kr/upload/tour/2021/1/19/22967247-38cd-4196-bcba-1f04aee9144f.jpg",
+        "opening_line": "배움은 책 속에만 있지 않습니다. 사람이 자란 장소와 시대 속에도 남아 있습니다.",
+        "source_title": "신사임당과 율곡 이이가 태어난 강릉 오죽헌",
+        "focus_keywords": [
+          "성리학",
+          "학문",
+          "강릉"
+        ]
+      }
+    ],
+    "experiences": [
+      {
+        "title": "오죽헌 고택 둘러보기",
+        "category": "현장 동선",
+        "description": "신사임당과 율곡 이이가 태어난 공간을 중심으로 조선 시대 가옥과 인물 이야기를 함께 볼 수 있습니다.",
+        "address": "강원도 강릉시 율곡로3139번길 24",
+        "distance": null,
+        "source": "지역 인물 데이터"
+      },
+      {
+        "title": "지폐 속 인물 연결하기",
+        "category": "스토리 포인트",
+        "description": "한국 지폐에 등장하는 신사임당과 율곡 이이를 실제 장소와 연결해 이해할 수 있습니다.",
+        "address": "강원특별자치도 강릉시",
+        "distance": null,
+        "source": "지역 인물 데이터"
+      }
+    ]
+  },
+  {
+    "id": "hahoe-village",
+    "name": "안동 하회마을",
+    "location": "경상북도 안동시 풍천면 하회리",
+    "district": "경상북도 안동시",
+    "airport_codes": [
+      "PUS"
+    ],
+    "airport_label": "김해공항",
+    "rank_label": "세계유산 마을",
+    "era": "조선",
+    "summary": "유네스코 세계유산으로 알려진 전통 마을로, 류성룡과 충효당 이야기를 통해 조선 사대부 문화를 이해할 수 있다.",
+    "story_intro": "하회마을은 전통 가옥의 풍경뿐 아니라 조선 사대부의 삶과 임진왜란기의 선택을 함께 떠올리게 하는 장소입니다.",
+    "image_url": "https://minio.nculture.org/amsweb-opt/multimedia_assets/146/85841/93920/c/%ED%95%98%ED%9A%8C%EB%A7%88%EC%9D%84-%EC%B6%A9%ED%9A%A8%EB%8B%B9-%286%29_rev-thumb.jpg",
+    "tags": [
+      "세계유산",
+      "안동",
+      "전통마을",
+      "조선"
+    ],
+    "source_title": "유성룡의 종가, 안동하회마을 충효당",
+    "source_url": "https://ncms.nculture.org/pavilion/story/2276",
+    "highlights": [
+      "하회마을",
+      "충효당",
+      "류성룡"
+    ],
+    "foreigner_note": "외국인에게도 잘 알려진 한국 전통마을",
+    "buzz_title": "세계유산 전통마을",
+    "buzz_stat": "전통 건축과 역사 인물의 이야기를 한 번에 전달하기 좋은 대표 관광지입니다.",
+    "recommendation_items": [
+      "하회마을",
+      "충효당",
+      "전통가옥"
+    ],
+    "data_sources": [
+      "지역명 유래 데이터"
+    ],
+    "ending_video": {
+      "good": {
+        "title": "안동 하회마을의 이야기를 따라 걷다",
+        "description": "장소와 인물의 맥락을 이해하며 안정적으로 마무리되는 엔딩입니다.",
+        "thumbnailUrl": "https://minio.nculture.org/amsweb-opt/multimedia_assets/146/85841/93920/c/%ED%95%98%ED%9A%8C%EB%A7%88%EC%9D%84-%EC%B6%A9%ED%9A%A8%EB%8B%B9-%286%29_rev-thumb.jpg"
+      },
+      "bad": {
+        "title": "안동 하회마을에 남은 다른 선택",
+        "description": "다른 선택을 통해 장소의 또 다른 역사적 여운을 확인하는 엔딩입니다.",
+        "thumbnailUrl": "https://minio.nculture.org/amsweb-opt/multimedia_assets/146/85841/93920/c/%ED%95%98%ED%9A%8C%EB%A7%88%EC%9D%84-%EC%B6%A9%ED%9A%A8%EB%8B%B9-%286%29_rev-thumb.jpg"
+      }
+    },
+    "characters": [
+      {
+        "id": "ryu-seongryong",
+        "name": "류성룡",
+        "role": "임진왜란기의 재상",
+        "summary": "하회마을과 충효당을 통해 조선 사대부 문화와 임진왜란기의 리더십을 연결해 볼 수 있는 인물입니다.",
+        "image_url": "https://cdn.orangenews.hk/common/2023/12/28/96bd4765aba6478f93e2abbacd41682b.png?x-oss-process=style%2Fw960",
+        "opening_line": "마을의 오래된 집은 단지 아름다운 풍경이 아니라 한 시대의 판단과 책임을 기억합니다.",
+        "source_title": "유성룡의 종가, 안동하회마을 충효당",
+        "focus_keywords": [
+          "임진왜란",
+          "하회마을",
+          "사대부"
+        ]
+      }
+    ],
+    "experiences": [
+      {
+        "title": "하회마을 골목 걷기",
+        "category": "현장 동선",
+        "description": "전통가옥과 마을 구조를 따라 걸으며 조선 사대부 마을의 분위기를 느낄 수 있습니다.",
+        "address": "경상북도 안동시 풍천면 하회리",
+        "distance": null,
+        "source": "지역명 유래 데이터"
+      },
+      {
+        "title": "충효당 이야기 보기",
+        "category": "스토리 포인트",
+        "description": "류성룡의 종가와 충효당을 중심으로 인물과 장소의 관계를 이해할 수 있습니다.",
+        "address": "경상북도 안동시 풍천면 하회리",
+        "distance": null,
+        "source": "지역명 유래 데이터"
+      }
+    ]
+  },
+  {
+    "id": "seokpajeong",
+    "name": "석파정",
+    "location": "서울특별시 종로구 부암동 산16-1",
+    "district": "서울특별시 종로구",
+    "airport_codes": [
+      "ICN",
+      "GMP"
+    ],
+    "airport_label": "인천 · 김포공항",
+    "rank_label": "서울 숨은 역사 코스",
+    "era": "조선 후기",
+    "summary": "흥선대원군의 별서로 알려진 장소로, 조선 후기 권력과 사대부 정원의 분위기를 함께 볼 수 있다.",
+    "story_intro": "석파정은 조용한 정원 풍경 속에서 조선 후기 권력자의 삶과 취향을 읽게 하는 장소입니다.",
+    "image_url": "https://minio.nculture.org/amsweb-opt/multimedia_assets/91/18697/16778/c/18697-thumb.jpg",
+    "tags": [
+      "서울",
+      "정원",
+      "조선후기",
+      "흥선대원군"
+    ],
+    "source_title": "흥선대원군의 별서, 서울 석파정",
+    "source_url": "https://ncms.nculture.org/pavilion/story/2442",
+    "highlights": [
+      "석파정",
+      "흥선대원군",
+      "부암동"
+    ],
+    "foreigner_note": "서울 도심 속 조용한 역사 공간",
+    "buzz_title": "정원으로 보는 조선 후기",
+    "buzz_stat": "궁궐보다 작지만 인물의 취향과 권력의 흔적을 가까이서 볼 수 있습니다.",
+    "recommendation_items": [
+      "석파정",
+      "부암동",
+      "흥선대원군 이야기"
+    ],
+    "data_sources": [
+      "지역 인물 데이터"
+    ],
+    "ending_video": {
+      "good": {
+        "title": "석파정의 이야기를 따라 걷다",
+        "description": "장소와 인물의 맥락을 이해하며 안정적으로 마무리되는 엔딩입니다.",
+        "thumbnailUrl": "https://minio.nculture.org/amsweb-opt/multimedia_assets/91/18697/16778/c/18697-thumb.jpg"
+      },
+      "bad": {
+        "title": "석파정에 남은 다른 선택",
+        "description": "다른 선택을 통해 장소의 또 다른 역사적 여운을 확인하는 엔딩입니다.",
+        "thumbnailUrl": "https://minio.nculture.org/amsweb-opt/multimedia_assets/91/18697/16778/c/18697-thumb.jpg"
+      }
+    },
+    "characters": [
+      {
+        "id": "heungseon-seokpa",
+        "name": "흥선대원군",
+        "role": "조선 후기 권력의 인물",
+        "summary": "경복궁 중건과 조선 후기 정치의 흐름을 석파정과 연결해 설명할 수 있는 인물입니다.",
+        "image_url": "/characters/heungseon.jpg",
+        "opening_line": "조용한 정원에도 한 시대의 권력과 고민이 숨어 있습니다.",
+        "source_title": "흥선대원군의 별서, 서울 석파정",
+        "focus_keywords": [
+          "흥선대원군",
+          "정원",
+          "조선후기"
+        ]
+      }
+    ],
+    "experiences": [
+      {
+        "title": "석파정 정원 둘러보기",
+        "category": "현장 동선",
+        "description": "정원과 별서 공간을 보며 흥선대원군의 취향과 시대적 배경을 연결해 볼 수 있습니다.",
+        "address": "서울특별시 종로구 부암동 산16-1",
+        "distance": null,
+        "source": "지역 인물 데이터"
+      },
+      {
+        "title": "부암동 역사 산책",
+        "category": "현장 동선",
+        "description": "석파정 주변의 조용한 동선을 따라 서울의 다른 분위기를 경험할 수 있습니다.",
+        "address": "서울특별시 종로구 부암동",
+        "distance": null,
+        "source": "지역 인물 데이터"
+      }
+    ]
+  },
+  {
+    "id": "jongmyo",
+    "name": "종묘",
+    "location": "서울특별시 종로구 종로 157",
+    "district": "서울특별시 종로구",
+    "airport_codes": [
+      "ICN",
+      "GMP"
+    ],
+    "airport_label": "인천 · 김포공항",
+    "rank_label": "세계유산 왕실 제례",
+    "era": "조선",
+    "summary": "조선 왕실의 신위를 모신 유네스코 세계유산으로, 왕조의 정통성과 제례 문화를 이해하기 좋은 대표 역사 장소입니다.",
+    "story_intro": "종묘는 화려한 궁궐과 달리 절제된 공간 속에서 조선 왕조가 무엇을 기억하려 했는지 보여줍니다.",
+    "image_url": "https://minio.nculture.org/amsweb-opt/multimedia_assets/20/12009/19322/c/12009-thumb.jpg",
+    "tags": [
+      "서울",
+      "세계유산",
+      "왕실",
+      "제례"
+    ],
+    "source_title": "종묘와 조선 왕실의 제례 문화",
+    "source_url": "https://www.nculture.org/cmm/nvodView.do?nvod=B97238",
+    "highlights": [
+      "종묘",
+      "종묘제례",
+      "조선 왕실"
+    ],
+    "foreigner_note": "궁궐과 함께 방문하기 좋은 서울 대표 세계유산",
+    "buzz_title": "왕조의 기억을 담은 공간",
+    "buzz_stat": "화려함보다 엄숙함을 통해 조선 왕실의 세계관을 보여주는 장소입니다.",
+    "recommendation_items": [
+      "정전",
+      "종묘제례악",
+      "왕실 제례"
+    ],
+    "data_sources": [
+      "지역문화 멀티미디어 데이터"
+    ],
+    "ending_video": {
+      "good": {
+        "title": "종묘의 이야기를 따라 걷다",
+        "description": "장소와 인물의 맥락을 이해하며 안정적으로 마무리되는 엔딩입니다.",
+        "thumbnailUrl": "https://minio.nculture.org/amsweb-opt/multimedia_assets/20/12009/19322/c/12009-thumb.jpg"
+      },
+      "bad": {
+        "title": "종묘에 남은 다른 선택",
+        "description": "다른 선택을 통해 장소의 또 다른 역사적 여운을 확인하는 엔딩입니다.",
+        "thumbnailUrl": "https://minio.nculture.org/amsweb-opt/multimedia_assets/20/12009/19322/c/12009-thumb.jpg"
+      }
+    },
+    "characters": [
+      {
+        "id": "taejo-jongmyo",
+        "name": "태조 이성계",
+        "role": "조선 왕조를 연 인물",
+        "summary": "종묘의 의미를 통해 조선 왕조의 시작과 왕실 제례가 왜 중요했는지 설명하기 좋은 대표 인물입니다.",
+        "image_url": "/characters/taejo.jpg",
+        "opening_line": "종묘는 죽은 왕을 위한 공간이 아니라, 새 왕조가 무엇을 이어가려 했는지 보여주는 자리입니다.",
+        "source_title": "종묘와 조선 왕실의 제례 문화",
+        "focus_keywords": [
+          "왕조",
+          "제례",
+          "정통성"
+        ]
+      }
+    ],
+    "experiences": [
+      {
+        "title": "종묘 정전 둘러보기",
+        "category": "현장 동선",
+        "description": "긴 월대와 정전의 구조를 보며 조선 왕실 제례의 엄숙한 분위기를 이해할 수 있습니다.",
+        "address": "서울특별시 종로구 종로 157",
+        "distance": null,
+        "source": "지역문화 멀티미디어 데이터"
+      },
+      {
+        "title": "종묘제례악 이야기 보기",
+        "category": "스토리 포인트",
+        "description": "종묘제례와 음악이 왕실 의례에서 어떤 의미를 가졌는지 연결해 볼 수 있습니다.",
+        "address": "서울특별시 종로구 종로 157",
+        "distance": null,
+        "source": "지역문화 멀티미디어 데이터"
+      }
+    ]
+  },
+  {
+    "id": "gwanghwamun-square",
+    "name": "광화문광장",
+    "location": "서울특별시 종로구 세종대로 172",
+    "district": "서울특별시 종로구",
+    "airport_codes": [
+      "ICN",
+      "GMP"
+    ],
+    "airport_label": "인천 · 김포공항",
+    "rank_label": "서울 상징 코스",
+    "era": "조선 ~ 현대",
+    "summary": "경복궁과 세종대로를 잇는 서울의 상징 공간으로, 세종대왕의 업적을 가장 직관적으로 떠올릴 수 있는 장소입니다.",
+    "story_intro": "광화문광장은 궁궐 앞 도시 공간에서 조선의 정치, 문자, 과학 이야기를 현대 서울의 풍경과 함께 연결합니다.",
+    "image_url": "/places/gyeongbokgung.jpg",
+    "tags": [
+      "서울",
+      "광화문",
+      "세종대왕",
+      "도심"
+    ],
+    "source_title": "경복궁과 조선 왕실 이야기",
+    "source_url": "https://ncms.nculture.org/pavilion/story/2300",
+    "highlights": [
+      "광화문",
+      "세종대왕상",
+      "세종대로"
+    ],
+    "foreigner_note": "서울 여행자가 쉽게 접근할 수 있는 대표 도심 역사 공간",
+    "buzz_title": "도심에서 만나는 세종대왕",
+    "buzz_stat": "외국인 관광객이 한국 문자와 조선의 문화를 한눈에 떠올리기 좋은 장소입니다.",
+    "recommendation_items": [
+      "세종대왕상",
+      "광화문",
+      "경복궁 연계 동선"
+    ],
+    "data_sources": [
+      "지역 문화 이야기 데이터"
+    ],
+    "ending_video": {
+      "good": {
+        "title": "광화문광장의 이야기를 따라 걷다",
+        "description": "장소와 인물의 맥락을 이해하며 안정적으로 마무리되는 엔딩입니다.",
+        "thumbnailUrl": "/places/gyeongbokgung.jpg"
+      },
+      "bad": {
+        "title": "광화문광장에 남은 다른 선택",
+        "description": "다른 선택을 통해 장소의 또 다른 역사적 여운을 확인하는 엔딩입니다.",
+        "thumbnailUrl": "/places/gyeongbokgung.jpg"
+      }
+    },
+    "characters": [
+      {
+        "id": "sejong-gwanghwamun",
+        "name": "세종대왕",
+        "role": "한글과 조선 문화의 상징",
+        "summary": "광화문광장의 세종대왕상을 통해 한글 창제와 조선의 과학·문화 정책을 연결해 볼 수 있는 인물입니다.",
+        "image_url": "https://wimg.sedaily.com/news/legacy/2020/05/13/1Z2QG18AJV_1.jpg",
+        "opening_line": "이 광장에서는 궁궐의 권위보다 백성에게 닿고자 했던 지식과 문자의 의미를 먼저 보아도 좋습니다.",
+        "source_title": "경복궁과 조선 왕실 이야기",
+        "focus_keywords": [
+          "한글",
+          "과학",
+          "문화"
+        ]
+      }
+    ],
+    "experiences": [
+      {
+        "title": "세종대왕상 관람",
+        "category": "현장 동선",
+        "description": "광화문광장의 세종대왕상을 중심으로 한글과 조선 문화 이야기를 떠올릴 수 있습니다.",
+        "address": "서울특별시 종로구 세종대로 172",
+        "distance": null,
+        "source": "지역 문화 이야기 데이터"
+      },
+      {
+        "title": "경복궁 연계 산책",
+        "category": "추천 동선",
+        "description": "광화문에서 경복궁으로 이어지는 동선을 통해 조선 왕실과 도심 역사 공간을 함께 경험할 수 있습니다.",
+        "address": "서울특별시 종로구 세종대로 172",
+        "distance": null,
+        "source": "지역 문화 이야기 데이터"
+      }
+    ]
+  },
+  {
+    "id": "unhyeongung",
+    "name": "운현궁",
+    "location": "서울특별시 종로구 삼일대로 464",
+    "district": "서울특별시 종로구",
+    "airport_codes": [
+      "ICN",
+      "GMP"
+    ],
+    "airport_label": "인천 · 김포공항",
+    "rank_label": "조선 후기 정치 코스",
+    "era": "조선 후기",
+    "summary": "흥선대원군의 사저이자 고종이 어린 시절을 보낸 공간으로, 조선 후기 정치와 왕실 권력의 변화를 이해하기 좋습니다.",
+    "story_intro": "운현궁은 궁궐보다 작은 공간이지만 조선 후기 권력의 움직임과 한 인물의 선택을 가까이서 느끼게 합니다.",
+    "image_url": "https://minio.nculture.org/amsweb-opt/multimedia_assets/91/18697/16778/c/18697-thumb.jpg",
+    "tags": [
+      "서울",
+      "운현궁",
+      "흥선대원군",
+      "조선후기"
+    ],
+    "source_title": "흥선대원군과 조선 후기 권력의 공간",
+    "source_url": "https://ncms.nculture.org/pavilion/story/2442",
+    "highlights": [
+      "운현궁",
+      "흥선대원군",
+      "고종"
+    ],
+    "foreigner_note": "궁궐보다 작지만 인물 중심 스토리를 이해하기 쉬운 서울 도심 역사 공간",
+    "buzz_title": "권력의 시작을 보여주는 집",
+    "buzz_stat": "고종 즉위와 흥선대원군의 정치적 영향력을 장소 중심으로 풀어내기 좋습니다.",
+    "recommendation_items": [
+      "노안당",
+      "노락당",
+      "고종 즉위 이야기"
+    ],
+    "data_sources": [
+      "지역 인물 데이터"
+    ],
+    "ending_video": {
+      "good": {
+        "title": "운현궁의 이야기를 따라 걷다",
+        "description": "장소와 인물의 맥락을 이해하며 안정적으로 마무리되는 엔딩입니다.",
+        "thumbnailUrl": "https://minio.nculture.org/amsweb-opt/multimedia_assets/91/18697/16778/c/18697-thumb.jpg"
+      },
+      "bad": {
+        "title": "운현궁에 남은 다른 선택",
+        "description": "다른 선택을 통해 장소의 또 다른 역사적 여운을 확인하는 엔딩입니다.",
+        "thumbnailUrl": "https://minio.nculture.org/amsweb-opt/multimedia_assets/91/18697/16778/c/18697-thumb.jpg"
+      }
+    },
+    "characters": [
+      {
+        "id": "heungseon-unhyeon",
+        "name": "흥선대원군",
+        "role": "고종 즉위와 개혁 정치의 중심 인물",
+        "summary": "운현궁을 통해 조선 후기 권력 구조와 경복궁 중건, 쇄국 정책의 배경을 설명할 수 있는 인물입니다.",
+        "image_url": "/characters/heungseon.jpg",
+        "opening_line": "운현궁은 작은 집처럼 보일지 몰라도, 한 나라의 방향이 바뀌기 시작한 자리였습니다.",
+        "source_title": "흥선대원군과 조선 후기 권력의 공간",
+        "focus_keywords": [
+          "흥선대원군",
+          "고종",
+          "개혁정치"
+        ]
+      }
+    ],
+    "experiences": [
+      {
+        "title": "운현궁 주요 건물 둘러보기",
+        "category": "현장 동선",
+        "description": "노안당과 노락당 등 주요 공간을 따라 걸으며 조선 후기 왕실 권력의 변화를 이해할 수 있습니다.",
+        "address": "서울특별시 종로구 삼일대로 464",
+        "distance": null,
+        "source": "지역 인물 데이터"
+      },
+      {
+        "title": "고종 즉위 이야기 보기",
+        "category": "스토리 포인트",
+        "description": "고종의 어린 시절과 흥선대원군의 정치적 부상을 연결해 볼 수 있습니다.",
+        "address": "서울특별시 종로구 삼일대로 464",
+        "distance": null,
+        "source": "지역 인물 데이터"
       }
     ]
   }

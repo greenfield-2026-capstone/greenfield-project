@@ -1,0 +1,32 @@
+.hero { position: relative; overflow: hidden; isolation: isolate; border-radius: 18px; background: #182625; color: #f7f5ee; }
+.photo { position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, #182625 0%, rgba(24,38,37,.96) 27%, rgba(24,38,37,.58) 52%, rgba(24,38,37,.08) 100%), url('/places/gyeongbokgung.jpg') right center / cover no-repeat; }
+.content { padding: 52px 48px 34px; }
+.eyebrow { display: flex; align-items: center; gap: 12px; margin: 0 0 26px; color: #d2c29e; font-size: 10px; font-weight: 500; letter-spacing: .13em; }
+.eyebrow span { height: 1px; width: 24px; background: #b5a580; opacity: .6; }
+.title { margin: 0; max-width: 540px; font-size: clamp(30px, 3.4vw, 44px); font-weight: 400; line-height: 1.5; letter-spacing: -.045em; word-break: keep-all; }
+.description { max-width: 390px; margin: 20px 0 0; color: #c3cbc7; font-size: 14px; font-weight: 400; line-height: 1.9; word-break: keep-all; }
+.actions { display: flex; align-items: center; flex-wrap: wrap; gap: 24px; margin-top: 28px; }
+.primary, .secondary { display: inline-flex; align-items: center; justify-content: center; gap: 20px; min-height: 44px; font-size: 12px; font-weight: 500; transition: background .2s, color .2s; }
+.primary { padding: 0 18px; border-radius: 4px; background: #dfd2b5; color: #24332e; }
+.primary:hover { background: #efe4ce; }
+.secondary { color: #e0e4dc; border-bottom: 1px solid #7b8880; }
+.secondary:hover { color: #dfd2b5; }
+.primary:focus-visible, .secondary:focus-visible { outline: 2px solid #dfd2b5; outline-offset: 5px; }
+.stats { display: flex; gap: 28px; width: fit-content; margin: 36px 0 0; padding-top: 22px; border-top: 1px solid #ffffff24; }
+.stats > div { display: flex; align-items: baseline; gap: 9px; }
+.stats dt { font-size: 11px; font-weight: 400; color: #b5c0b8; }
+.stats dd { order: -1; margin: 0; color: #ded0af; font-size: 20px; font-weight: 400; }
+.caption { position: absolute; right: 28px; bottom: 24px; margin: 0; color: #fff; font-size: 10px; letter-spacing: .15em; text-shadow: 0 1px 6px #000; }
+@media (max-width: 760px) {
+  .content { padding: 36px 26px 28px; }
+  .photo { background-position: 60% center; background-image: linear-gradient(90deg, rgba(24,38,37,.97), rgba(24,38,37,.72)), url('/places/gyeongbokgung.jpg'); }
+  .eyebrow { font-size: 9px; gap: 9px; margin-bottom: 22px; }
+  .title { font-size: 32px; }
+  .description { font-size: 13px; max-width: 350px; }
+  .actions { gap: 18px; }
+  .stats { width: 100%; gap: 0; justify-content: space-between; }
+  .stats > div { flex-direction: column; gap: 4px; }
+  .stats dd { font-size: 19px; }
+  .stats dt { font-size: 10px; }
+  .caption { display: none; }
+}
