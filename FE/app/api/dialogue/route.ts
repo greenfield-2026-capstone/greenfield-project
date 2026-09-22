@@ -137,15 +137,22 @@ export async function POST(req: NextRequest) {
     // Python FastAPI → LiteLLM
     // =========================================================
 
-    const response = await fetch(
-    "http://histour=be.vercel.app/api/dialogue",
-    {
-        method: "POST",
-        headers: {
+    const backendUrl =
+  process.env.NODE_ENV === "development"
+    ? "http://127.0.0.1:8000"
+    : "https://histour-be.vercel.app";
+
+const response = await fetch(
+  `${backendUrl}/api/dialogue`,
+  {
+    method: "POST",
+    headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
       prompt,
+      storyId,
+      turn,
     }),
   }
 );
