@@ -1,5 +1,4 @@
 import { SearchFilterBar } from "@/components/home/FilterBar";
-import { ExperienceFlow } from "@/components/home/ExperienceFlow";
 import { HeroSection } from "@/components/home/HeroSection";
 import { PlaceCard } from "@/components/places/PlaceCard";
 import { getFilteredPlaces } from "@/lib/culture-data";
@@ -94,8 +93,8 @@ export default async function HomePage({
   );
 
   return (
-    <section className="page-section relative isolate overflow-hidden rounded-[34px] bg-white/20 px-0 pb-8 backdrop-blur-[1px]">
-      <div className="pointer-events-none absolute inset-0 z-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.18)_0%,rgba(255,255,255,0.34)_38%,rgba(250,247,242,0.52)_100%)]" />
+    <section className="page-section relative isolate overflow-hidden rounded-[28px] px-0 pb-8">
+      <div className="pointer-events-none absolute inset-0 z-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.0)_0%,rgba(255,255,255,0.26)_46%,rgba(239,231,217,0.34)_100%)]" />
 
       <div className="relative z-10">
         <HeroSection lang={lang} />
@@ -103,14 +102,14 @@ export default async function HomePage({
 
         <div id="places" className="mt-10 flex items-end justify-between gap-4">
           <div>
-            <p className="text-xs font-black uppercase tracking-[0.18em] text-[#8d3f35]">
+            <p className="text-xs font-black uppercase tracking-[0.2em] text-[#9a6f2d]">
               {t.eyebrow}
             </p>
-            <h2 className="mt-2 text-2xl font-black text-[#1d2430] sm:text-3xl">
+            <h2 className="mt-2 text-2xl font-black text-[#141923] sm:text-3xl">
               {t.title}
             </h2>
           </div>
-          <span className="rounded-full border border-[#E6D8C5] bg-white/85 px-4 py-2 text-sm font-black text-[#1f2a5c] shadow-sm backdrop-blur">
+          <span className="rounded-full border border-[#d8c7ad] bg-[#fffdf8]/90 px-4 py-2 text-sm font-black text-[#111827] shadow-sm backdrop-blur">
             {filteredPlaces.length}
           </span>
         </div>
@@ -122,7 +121,6 @@ export default async function HomePage({
                 <PlaceCard key={place.id} place={place} lang={lang} />
               ))}
             </div>
-            <ExperienceFlow lang={lang} />
           </>
         ) : (
           <div className="mt-5 rounded-3xl border border-[#E6D8C5] bg-white/85 p-10 text-center text-[#6b7280] shadow-sm backdrop-blur">

@@ -1,6 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Character } from "@/types/place";
+import { stories } from "@/data/stories";
+import styles from "./CharacterCard.module.css";
 
 interface CharacterCardProps {
   placeId: string;
@@ -10,10 +12,14 @@ interface CharacterCardProps {
 
 const texts = {
   ko: {
-    chat: "이 인물과 대화하기",
+    chat: "대화하기",
+    game: "게임하기",
+    upcoming: "게임 준비 중",
   },
   en: {
-    chat: "Chat with this Character",
+    chat: "Chat",
+    game: "Play game",
+    upcoming: "Game coming soon",
   },
 };
 
@@ -54,6 +60,7 @@ export function CharacterCard({
   const t = lang === "en" ? texts.en : texts.ko;
   const en = characterEn[character.id];
   const display = lang === "en" && en ? en : character;
+  const hasGame = Object.prototype.hasOwnProperty.call(stories, character.id);
 
   return (
     <article className="card character-card">
@@ -89,13 +96,29 @@ export function CharacterCard({
           ))}
         </div>
 
-        <Link
-          href={`/story/${placeId}/${character.id}?lang=${lang}`}
-          prefetch
-          className="button-primary"
-        >
-          {t.chat}
-        </Link>
+        <div className={styles.actions}>
+          <Link
+            href={`/story/${placeId}/${character.id}?lang=${lang}`}
+            prefetch
+            className={styles.chat}
+            aria-label={`${display.name} · ${t.chat}`}
+          >
+            {t.chat}
+          </Link>
+          {hasGame ? (
+            <Link
+              href={`/roleplay/${character.id}?lang=${lang}`}
+              className={styles.game}
+              aria-label={`${display.name} · ${t.game}`}
+            >
+              {t.game}
+            </Link>
+          ) : (
+            <button type="button" className={styles.game} disabled>
+              {t.upcoming}
+            </button>
+          )}
+        </div>
       </div>
     </article>
   );

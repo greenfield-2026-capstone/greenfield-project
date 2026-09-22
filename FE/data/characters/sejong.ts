@@ -25,24 +25,15 @@ export const sejong = {
   modernLanguageRule:
     "현대 용어나 현대 문화를 미리 알고 있지 않다. 모르는 표현을 들으면 아는 척하지 않고 뜻을 묻거나 문맥을 통해 조선 사람의 관점에서 추측한다.",
 
-  emotions: [
-    "neutral",
-    "smile",
-    "angry",
-    "surprised",
-    "suggest",
-  ],
+  emotions: ["neutral", "smile", "angry", "surprised", "suggest"],
 } as const;
-
 
 export const youngSejong = {
   id: "young_sejong",
 
-  // 실제 게임 UI에 표시
   name: "어린 세종",
   englishName: "Young Sejong",
 
-  // 역사 설명이 필요한 경우에만 사용
   historicalName: "충녕대군",
   historicalNameEnglish: "Prince Chungnyeong",
 
@@ -65,10 +56,5 @@ export const youngSejong = {
   modernLanguageRule:
     "현대 용어와 현대 문화를 알지 못한다. 이상한 현대 표현을 들으면 당황하거나 뜻을 묻고, 때로는 자신을 놀리는 말이라고 오해할 수 있다.",
 
-  emotions: [
-    "young_pout",
-    "young_scolded",
-    "young_smile",
-    "young_flustered",
-  ],
+  emotions: ["young_pout", "young_scolded", "young_smile", "young_flustered"],
 } as const;

@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <defs>
+    <style>
+      .bg { fill: #f8f5ef; }
+      .title { font: 700 34px Arial, sans-serif; fill: #1d2430; }
+      .box { fill: #ffffff; stroke: #d9c8b2; stroke-width: 2; rx: 16; }
+      .accent { fill: #8d3f35; rx: 16; }
+      .accentText { font: 700 21px Arial, sans-serif; fill: #ffffff; }
+      .label { font: 700 21px Arial, sans-serif; fill: #1d2430; }
+      .small { font: 500 16px Arial, sans-serif; fill: #5c6470; }
+      .arrow { stroke: #8d3f35; stroke-width: 3; fill: none; marker-end: url(#arrowhead); }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#8d3f35"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1280" height="720"/>
+  <text x="70" y="70" class="title">AI 역사 인물 대화 처리 흐름</text>
+
+  <rect x="85" y="145" width="230" height="115" class="box"/>
+  <text x="200" y="188" text-anchor="middle" class="label">사용자 입력</text>
+  <text x="200" y="220" text-anchor="middle" class="small">질문 / 선택지 클릭</text>
+
+  <rect x="405" y="130" width="250" height="145" class="box"/>
+  <text x="530" y="172" text-anchor="middle" class="label">프론트엔드</text>
+  <text x="530" y="204" text-anchor="middle" class="small">메시지, 대화 이력</text>
+  <text x="530" y="230" text-anchor="middle" class="small">진행률, 선택 점수</text>
+  <text x="530" y="256" text-anchor="middle" class="small">언어 정보 전달</text>
+
+  <rect x="745" y="130" width="250" height="145" class="box"/>
+  <text x="870" y="172" text-anchor="middle" class="label">AI 채팅 API</text>
+  <text x="870" y="204" text-anchor="middle" class="small">시스템 프롬프트</text>
+  <text x="870" y="230" text-anchor="middle" class="small">현재 역사 단계</text>
+  <text x="870" y="256" text-anchor="middle" class="small">JSON 응답 형식 지정</text>
+
+  <rect x="405" y="415" width="250" height="145" class="box"/>
+  <text x="530" y="457" text-anchor="middle" class="label">OpenAI API</text>
+  <text x="530" y="489" text-anchor="middle" class="small">역사 인물 말투 반영</text>
+  <text x="530" y="515" text-anchor="middle" class="small">응답 및 선택지 생성</text>
+
+  <rect x="745" y="415" width="250" height="145" class="box"/>
+  <text x="870" y="457" text-anchor="middle" class="label">스토리 상태 관리</text>
+  <text x="870" y="489" text-anchor="middle" class="small">nationScore</text>
+  <text x="870" y="515" text-anchor="middle" class="small">emotionScore</text>
+  <text x="870" y="541" text-anchor="middle" class="small">최종 엔딩 분기</text>
+
+  <rect x="1070" y="415" width="145" height="145" class="accent"/>
+  <text x="1142" y="472" text-anchor="middle" class="accentText">엔딩</text>
+  <text x="1142" y="504" text-anchor="middle" class="accentText">Great Founder</text>
+  <text x="1142" y="535" text-anchor="middle" class="accentText">Lonely Father</text>
+
+  <path d="M315 202 H405" class="arrow"/>
+  <path d="M655 202 H745" class="arrow"/>
+  <path d="M870 275 C870 355 655 355 570 415" class="arrow"/>
+  <path d="M655 488 H745" class="arrow"/>
+  <path d="M995 488 H1070" class="arrow"/>
+</svg>

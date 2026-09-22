@@ -83,7 +83,10 @@ function toCharacter(character: SeedCharacter): Character {
     role: character.role,
     summary: character.summary,
     imageUrl: LOCAL_CHARACTER_IMAGES[character.id] ?? character.image_url,
-    imagePosition: LOCAL_CHARACTER_IMAGE_POSITIONS[character.id],
+    imagePosition:
+      LOCAL_CHARACTER_IMAGE_POSITIONS[character.id] ??
+      LOCAL_CHARACTER_IMAGE_POSITIONS[character.id.split("-")[0]] ??
+      "center top",
     openingLine: character.opening_line,
     sourceTitle: character.source_title,
     focusKeywords: character.focus_keywords,

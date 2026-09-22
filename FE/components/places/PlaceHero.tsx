@@ -108,6 +108,14 @@ export function PlaceHero({
           ))}
         </div>
 
+        <Link
+          href={`/places/${place.id}/characters?lang=${lang}`}
+          prefetch
+          className="button-primary place-hero-cta"
+        >
+          {t.meet}
+        </Link>
+
         <div className="detail-grid">
           <div>
             <span>{t.location}</span>
@@ -134,14 +142,6 @@ export function PlaceHero({
             <strong>{display.highlights[0]}</strong>
           </div>
         </div>
-
-        <Link
-          href={`/places/${place.id}/characters?lang=${lang}`}
-          prefetch
-          className="button-primary"
-        >
-          {t.meet}
-        </Link>
       </div>
     </section>
   );
