@@ -59,6 +59,5 @@ export const youngJeongjo = {
     "young_serious",
     "young_suspicious",
     "young_surprised",
-    "young_smile",
-  ],
+  ],   
 } as const;
