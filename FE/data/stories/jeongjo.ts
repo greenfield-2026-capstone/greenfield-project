@@ -14,7 +14,7 @@ export const jeongjoStory = {
     // =========================================================
     1: {
       title: "새벽의 활터, 세손의 고독",
-
+      
       background: "step1",
 
       characters: ["young_jeongjo"],
