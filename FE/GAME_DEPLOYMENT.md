@@ -38,3 +38,9 @@ Claude를 사용하려면 `LITELLM_MODEL`을 프록시에 등록된 Claude 모�
 
 검증: `node scripts/test-translation.cjs` (외부 AI를 모의 처리한 테스트).
 실제 번역 품질·속도는 환경변수 설정 후 배포 환경에서 확인해야 한다.
+
+## 인물 자유 대화
+
+`/api/chat`도 위 LiteLLM 환경변수 세 개가 있으면 서버에서 직접 AI를 호출한다.
+별도 BE 프로세스 없이 사용할 수 있으며, LiteLLM 설정이 없을 때만 기존 BE 경로를 사용한다.
+검증: `node scripts/test-chat.cjs`.
