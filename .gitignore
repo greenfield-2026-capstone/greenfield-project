@@ -5,3 +5,7 @@ node_modules/
 __pycache__/
 *.pyc
 BE/data/*.db
+
+# Local service credentials
+.env*
+!.env.example

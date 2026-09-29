@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { normalizeLocale } from "@/lib/locale";
 import { getCharacter, getPlace } from "@/lib/culture-data";
 
 export async function POST(request: NextRequest) {
@@ -14,7 +15,7 @@ export async function POST(request: NextRequest) {
     const base = process.env.API_BASE_URL ?? process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8080";
     const response = await fetch(`${base.replace(/\/$/, "")}/api/chat/character`, {
       method: "POST", headers: { "Content-Type": "application/json" }, signal: AbortSignal.timeout(60000),
-      body: JSON.stringify({ message: body.message.trim(), history, language: body.language === "en" ? "en" : "ko", character: { name: character.name, role: character.role, summary: character.summary, focusKeywords: character.focusKeywords }, place: { name: place.name, summary: place.summary, era: place.era, storyIntro: place.storyIntro } }),
+      body: JSON.stringify({ message: body.message.trim(), history, language: normalizeLocale(body.language), character: { name: character.name, role: character.role, summary: character.summary, focusKeywords: character.focusKeywords }, place: { name: place.name, summary: place.summary, era: place.era, storyIntro: place.storyIntro } }),
     });
     if (!response.ok) return NextResponse.json({ error: "Chat unavailable" }, { status: 502 });
     const data = await response.json();

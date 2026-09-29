@@ -3,18 +3,7 @@ import { HeroSection } from "@/components/home/HeroSection";
 import { PlaceCard } from "@/components/places/PlaceCard";
 import { getFilteredPlacesByRegion } from "@/lib/culture-data";
 
-const texts = {
-  ko: {
-    eyebrow: "Recommended Places",
-    title: "지금 떠나기 좋은 역사 장소",
-    empty: "조건에 맞는 장소가 없습니다. 검색어나 필터를 다시 조정해 주세요.",
-  },
-  en: {
-    eyebrow: "Recommended Places",
-    title: "Historic Places to Explore Now",
-    empty: "No places match your filters. Try another keyword or category.",
-  },
-};
+import { getCopy } from "@/lib/translations";
 
 function matchesQuery(
   place: ReturnType<typeof getFilteredPlacesByRegion>[number],
@@ -88,7 +77,7 @@ export default async function HomePage({
   const lang = params.lang ?? "ko";
   const query = params.q?.trim() ?? "";
 
-  const t = lang === "en" ? texts.en : texts.ko;
+  const t = getCopy(lang);
 
   const filteredPlaces = getFilteredPlacesByRegion(region).filter(
     (place) => matchesQuery(place, query) && matchesCategory(place, category),
@@ -105,10 +94,10 @@ export default async function HomePage({
         <div id="places" className="mt-10 flex items-end justify-between gap-4">
           <div>
             <p className="text-xs font-black uppercase tracking-[0.2em] text-[#9a6f2d]">
-              {t.eyebrow}
+              {t.places}
             </p>
             <h2 className="mt-2 text-2xl font-black text-[#141923] sm:text-3xl">
-              {t.title}
+              {t.recommended}
             </h2>
           </div>
           <span className="rounded-full border border-[#d8c7ad] bg-[#fffdf8]/90 px-4 py-2 text-sm font-black text-[#111827] shadow-sm backdrop-blur">

@@ -1,0 +1,44 @@
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const Module=require('node:module');
+const ts=require('typescript');
+const originalLoad=Module._load;
+Module._load=function(id,...args){
+  if(id==='next/cache') return {unstable_cache:fn=>{const values=new Map();return async(...args)=>{const key=JSON.stringify(args);if(values.has(key))return values.get(key);const result=await fn(...args);values.set(key,result);return result;};}};
+  return originalLoad.call(this,id,...args);
+};
+require.extensions['.ts']=(module,filename)=>module._compile(ts.transpileModule(fs.readFileSync(filename,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText,filename);
+const {translateContent,collectText}=require('../lib/contentTranslation.ts');
+const source={id:'sejong',name:'세종',imageUrl:'/sejong.png',turns:{1:{title:'첫 만남',script:[{speaker:'young_sejong',emotion:'young_smile',text:'안녕'}]}}};
+(async()=>{
+  let calls=0;
+  global.fetch=async(url,init)=>{
+    calls++;
+    assert.equal(url,'https://translation.example/v1/chat/completions');
+    const body=JSON.parse(init.body);
+    assert.match(body.messages[0].content,/Japanese/);
+    assert.equal(JSON.parse(body.messages[1].content).target_language, 'Japanese');
+    return Response.json({choices:[{message:{content:JSON.stringify({translations:JSON.parse(body.messages[1].content).texts.map(text=>'翻訳:'+text)})}}]});
+  };
+  assert.strictEqual(await translateContent(source,'ko'),source);
+  assert.equal(calls,0);
+  process.env.LITELLM_URL='https://translation.example/v1';
+  process.env.LITELLM_API_KEY='test';process.env.LITELLM_MODEL='test';
+  const translated=await translateContent(source,'ja');
+  assert.equal(translated.name,'翻訳:세종');
+  assert.equal(translated.id,'sejong');
+  assert.equal(translated.imageUrl,'/sejong.png');
+  assert.equal(translated.turns[1].script[0].speaker,'young_sejong');
+  assert.equal(translated.turns[1].script[0].emotion,'young_smile');
+  assert.equal(translated.turns[1].script[0].text,'翻訳:안녕');
+  assert.deepEqual(collectText(source),['세종','첫 만남','안녕']);
+  await translateContent(source,'ja');assert.equal(calls,1);
+  await translateContent({...source,name:'새 이름'},'ja');assert.equal(calls,2);
+  global.fetch=async()=>Response.json({choices:[{message:{content:'{"translations":[]}'}}]});
+  await assert.rejects(()=>translateContent(source,'fr'));
+  global.fetch=async()=>new Response('',{status:401});
+  await assert.rejects(()=>translateContent(source,'fr'));
+  delete process.env.LITELLM_API_KEY;
+  await assert.rejects(()=>translateContent(source,'es'));
+  console.log('PASS: translation, cache reuse, changed source, immutable IDs/assets, invalid output, provider errors, missing configuration');
+})().catch(error=>{console.error(error);process.exitCode=1});

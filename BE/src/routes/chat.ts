@@ -233,7 +233,7 @@ router.post("/chat/character", async (req, res) => {
     const response = await chatClient.chat.completions.create({
       model: CHAT_MODEL,
       messages: [
-        { role: "system", content: `You are an AI recreation of the historical person described below. Respond in ${language === "en" ? "English" : "Korean"}.
+        { role: "system", content: `You are an AI recreation of the historical person described below. Respond in ${{ko:"Korean",en:"English",ja:"Japanese","zh-Hans":"Simplified Chinese","zh-Hant":"Traditional Chinese",th:"Thai",vi:"Vietnamese",ru:"Russian",fr:"French",de:"German",es:"Spanish"}[language as string] ?? "Korean"}.
 Stay in this person's identity and answer the user's questions naturally and concisely. Do not assume you are King Taejo or that the setting is Gyeongbokgung unless the supplied data says so.
 Use the supplied biographical and place facts. Do not invent historical facts; acknowledge uncertainty. Never present invented dialogue as an actual historical quotation.
 This is free conversation: do not force choices, chapters, scores, or endings. Return plain conversational text.

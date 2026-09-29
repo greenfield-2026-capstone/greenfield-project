@@ -1,174 +1,53 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
+import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { languageOptions, regionOptions } from "@/lib/locale";
-
-const texts = {
-  ko: {
-    eyebrow: "Settings",
-    title: "지역 / 언어 설정",
-    countryLabel: "국가 / 지역 선택",
-    countryPlaceholder: "국가 / 지역을 선택해 주세요",
-    languageLabel: "언어 선택",
-    languagePlaceholder: "언어를 선택해 주세요",
-    apply: "적용",
-  },
-  en: {
-    eyebrow: "Settings",
-    title: "Region / Language Settings",
-    countryLabel: "Country / Region",
-    countryPlaceholder: "Please select a country / region",
-    languageLabel: "Language",
-    languagePlaceholder: "Please select a language",
-    apply: "Apply",
-  },
-};
+import { languageOptions, normalizeLocale, LocaleCode } from "@/lib/locale";
+import { getCopy, languageNames } from "@/lib/translations";
+import styles from "./LocaleSettingsForm.module.css";
 
 export function LocaleSettingsForm() {
   const router = useRouter();
   const params = useSearchParams();
-
-  const initialRegion = params.get("region") ?? "";
-  const initialLanguage = params.get("lang") ?? "";
-
-  const [region, setRegion] = useState(initialRegion);
-  const [language, setLanguage] = useState(initialLanguage);
-  const [isLanguageSheetOpen, setIsLanguageSheetOpen] = useState(false);
-
-  const canApply = Boolean(region && language);
-
-  const displayLanguage = language || "ko";
-  const t = texts[displayLanguage as keyof typeof texts] ?? texts.ko;
-
-  const selectedLanguageLabel = useMemo(
-    () =>
-      languageOptions.find((option) => option.code === language)?.label ??
-      t.languagePlaceholder,
-    [language, t.languagePlaceholder]
-  );
-
+  const requested = params.get("lang");
+  const [language, setLanguage] = useState<LocaleCode>(normalizeLocale(requested));
+  const [saving, setSaving] = useState(false);
+  const t = getCopy(language);
   useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    const savedRegion = window.localStorage.getItem("histour-region");
-    const savedLanguage = window.localStorage.getItem("histour-language");
-
-    if (!region && savedRegion) {
-      setRegion(savedRegion);
+    if (requested) {
+      setLanguage(normalizeLocale(requested));
+    } else {
+      try { setLanguage(normalizeLocale(localStorage.getItem("histour-language"))); } catch { /* URL selection still works when storage is unavailable. */ }
     }
+  }, [requested]);
 
-    if (!language && savedLanguage) {
-      setLanguage(savedLanguage);
-    }
-  }, [language, region]);
+  return <section className={styles.page}>
+    <Link href={`/?lang=${normalizeLocale(requested)}`} className={styles.back}>← {t.back}</Link>
+    <div className={styles.card}>
+      <div className={styles.icon} aria-hidden="true">文 <span>A</span></div>
+      <p className={styles.eyebrow}>MAKE YOURSELF AT HOME</p>
+      <h1>{t.settingsTitle}</h1>
+      <p className={styles.description}>{t.settingsDescription}</p>
+      <form onSubmit={event => {
+        event.preventDefault(); setSaving(true);
+        try { localStorage.setItem("histour-language", language); localStorage.removeItem("histour-region"); } catch { /* Continue using the language in the URL. */ }
+        router.push(`/?lang=${language}`);
+      }}>
+        <fieldset className={styles.options}>
+          <legend>{t.language}</legend>
+          {languageOptions.map(option => <label className={styles.option} key={option.code}>
+            <input type="radio" name="language" value={option.code} checked={language === option.code} onChange={() => setLanguage(option.code)} />
+            <span className={styles.symbol} aria-hidden="true">{option.code === "ko" ? "가" : "Aa"}</span>
+            <span className={styles.label}><strong lang={option.code}>{option.label}</strong><small>{languageNames[option.code]}</small></span>
+            <span className={styles.check} aria-hidden="true">{language === option.code ? "✓" : ""}</span>
+          </label>)}
+        </fieldset>
+        <p className={styles.note}>{t.contentNote}</p>
+        <button className={styles.apply} type="submit" disabled={saving}>{saving ? t.applying : t.apply}<span aria-hidden="true">→</span></button>
+      </form>
 
-  return (
-    <>
-      <section className="locale-page">
-        <div className="locale-page-top">
-          <button
-            type="button"
-            className="back-button"
-            onClick={() => router.back()}
-            aria-label="Go back"
-          >
-            ←
-          </button>
-
-          <div>
-            <p className="eyebrow">{t.eyebrow}</p>
-            <h1>{t.title}</h1>
-          </div>
-        </div>
-
-        <div className="locale-form">
-          <label className="locale-field">
-            <span>{t.countryLabel}</span>
-
-            <select
-              value={region}
-              onChange={(event) => setRegion(event.target.value)}
-            >
-              <option value="" disabled>
-                {t.countryPlaceholder}
-              </option>
-
-              {regionOptions.map((option) => (
-                <option key={option.code} value={option.code}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-          </label>
-
-          <button
-            type="button"
-            className="locale-field locale-trigger"
-            onClick={() => setIsLanguageSheetOpen(true)}
-          >
-            <span>{t.languageLabel}</span>
-            <strong>{selectedLanguageLabel}</strong>
-          </button>
-
-          <button
-            type="button"
-            className={`locale-apply ${canApply ? "is-ready" : ""}`}
-            disabled={!canApply}
-            onClick={() => {
-              if (!canApply) return;
-
-              const next = new URLSearchParams();
-              next.set("region", region);
-              next.set("lang", language);
-
-              if (typeof window !== "undefined") {
-                window.localStorage.setItem("histour-language", language);
-                window.localStorage.setItem("histour-region", region);
-              }
-
-              router.push(`/?${next.toString()}`);
-            }}
-          >
-            {t.apply}
-          </button>
-        </div>
-      </section>
-
-      {isLanguageSheetOpen ? (
-        <div
-          className="sheet-overlay"
-          onClick={() => setIsLanguageSheetOpen(false)}
-        >
-          <div
-            className="language-sheet"
-            onClick={(event) => event.stopPropagation()}
-          >
-            <div className="language-sheet-head">
-              <h2>{t.languageLabel}</h2>
-            </div>
-
-            <div className="language-list">
-              {languageOptions.map((option) => (
-                <button
-                  key={option.code}
-                  type="button"
-                  className={`language-option ${
-                    language === option.code ? "is-active" : ""
-                  }`}
-                  onClick={() => {
-                    setLanguage(option.code);
-                    setIsLanguageSheetOpen(false);
-                  }}
-                >
-                  <span>{option.label}</span>
-                  {language === option.code ? <span>✓</span> : null}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      ) : null}
-    </>
-  );
+    </div>
+    <p className={styles.footer}>HISTOUR · PLACES WITH STORIES</p>
+  </section>;
 }

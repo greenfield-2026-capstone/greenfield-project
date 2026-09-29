@@ -5,40 +5,21 @@ import { FormEvent, useState } from "react";
 import { getAllRegions } from "@/lib/culture-data";
 import styles from "./FilterBar.module.css";
 
-const filterCopy = {
-  ko: {
-    searchLabel: "장소 검색",
-    searchPlaceholder: "장소, 인물 또는 이야기 검색",
-    regionLabel: "지역 기준",
-    recommendation: "장소 찾기",
-    all: "전체",
-    categories: ["궁궐", "성곽", "유적지", "박물관", "자연/정원"],
-  },
-  en: {
-    searchLabel: "Search places",
-    searchPlaceholder: "Search palaces, fortresses, figures, themes",
-    regionLabel: "Region",
-    recommendation: "Find places",
-    all: "All",
-    categories: [
-      "Palace",
-      "Fortress",
-      "Historic Site",
-      "Museum",
-      "Nature/Garden",
-    ],
-  },
-};
+import { useTranslatedContent } from "@/lib/useTranslatedContent";
+import { getCopy } from "@/lib/translations";
 
 export function SearchFilterBar({ lang = "ko" }: { lang?: string }) {
   const router = useRouter();
   const params = useSearchParams();
-  const t = lang === "en" ? filterCopy.en : filterCopy.ko;
+  const t = getCopy(lang);
 
   const [query, setQuery] = useState(params.get("q") ?? "");
   const region = params.get("region") ?? "all";
-  const activeCategory = params.get("category") ?? "all";
   const regions = getAllRegions();
+  const {content:regionCopy} = useTranslatedContent("ui", "regions", {text:["지역 기준", ...regions]}, lang);
+  const category = params.get("category") ?? "all";
+  const categoryAliases: Record<string, string> = { Palace: "궁궐", Fortress: "성곽", "Historic Site": "유적지", Museum: "박물관", "Nature/Garden": "자연/정원" };
+  const activeCategory = categoryAliases[category] ?? category;
 
   const updateParams = (updates: Record<string, string | null>) => {
     const search = new URLSearchParams(params.toString());
@@ -65,7 +46,7 @@ export function SearchFilterBar({ lang = "ko" }: { lang?: string }) {
     >
       <form onSubmit={onSubmit} className={styles.form}>
         <label className={styles.searchField}>
-          <span className={styles.label}>{t.searchLabel}</span>
+          <span className={styles.label}>{t.search}</span>
           <span className={styles.inputWrap}>
             <svg
               width="20"
@@ -87,18 +68,11 @@ export function SearchFilterBar({ lang = "ko" }: { lang?: string }) {
           </span>
         </label>
         <label className={styles.regionField}>
-          <span className={styles.label}>{t.regionLabel}</span> {}
+          <span className={styles.label}>{regionCopy.text[0]}</span>
           <span className={styles.selectWrap}>
-            <select
-              value={region}
-              onChange={(event) => updateParams({ region: event.target.value })}
-            >
+            <select value={region} onChange={(event) => updateParams({ region: event.target.value, airport: null })}>
               <option value="all">{t.all}</option>
-              {regions.map((r) => (
-                <option key={r} value={r}>
-                  {r}
-                </option>
-              ))}
+              {regions.map((value, index) => <option key={value} value={value}>{regionCopy.text[index + 1]}</option>)}
             </select>
             <svg
               width="16"
@@ -113,29 +87,12 @@ export function SearchFilterBar({ lang = "ko" }: { lang?: string }) {
             </svg>
           </span>
         </label>
-        <button type="submit" className={styles.submit}>
-          {t.recommendation}
-          <span aria-hidden="true">↗</span>
-        </button>
+        <button type="submit" className={styles.submit}>{t.find}<span aria-hidden="true">↗</span></button>
       </form>
-      <div
-        className={styles.categories}
-        aria-label={lang === "en" ? "Place categories" : "장소 유형"}
-      >
-        {[t.all, ...t.categories].map((category) => {
-          const value = category === t.all ? "all" : category;
-          return (
-            <button
-              key={category}
-              type="button"
-              aria-pressed={activeCategory === value}
-              onClick={() => updateParams({ category: value })}
-              className={styles.category}
-            >
-              {category}
-            </button>
-          );
-        })}
+      <div className={styles.categories} aria-label={lang === "en" ? "Place categories" : "장소 유형"}>
+        {[['all',t.all], ['궁궐',t.palace], ['성곽',t.fortress], ['유적지',t.historic], ['박물관',t.museum], ['자연/정원',t.nature]].map(([value, label]) => (
+          <button key={value} type="button" aria-pressed={activeCategory === value} onClick={() => updateParams({ category: value })} className={styles.category}>{label}</button>
+        ))}
       </div>
     </section>
   );
