@@ -1,5 +1,3 @@
-export type LocaleCode = "ko" | "en";
-
 export const languageOptions = [
   { code: "ko", label: "한국어" },
   { code: "en", label: "English" },
@@ -37,4 +35,9 @@ export const regionOptions = [
 
 export function isEnglishSelected(value?: string | null) {
   return value === "en";
+}
+
+export type LocaleCode = typeof languageOptions[number]["code"];
+export function normalizeLocale(value?: string | null): LocaleCode {
+  return languageOptions.some(option => option.code === value) ? value as LocaleCode : "ko";
 }
