@@ -1,8 +1,7 @@
 import { SearchFilterBar } from "@/components/home/FilterBar";
 import { HeroSection } from "@/components/home/HeroSection";
 import { PlaceCard } from "@/components/places/PlaceCard";
-import { getFilteredPlaces } from "@/lib/culture-data";
-import { AirportCode } from "@/types/place";
+import { getFilteredPlacesByRegion } from "@/lib/culture-data";
 
 const texts = {
   ko: {
@@ -17,7 +16,10 @@ const texts = {
   },
 };
 
-function matchesQuery(place: ReturnType<typeof getFilteredPlaces>[number], query: string) {
+function matchesQuery(
+  place: ReturnType<typeof getFilteredPlacesByRegion>[number],
+  query: string,
+) {
   if (!query) return true;
   const normalized = query.toLowerCase();
   const haystack = [
@@ -42,8 +44,8 @@ function matchesQuery(place: ReturnType<typeof getFilteredPlaces>[number], query
 }
 
 function matchesCategory(
-  place: ReturnType<typeof getFilteredPlaces>[number],
-  category: string
+  place: ReturnType<typeof getFilteredPlacesByRegion>[number],
+  category: string,
 ) {
   if (!category || category === "all") return true;
   const target = category.toLowerCase();
@@ -52,20 +54,20 @@ function matchesCategory(
     .toLowerCase();
 
   const categoryMatchers: Record<string, string[]> = {
-    "궁궐": ["궁", "궁궐", "palace"],
+    궁궐: ["궁", "궁궐", "palace"],
     palace: ["궁", "궁궐", "palace"],
-    "성곽": ["성곽", "산성", "화성", "fortress"],
+    성곽: ["성곽", "산성", "화성", "fortress"],
     fortress: ["성곽", "산성", "화성", "fortress"],
-    "유적지": ["유적", "역사", "heritage", "historic"],
+    유적지: ["유적", "역사", "heritage", "historic"],
     "historic site": ["유적", "역사", "heritage", "historic"],
-    "박물관": ["박물관", "museum"],
+    박물관: ["박물관", "museum"],
     museum: ["박물관", "museum"],
     "자연/정원": ["정원", "숲", "산", "garden", "nature"],
     "nature/garden": ["정원", "숲", "산", "garden", "nature"],
   };
 
   return (categoryMatchers[target] ?? [target]).some((keyword) =>
-    text.includes(keyword)
+    text.includes(keyword),
   );
 }
 
@@ -73,7 +75,7 @@ export default async function HomePage({
   searchParams,
 }: {
   searchParams: Promise<{
-    airport?: AirportCode | "all";
+    region?: string;
     category?: string;
     lang?: string;
     q?: string;
@@ -81,15 +83,15 @@ export default async function HomePage({
 }) {
   const params = (await searchParams) ?? {};
 
-  const airport = params.airport ?? "all";
+  const region = params.region ?? "all";
   const category = params.category ?? "all";
   const lang = params.lang ?? "ko";
   const query = params.q?.trim() ?? "";
 
   const t = lang === "en" ? texts.en : texts.ko;
 
-  const filteredPlaces = getFilteredPlaces(airport).filter(
-    (place) => matchesQuery(place, query) && matchesCategory(place, category)
+  const filteredPlaces = getFilteredPlacesByRegion(region).filter(
+    (place) => matchesQuery(place, query) && matchesCategory(place, category),
   );
 
   return (
