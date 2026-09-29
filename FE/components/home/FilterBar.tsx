@@ -2,9 +2,10 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { FormEvent, useState } from "react";
-import { airports } from "@/lib/airports";
+import { getAllRegions } from "@/lib/culture-data";
 import styles from "./FilterBar.module.css";
 
+import { useTranslatedContent } from "@/lib/useTranslatedContent";
 import { getCopy } from "@/lib/translations";
 
 export function SearchFilterBar({ lang = "ko" }: { lang?: string }) {
@@ -13,7 +14,9 @@ export function SearchFilterBar({ lang = "ko" }: { lang?: string }) {
   const t = getCopy(lang);
 
   const [query, setQuery] = useState(params.get("q") ?? "");
-  const airport = params.get("airport") ?? "all";
+  const region = params.get("region") ?? "all";
+  const regions = getAllRegions();
+  const {content:regionCopy} = useTranslatedContent("ui", "regions", {text:["지역 기준", ...regions]}, lang);
   const category = params.get("category") ?? "all";
   const categoryAliases: Record<string, string> = { Palace: "궁궐", Fortress: "성곽", "Historic Site": "유적지", Museum: "박물관", "Nature/Garden": "자연/정원" };
   const activeCategory = categoryAliases[category] ?? category;
@@ -37,22 +40,51 @@ export function SearchFilterBar({ lang = "ko" }: { lang?: string }) {
   };
 
   return (
-    <section aria-label={lang === "en" ? "Place filters" : "장소 필터"} className={styles.panel}>
+    <section
+      aria-label={lang === "en" ? "Place filters" : "장소 필터"}
+      className={styles.panel}
+    >
       <form onSubmit={onSubmit} className={styles.form}>
         <label className={styles.searchField}>
           <span className={styles.label}>{t.search}</span>
           <span className={styles.inputWrap}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/></svg>
-            <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder={t.searchPlaceholder} />
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              aria-hidden="true"
+            >
+              <circle cx="10.5" cy="10.5" r="6.5" />
+              <path d="m16 16 4.5 4.5" />
+            </svg>
+            <input
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              placeholder={t.searchPlaceholder}
+            />
           </span>
         </label>
-        <label className={styles.airportField}>
-          <span className={styles.label}>{t.airport}</span>
+        <label className={styles.regionField}>
+          <span className={styles.label}>{regionCopy.text[0]}</span>
           <span className={styles.selectWrap}>
-            <select value={airport} onChange={(event) => updateParams({ airport: event.target.value })}>
-              {airports.map((item) => <option key={item.code} value={item.code}>{item.code === "all" ? t.all : lang === "ko" ? item.label : item.englishLabel}</option>)}
+            <select value={region} onChange={(event) => updateParams({ region: event.target.value, airport: null })}>
+              <option value="all">{t.all}</option>
+              {regions.map((value, index) => <option key={value} value={value}>{regionCopy.text[index + 1]}</option>)}
             </select>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              aria-hidden="true"
+            >
+              <path d="m6 9 6 6 6-6" />
+            </svg>
           </span>
         </label>
         <button type="submit" className={styles.submit}>{t.find}<span aria-hidden="true">↗</span></button>

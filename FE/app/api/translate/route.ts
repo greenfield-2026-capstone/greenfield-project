@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getPlace } from "../../../lib/culture-data";
+import { getAllRegions, getPlace } from "../../../lib/culture-data";
 import { stories } from "../../../data/stories";
 import { languageOptions } from "../../../lib/locale";
 import { translateContent } from "../../../lib/contentTranslation";
@@ -16,6 +16,10 @@ export async function POST(req: NextRequest) {
       const translated = await translateContent({text:keys.map(key=>detailCopy[key])}, body.lang);
       return NextResponse.json({content:Object.fromEntries(keys.map((key,index)=>[key,translated.text[index]]))});
     } catch {return NextResponse.json({error:"Translation unavailable"},{status:503});}
+  }
+  if (body.kind === "ui" && body.id === "regions") {
+    try {return NextResponse.json({content:await translateContent({text:["지역 기준", ...getAllRegions()]}, body.lang)});}
+    catch {return NextResponse.json({error:"Translation unavailable"},{status:503});}
   }
   // Accept only registered content, never arbitrary text from a public caller.
   const source = body.kind === "place" ? getPlace(body.id) : body.kind === "story" && Object.hasOwn(stories,body.id) ? stories[body.id as keyof typeof stories] : undefined;

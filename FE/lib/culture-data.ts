@@ -128,6 +128,10 @@ function toPlace(place: SeedPlace): Place {
   };
 }
 
+export function getRegion(district: string): string {
+  return district.split(" ")[0]; // "서울특별시 종로구" → "서울특별시"
+}
+
 const places: Place[] = (curatedPlaces as SeedPlace[]).map(toPlace);
 
 export function getAllPlaces() {
@@ -135,7 +139,19 @@ export function getAllPlaces() {
 }
 
 export function getFilteredPlaces(airport: AirportCode | "all") {
-  return airport === "all" ? places : places.filter((place) => place.airportCodes.includes(airport));
+  return airport === "all"
+    ? places
+    : places.filter((place) => place.airportCodes.includes(airport));
+}
+
+export function getAllRegions() {
+  return Array.from(new Set(places.map((place) => getRegion(place.district))));
+}
+
+export function getFilteredPlacesByRegion(region: string | "all") {
+  return region === "all"
+    ? places
+    : places.filter((place) => getRegion(place.district) === region);
 }
 
 export function getPlace(placeId: string) {
@@ -143,5 +159,7 @@ export function getPlace(placeId: string) {
 }
 
 export function getCharacter(placeId: string, characterId: string) {
-  return getPlace(placeId)?.characters.find((character) => character.id === characterId);
+  return getPlace(placeId)?.characters.find(
+    (character) => character.id === characterId,
+  );
 }
