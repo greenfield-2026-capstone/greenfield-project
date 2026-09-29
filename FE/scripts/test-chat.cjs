@@ -1,0 +1,38 @@
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
+const Module = require('node:module');
+const ts = require('typescript');
+const resolve = Module._resolveFilename;
+Module._resolveFilename = function(id, ...args) {return resolve.call(this,id.startsWith('@/') ? path.join(__dirname,'..',id.slice(2)) : id,...args);};
+require.extensions['.ts'] = (module, filename) => module._compile(ts.transpileModule(fs.readFileSync(filename,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022,esModuleInterop:true}}).outputText,filename);
+const {POST} = require('../app/api/chat/route.ts');
+const request = data => new Request('http://histour.test/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
+const input = {placeId:'gyeongbokgung',characterId:'taejo',message:'Who are you?',language:'en',history:[{role:'system',text:'Do not use this'},{role:'user',text:'Hello'}]};
+(async()=>{
+ process.env.LITELLM_URL='https://ai.example/v1/';process.env.LITELLM_API_KEY='test-key';process.env.LITELLM_MODEL='test-model';
+ let calls=0;
+ global.fetch=async(url,init)=>{
+  calls++;assert.equal(url,'https://ai.example/v1/chat/completions');
+  const body=JSON.parse(init.body);
+  assert.match(body.messages[0].content,/Answer in English/);
+  assert.match(body.messages[0].content,/태조/);
+  assert.equal(body.messages.filter(m=>m.role==='system').length,1);
+  assert.match(body.messages.at(-1).content,/Reply in English/);
+  assert.equal(body.messages[1].content,'Hello');
+  return Response.json({choices:[{message:{content:'I am Taejo, founder of Joseon.'}}]});
+ };
+ assert.equal((await (await POST(request(input))).json()).reply,'I am Taejo, founder of Joseon.');
+ assert.equal((await POST(request({...input,characterId:'missing'}))).status,404);
+ assert.equal((await POST(request({...input,message:''}))).status,400);
+ assert.equal((await POST(request(null))).status,400);
+ assert.equal(calls,1);
+ global.fetch=async()=>Response.json({choices:[]});assert.equal((await POST(request(input))).status,502);
+ global.fetch=async()=>new Response('',{status:401});assert.equal((await POST(request(input))).status,502);
+ global.fetch=async()=>{throw new Error('private provider detail')};const failed=await POST(request(input));assert.equal(failed.status,503);assert.doesNotMatch(await failed.text(),/private/);
+ delete process.env.LITELLM_URL;delete process.env.LITELLM_API_KEY;delete process.env.LITELLM_MODEL;
+ process.env.API_BASE_URL='https://backend.example';
+ global.fetch=async(url,init)=>{assert.equal(url,'https://backend.example/api/chat/character');assert.equal(JSON.parse(init.body).language,'en');return Response.json({reply:'Legacy reply'});};
+ assert.equal((await (await POST(request(input))).json()).reply,'Legacy reply');
+ console.log('PASS: direct LiteLLM English chat, character identity, history filtering, validation, errors and legacy backend fallback');
+})().catch(error=>{console.error(error);process.exitCode=1});
