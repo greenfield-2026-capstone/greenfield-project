@@ -17,7 +17,7 @@ export function getCharacterImage(speaker: string, emotion: string | null): stri
   if (!emotion) return null;
   if (speaker === "sejong" || speaker === "young_sejong") return `/images/sejong/characters/${emotion}.png`;
   if (speaker === "taejong" || speaker === "kimmun") return `/images/${speaker}/${emotion}.png`;
-  if (speaker === "young_jeongjo") return `/images/jeongjo/young/${emotion === "young_angry" ? "angry" : "normal"}.png`;
+  if (speaker === "young_jeongjo") return `/images/jeongjo/young/${emotion === "angry" ? "angry" : "normal"}.png`;
   if (speaker === "jeongjo") {
     const available = ["smile", "angry", "faint", "shout"];
     return `/images/jeongjo/characters/${available.includes(emotion) ? emotion : "normal"}.png`;
