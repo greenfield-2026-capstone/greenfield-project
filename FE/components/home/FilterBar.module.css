@@ -9,7 +9,7 @@
 }
 
 .form { display: grid; grid-template-columns: minmax(0, 1fr) 220px auto; gap: 24px; align-items: end; }
-.searchField, .airportField { display: grid; gap: 9px; min-width: 0; }
+.searchField, .regionField { display: grid; gap: 9px; min-width: 0; }
 .label { font-size: 12px; font-weight: 600; color: #69716b; }
 .inputWrap, .selectWrap { display: flex; align-items: center; position: relative; height: 48px; border: 1px solid #d9ddd6; border-radius: 6px; background: #fff; }
 .inputWrap { gap: 12px; padding: 0 14px; }

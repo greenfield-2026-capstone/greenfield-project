@@ -1,8 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
+import { getCharacterImage, getStoryBackground } from "@/lib/characterImages";
 import { stories } from "../../../data/stories";
+import { useTranslatedContent } from "@/lib/useTranslatedContent";
+import { TranslationStatus } from "@/components/TranslationStatus";
 import styles from "./roleplay.module.css";
 
 type Line = {
@@ -29,27 +32,18 @@ const names: Record<string, string> = {
   young_sejong: "어린 세종",
   taejong: "태종",
   kimmun: "신하 김문",
+  jeongjo: "정조",
+  young_jeongjo: "어린 정조",
+  jeongyakyong: "정약용",
   narration: "",
 };
 
-function getCharacterImage(speaker: string, emotion: string | null) {
-  if (!emotion) return null;
-
-  if (speaker === "sejong" || speaker === "young_sejong")
-    return `/images/sejong/characters/${emotion}.png`;
-
-  if (speaker === "taejong")
-    return `/images/taejong/${emotion}.png`;
-
-  if (speaker === "kimmun")
-    return `/images/kimmun/${emotion}.png`;
-
-  return null;
-}
-
 export default function RoleplayPage() {
   const { characterId } = useParams<{ characterId: string }>();
-  const story = stories[characterId as keyof typeof stories];
+  const lang = useSearchParams().get("lang") ?? "ko";
+  const originalStory = stories[characterId as keyof typeof stories];
+  const translation = useTranslatedContent("story", characterId, originalStory, lang);
+  const story = translation.content;
 
   const [turn, setTurn] = useState(1);
   const [scriptIndex, setScriptIndex] = useState(0);
@@ -77,7 +71,7 @@ export default function RoleplayPage() {
     : null;
 
   const backgroundImage = scene
-    ? `/images/${characterId}/backgrounds/${scene.background}.png`
+    ? getStoryBackground(characterId, scene.background)
     : "";
 
   // 대사 타이핑
@@ -127,6 +121,7 @@ export default function RoleplayPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           storyId: characterId,
+          language: lang,
           turn,
           mode: "choices",
           history,
@@ -196,6 +191,7 @@ export default function RoleplayPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           storyId: characterId,
+          language: lang,
           turn,
           mode: "reaction",
           selectedOption: option,
@@ -272,6 +268,7 @@ export default function RoleplayPage() {
         <div>
           <div className={styles.logo}>HISTOUR</div>
           <div className={styles.storyTitle}>{story.title}</div>
+          <TranslationStatus lang={lang} {...translation} />
         </div>
 
         <div className={styles.turn}>

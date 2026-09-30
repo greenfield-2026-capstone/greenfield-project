@@ -1,7 +1,10 @@
+"use client";
+import { useTranslatedContent } from "@/lib/useTranslatedContent";
+import { TranslationStatus } from "@/components/TranslationStatus";
 import Link from "next/link";
 import Image from "next/image";
 import { Character } from "@/types/place";
-import { stories } from "@/data/stories";
+import { getCharacterGameId } from "@/lib/characterGame";
 import styles from "./CharacterCard.module.css";
 
 interface CharacterCardProps {
@@ -10,57 +13,20 @@ interface CharacterCardProps {
   lang?: string;
 }
 
-const texts = {
-  ko: {
-    chat: "대화하기",
-    game: "게임하기",
-    upcoming: "게임 준비 중",
-  },
-  en: {
-    chat: "Chat",
-    game: "Play game",
-    upcoming: "Game coming soon",
-  },
-};
+import { getCopy } from "@/lib/translations";
 
-const characterEn: Record<string, any> = {
-  taejo: {
-    name: "King Taejo",
-    role: "The Beginning of the Capital and Dynasty",
-    sourceTitle: "Sajikdan, a Pillar That Supported Joseon",
-    summary:
-      "A key figure who can explain why Gyeongbokgung Palace was important at the beginning of Joseon.",
-    focusKeywords: ["Founding", "Dynasty", "Capital"],
-  },
-  taejong: {
-    name: "King Taejong",
-    role: "Gyeonghoeru and Palace Order",
-    sourceTitle:
-      "Gyeonghoeru Pavilion, a Small Universe Where Humans and Heaven Meet",
-    summary:
-      "A figure who can explain how royal spaces were organized through Gyeonghoeru and the palace layout.",
-    focusKeywords: ["Gyeonghoeru", "Order", "Palace"],
-  },
-  heungseon: {
-    name: "Heungseon Daewongun",
-    role: "Reconstruction and Royal Authority",
-    sourceTitle:
-      "Haetae Statue, a Guardian Beast That Prevents Fire and Protects Justice",
-    summary:
-      "A figure who best explains the symbolism and authority of the rebuilt Gyeongbokgung Palace.",
-    focusKeywords: ["Reconstruction", "Authority", "Gwanghwamun"],
-  },
-};
+
 
 export function CharacterCard({
   placeId,
   character,
   lang = "ko",
 }: CharacterCardProps) {
-  const t = lang === "en" ? texts.en : texts.ko;
-  const en = characterEn[character.id];
-  const display = lang === "en" && en ? en : character;
-  const hasGame = Object.prototype.hasOwnProperty.call(stories, character.id);
+  const t = getCopy(lang);
+  const translation = useTranslatedContent("place", placeId, { characters: [character] }, lang);
+  const localizedCharacter = translation.content.characters.find(item => item.id === character.id) ?? character;
+  const display = localizedCharacter;
+  const gameId = getCharacterGameId(character.id);
 
   return (
     <article className="card character-card">
@@ -80,6 +46,7 @@ export function CharacterCard({
       </div>
 
       <div className="card-body">
+        <TranslationStatus lang={lang} {...translation} />
         <h3>{display.name}</h3>
 
         <p className="character-role">{display.role}</p>
@@ -105,9 +72,9 @@ export function CharacterCard({
           >
             {t.chat}
           </Link>
-          {hasGame ? (
+          {gameId ? (
             <Link
-              href={`/roleplay/${character.id}?lang=${lang}`}
+              href={`/roleplay/${gameId}?lang=${lang}`}
               className={styles.game}
               aria-label={`${display.name} · ${t.game}`}
             >
@@ -115,7 +82,7 @@ export function CharacterCard({
             </Link>
           ) : (
             <button type="button" className={styles.game} disabled>
-              {t.upcoming}
+              {t.gameSoon}
             </button>
           )}
         </div>

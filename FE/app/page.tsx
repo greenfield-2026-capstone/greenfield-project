@@ -1,23 +1,14 @@
 import { SearchFilterBar } from "@/components/home/FilterBar";
 import { HeroSection } from "@/components/home/HeroSection";
 import { PlaceCard } from "@/components/places/PlaceCard";
-import { getFilteredPlaces } from "@/lib/culture-data";
-import { AirportCode } from "@/types/place";
+import { getFilteredPlacesByRegion } from "@/lib/culture-data";
 
-const texts = {
-  ko: {
-    eyebrow: "Recommended Places",
-    title: "지금 떠나기 좋은 역사 장소",
-    empty: "조건에 맞는 장소가 없습니다. 검색어나 필터를 다시 조정해 주세요.",
-  },
-  en: {
-    eyebrow: "Recommended Places",
-    title: "Historic Places to Explore Now",
-    empty: "No places match your filters. Try another keyword or category.",
-  },
-};
+import { getCopy } from "@/lib/translations";
 
-function matchesQuery(place: ReturnType<typeof getFilteredPlaces>[number], query: string) {
+function matchesQuery(
+  place: ReturnType<typeof getFilteredPlacesByRegion>[number],
+  query: string,
+) {
   if (!query) return true;
   const normalized = query.toLowerCase();
   const haystack = [
@@ -42,8 +33,8 @@ function matchesQuery(place: ReturnType<typeof getFilteredPlaces>[number], query
 }
 
 function matchesCategory(
-  place: ReturnType<typeof getFilteredPlaces>[number],
-  category: string
+  place: ReturnType<typeof getFilteredPlacesByRegion>[number],
+  category: string,
 ) {
   if (!category || category === "all") return true;
   const target = category.toLowerCase();
@@ -52,20 +43,20 @@ function matchesCategory(
     .toLowerCase();
 
   const categoryMatchers: Record<string, string[]> = {
-    "궁궐": ["궁", "궁궐", "palace"],
+    궁궐: ["궁", "궁궐", "palace"],
     palace: ["궁", "궁궐", "palace"],
-    "성곽": ["성곽", "산성", "화성", "fortress"],
+    성곽: ["성곽", "산성", "화성", "fortress"],
     fortress: ["성곽", "산성", "화성", "fortress"],
-    "유적지": ["유적", "역사", "heritage", "historic"],
+    유적지: ["유적", "역사", "heritage", "historic"],
     "historic site": ["유적", "역사", "heritage", "historic"],
-    "박물관": ["박물관", "museum"],
+    박물관: ["박물관", "museum"],
     museum: ["박물관", "museum"],
     "자연/정원": ["정원", "숲", "산", "garden", "nature"],
     "nature/garden": ["정원", "숲", "산", "garden", "nature"],
   };
 
   return (categoryMatchers[target] ?? [target]).some((keyword) =>
-    text.includes(keyword)
+    text.includes(keyword),
   );
 }
 
@@ -73,7 +64,7 @@ export default async function HomePage({
   searchParams,
 }: {
   searchParams: Promise<{
-    airport?: AirportCode | "all";
+    region?: string;
     category?: string;
     lang?: string;
     q?: string;
@@ -81,15 +72,15 @@ export default async function HomePage({
 }) {
   const params = (await searchParams) ?? {};
 
-  const airport = params.airport ?? "all";
+  const region = params.region ?? "all";
   const category = params.category ?? "all";
   const lang = params.lang ?? "ko";
   const query = params.q?.trim() ?? "";
 
-  const t = lang === "en" ? texts.en : texts.ko;
+  const t = getCopy(lang);
 
-  const filteredPlaces = getFilteredPlaces(airport).filter(
-    (place) => matchesQuery(place, query) && matchesCategory(place, category)
+  const filteredPlaces = getFilteredPlacesByRegion(region).filter(
+    (place) => matchesQuery(place, query) && matchesCategory(place, category),
   );
 
   return (
@@ -103,10 +94,10 @@ export default async function HomePage({
         <div id="places" className="mt-10 flex items-end justify-between gap-4">
           <div>
             <p className="text-xs font-black uppercase tracking-[0.2em] text-[#9a6f2d]">
-              {t.eyebrow}
+              {t.places}
             </p>
             <h2 className="mt-2 text-2xl font-black text-[#141923] sm:text-3xl">
-              {t.title}
+              {t.recommended}
             </h2>
           </div>
           <span className="rounded-full border border-[#d8c7ad] bg-[#fffdf8]/90 px-4 py-2 text-sm font-black text-[#111827] shadow-sm backdrop-blur">

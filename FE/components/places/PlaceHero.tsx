@@ -1,64 +1,30 @@
+"use client";
+import { detailCopy } from "@/lib/detailCopy";
+import { useTranslatedContent } from "@/lib/useTranslatedContent";
+import { TranslationStatus } from "@/components/TranslationStatus";
 import Link from "next/link";
 import Image from "next/image";
 import { Place } from "@/types/place";
 
-const texts = {
-  ko: {
-    people: "명 등장",
-    points: "개 현장 포인트",
-    story: "대표 이야기",
-    location: "위치",
-    tags: "핵심 태그",
-    goodPoint: "이런 점이 좋아요",
-    together: "같이 둘러보기",
-    highlight: "한눈에 보면 좋은 장면",
-    meet: "인물 만나기",
-  },
-  en: {
-    people: "characters",
-    points: "spot points",
-    story: "Main Story",
-    location: "Location",
-    tags: "Key Tags",
-    goodPoint: "Why People Like It",
-    together: "Nearby Highlights",
-    highlight: "Best Scene to Notice",
-    meet: "Meet Characters",
-  },
-};
 
-const placeHeroEn: Record<string, any> = {
-  gyeongbokgung: {
-    name: "Gyeongbokgung Palace",
-    era: "Early Joseon ~ Korean Empire",
-    airportLabel: "Incheon · Gimpo Airport",
-    foreignerNote: "Highly satisfying for first-time visitors",
-    sourceTitle:
-      "Gyeonghoeru Pavilion, a Small Universe Where Humans and Heaven Meet",
-    storyIntro:
-      "As Joseon's representative palace, Gyeongbokgung Palace is appealing because its atmosphere changes quickly, from royal banquet spaces to places marked by royal tension.",
-    location: "161 Sajik-ro, Jongno-gu, Seoul",
-    tags: ["Joseon", "Palace", "Royal Family", "Seoul"],
-    buzzStat:
-      "It has clear photo spots and an easy route, making it a great choice for a first trip to Seoul.",
-    recommendationItems: ["Gwanghwamun", "Gyeonghoeru", "Okhoru"],
-    highlights: ["Gyeonghoeru", "Cheongyeonru", "Okhoru"],
-  },
-};
+
+
 
 export function PlaceHero({
-  place,
+  place: originalPlace,
   lang = "ko",
 }: {
   place: Place;
   lang?: string;
 }) {
-  const t = lang === "en" ? texts.en : texts.ko;
-  const en = placeHeroEn[place.id];
-  const display = lang === "en" && en ? en : place;
+  const translation = useTranslatedContent("place", originalPlace.id, originalPlace, lang);
+  const place = translation.content;
+  const {content:t} = useTranslatedContent("ui", "detail", detailCopy, lang);
+  const display = place;
 
   return (
     <section className="place-hero">
+      <TranslationStatus lang={lang} {...translation} />
       <div className="place-hero-image">
         <Image
           src={place.imageUrl}
