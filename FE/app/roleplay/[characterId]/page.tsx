@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "next/navigation";
+import { getCharacterImage, getStoryBackground } from "@/lib/characterImages";
 import { stories } from "../../../data/stories";
 import { useTranslatedContent } from "@/lib/useTranslatedContent";
 import { TranslationStatus } from "@/components/TranslationStatus";
@@ -31,23 +32,11 @@ const names: Record<string, string> = {
   young_sejong: "어린 세종",
   taejong: "태종",
   kimmun: "신하 김문",
+  jeongjo: "정조",
+  young_jeongjo: "어린 정조",
+  jeongyakyong: "정약용",
   narration: "",
 };
-
-function getCharacterImage(speaker: string, emotion: string | null) {
-  if (!emotion) return null;
-
-  if (speaker === "sejong" || speaker === "young_sejong")
-    return `/images/sejong/characters/${emotion}.png`;
-
-  if (speaker === "taejong")
-    return `/images/taejong/${emotion}.png`;
-
-  if (speaker === "kimmun")
-    return `/images/kimmun/${emotion}.png`;
-
-  return null;
-}
 
 export default function RoleplayPage() {
   const { characterId } = useParams<{ characterId: string }>();
@@ -82,7 +71,7 @@ export default function RoleplayPage() {
     : null;
 
   const backgroundImage = scene
-    ? `/images/${characterId}/backgrounds/${scene.background}.png`
+    ? getStoryBackground(characterId, scene.background)
     : "";
 
   // 대사 타이핑

@@ -4,7 +4,7 @@ import { TranslationStatus } from "@/components/TranslationStatus";
 import Link from "next/link";
 import Image from "next/image";
 import { Character } from "@/types/place";
-import { stories } from "@/data/stories";
+import { getCharacterGameId } from "@/lib/characterGame";
 import styles from "./CharacterCard.module.css";
 
 interface CharacterCardProps {
@@ -26,7 +26,7 @@ export function CharacterCard({
   const translation = useTranslatedContent("place", placeId, { characters: [character] }, lang);
   const localizedCharacter = translation.content.characters.find(item => item.id === character.id) ?? character;
   const display = localizedCharacter;
-  const hasGame = Object.prototype.hasOwnProperty.call(stories, character.id);
+  const gameId = getCharacterGameId(character.id);
 
   return (
     <article className="card character-card">
@@ -72,9 +72,9 @@ export function CharacterCard({
           >
             {t.chat}
           </Link>
-          {hasGame ? (
+          {gameId ? (
             <Link
-              href={`/roleplay/${character.id}?lang=${lang}`}
+              href={`/roleplay/${gameId}?lang=${lang}`}
               className={styles.game}
               aria-label={`${display.name} · ${t.game}`}
             >
