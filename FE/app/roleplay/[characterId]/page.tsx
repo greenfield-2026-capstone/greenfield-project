@@ -27,15 +27,17 @@ type ApiResponse = {
   error?: string;
 };
 
-const names: Record<string, string> = {
-  sejong: "세종대왕",
-  young_sejong: "어린 세종",
-  taejong: "태종",
-  kimmun: "신하 김문",
-  jeongjo: "정조",
-  young_jeongjo: "어린 정조",
-  jeongyakyong: "정약용",
-  narration: "",
+const names = {
+   ko: {
+    sejong: "세종대왕", young_sejong: "어린 세종", taejong: "태종", kimmun: "신하 김문",
+    jeongjo: "정조", young_jeongjo: "어린 정조", jeongyakyong: "정약용",
+    narration: "",
+  },
+  en: {
+    sejong: "King Sejong", young_sejong: "Young Sejong", taejong: "King Taejong", kimmun: "Official Kim Mun",
+    jeongjo: "King Jeongjo", young_jeongjo: "Young Jeongjo", jeongyakyong: "Jeong Yak-yong",
+    narration: "",
+  },
 };
 
 export default function RoleplayPage() {
@@ -62,10 +64,11 @@ export default function RoleplayPage() {
   const scene = story?.turns[turn as keyof typeof story.turns] as any;
   const script: Line[] = scene?.script ?? [];
   const currentLine = script[scriptIndex];
-  const activeLine = phase === "reaction" ? reaction : currentLine;
+  const activeLine = phase === "reaction" ? reaction : phase === "script" ? currentLine : null;
 
   const fullText = activeLine?.text ?? "";
-  const speakerName = activeLine ? names[activeLine.speaker] ?? activeLine.speaker : "";
+  const speakerNames = lang === "en" ? names.en : names.ko;
+  const speakerName = activeLine ? speakerNames[activeLine.speaker as keyof typeof speakerNames] ?? activeLine.speaker : "";
   const characterImage = activeLine
     ? getCharacterImage(activeLine.speaker, activeLine.emotion)
     : null;
@@ -277,7 +280,7 @@ export default function RoleplayPage() {
       </header>
 
       {/* 캐릭터 */}
-      {characterImage && (
+      {phase !== "choices" && characterImage && (
         <img
           key={`${activeLine?.speaker}-${activeLine?.emotion}-${scriptIndex}`}
           src={characterImage}
