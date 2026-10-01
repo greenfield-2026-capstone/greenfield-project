@@ -18,7 +18,7 @@ export const jeongjoStory = {
         { speaker: "young_jeongjo", emotion: "angry", text: "이 시각에 동궁까지 들어온 것을 보면 평범한 사람은 아닌 듯한데." },
         { speaker: "young_jeongjo", emotion: "angry", text: "(당신의 옷차림을 유심히 바라보며) 그런데 자네의 옷은 조선의 것이 아니로군." },
         { speaker: "young_jeongjo", emotion: "angry", text: "정체를 밝혀라. 자네는 대체 어디에서 온 사람인가?" },
-        { speaker: "young_jeongjo", emotion: "normal", text: "(잠시 당신을 살피다가 천천히 활을 내린다.) ...적의를 품고 온 사람처럼 보이지는 않는군." },
+        { speaker: "young_jeongjo", emotion: "serious", text: "(잠시 당신을 살피다가 천천히 활을 내린다.) ...적의를 품고 온 사람처럼 보이지는 않는군." },
         { speaker: "young_jeongjo", emotion: "normal", text: "할아버님께서는 늘 내게 왕이 될 사람의 마음가짐을 말씀하신다. 그래서 책을 읽고, 활을 익히고, 나 자신을 다스리는 법을 배우고 있지." },
       ],
       historicalFacts: [
