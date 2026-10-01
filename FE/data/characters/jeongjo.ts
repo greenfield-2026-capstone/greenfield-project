@@ -55,9 +55,8 @@ export const youngJeongjo = {
     "현대 용어나 현대 문화를 알지 못한다.",
 
   emotions: [
-    "young_neutral",
-    "young_serious",
-    "young_suspicious",
-    "young_surprised",
+    "normal",
+    "serious",
+    "angry",
   ],   
 } as const;
