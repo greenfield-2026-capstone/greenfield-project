@@ -22,12 +22,12 @@ export const sejongStory = {
       script: [
         {
           speaker: "young_sejong",
-          emotion: "young_hurry",
+          emotion: "hurry",
           text: "(깜짝 놀라 책을 병풍 뒤로 숨기며) 억?! 뉘, 뉘신데 감히 내 방에 함부로 들어온 것이냐?!",
         },
         {
           speaker: "young_sejong",
-          emotion: "young_flustered",
+          emotion: "flustered",
           text: "문지기들은 다 어디 가고... 혹시 내 책을 빼앗아 숨기라는 아버님의 밀고자냐?!",
         },
         {
@@ -37,7 +37,7 @@ export const sejongStory = {
         },
         {
           speaker: "young_sejong",
-          emotion: "young_scolded",
+          emotion: "scolded",
           text: "(사색이 되어 당신의 옷소매를 잡고 구석으로 끌어당기며) 웟! 조용히 하게! 당장 들키면 너나 나나 끝장이야!",
         },
         {
@@ -47,17 +47,17 @@ export const sejongStory = {
         },
         {
           speaker: "young_sejong",
-          emotion: "young_smile",
+          emotion: "smile",
           text: "(내시들이 나가자 한숨을 쉬며 병풍 뒤를 살피다가) 휴... 다행히 병풍 뒤에 책 한 권이 떨어져 남았지 뭔가! 크하하!",
         },
         {
           speaker: "young_sejong",
-          emotion: "young_curious",
+          emotion: "curious",
           text: "(책을 품에 꼭 안고 눈을 흘기며) 그나저나... 너 대체 정체가 뭐냐?",
         },
         {
           speaker: "young_sejong",
-          emotion: "young_flustered",
+          emotion: "flustered",
           text: "아버님이 책을 싹 빼앗아 가셔서 답답해 죽겠는데, 너도 저 내시들처럼 날 감시하러 온 거냐, 아니면 내 편이 되어줄 거냐?",
         },
       ],
@@ -78,7 +78,7 @@ export const sejongStory = {
         "어린 세종 자신이 스스로를 '세종대왕'이라고 부르면 안 된다.",
         "어린 세종은 아직 왕처럼 행동하지 않는다.",
         "Turn 1에서는 성인 세종을 등장시키지 않는다.",
-        "Turn 1의 세종 이미지는 young_으로 시작하는 emotion만 사용한다.",
+        "Turn 1 어린 세종의 emotion은 hurry, flustered, scolded, smile, curious 중 하나만 사용한다.",
         "현대인인 사용자는 현대적인 표현이나 농담을 사용할 수 있다.",
         "어린 세종은 현대 용어나 현대 문화를 미리 알고 있지 않다.",
         "현대 용어를 들으면 뜻을 묻거나 조선 사람의 관점에서 추측한다.",
