@@ -80,6 +80,11 @@ export async function POST(req: NextRequest) {
     }
     const line = result.dialogue?.[0];
     const speaker = characterData.find(c => c.id === line?.speaker);
+
+    console.log("AI reaction:", result.dialogue);
+    console.log("Speaker:", speaker?.id);
+    console.log("Allowed emotions:", speaker?.emotions);
+
     if (!Array.isArray(result.dialogue) || result.dialogue.length !== 1 || !speaker ||
         typeof line.text !== "string" || !line.text.trim() ||
         (line.emotion !== null && !(speaker.emotions as readonly string[]).includes(line.emotion))) throw new Error("Invalid dialogue");
