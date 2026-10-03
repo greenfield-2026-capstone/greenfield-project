@@ -4,17 +4,16 @@ import { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "next/navigation";
 import { getCharacterImage, getStoryBackground } from "@/lib/characterImages";
 import { stories } from "../../../data/stories";
-import { useTranslatedContent } from "@/lib/useTranslatedContent";
-import { TranslationStatus } from "@/components/TranslationStatus";
 import { getCopy } from "@/lib/translations";
 import { normalizeLocale } from "@/lib/locale";
 import styles from "./roleplay.module.css";
 
-type Line = { speaker: string; emotion: string | null; text: string; };
-type Option = { id: number; type: "supportive"|"playful"|"curious"|"challenging"; text: string; affinity_score: number; };
-type ApiResponse = { dialogue?: Line[]; options?: Option[]; error?: string; };
+type Line={speaker:string;emotion:string|null;text:string;};
+type Option={id:number;type:"supportive"|"playful"|"curious"|"challenging";text:string;affinity_score:number;};
+type ApiResponse={dialogue?:Line[];options?:Option[];error?:string;};
+type TranslatedTurn={title:string;transition?:{title:string;text:string};script:Line[];};
 
-const names = {
+const names={
   ko:{sejong:"세종대왕",young_sejong:"어린 세종",taejong:"태종",kimmun:"신하 김문",jeongjo:"정조",young_jeongjo:"어린 정조",jeongyakyong:"정약용",narration:""},
   en:{sejong:"King Sejong",young_sejong:"Young Sejong",taejong:"King Taejong",kimmun:"Official Kim Mun",jeongjo:"King Jeongjo",young_jeongjo:"Young Jeongjo",jeongyakyong:"Jeong Yak-yong",narration:""},
   ja:{sejong:"世宗大王",young_sejong:"幼い世宗",taejong:"太宗",kimmun:"臣下 金汶",jeongjo:"正祖",young_jeongjo:"幼い正祖",jeongyakyong:"丁若鏞",narration:""},
@@ -28,86 +27,134 @@ const names = {
   es:{sejong:"Rey Sejong",young_sejong:"Joven Sejong",taejong:"Rey Taejong",kimmun:"Funcionario Kim Mun",jeongjo:"Rey Jeongjo",young_jeongjo:"Joven Jeongjo",jeongyakyong:"Jeong Yak-yong",narration:""},
 } as const;
 
-export default function RoleplayPage() {
-  const { characterId } = useParams<{ characterId:string }>();
-  const lang = useSearchParams().get("lang") ?? "ko";
-  const locale = normalizeLocale(lang);
-  const copy = getCopy(lang);
-  const originalStory = stories[characterId as keyof typeof stories];
-  const translation = useTranslatedContent("story",characterId,originalStory,lang);
-  const story = translation.content;
+const turnCache=new Map<string,TranslatedTurn>();
+const turnPending=new Map<string,Promise<TranslatedTurn>>();
 
-  const [turn,setTurn] = useState(1);
-  const [scriptIndex,setScriptIndex] = useState(0);
-  const [phase,setPhase] = useState<"script"|"choices"|"reaction"|"transition">("script");
-  const [affinity,setAffinity] = useState(0);
-  const [options,setOptions] = useState<Option[]>([]);
-  const [reaction,setReaction] = useState<Line|null>(null);
-  const [history,setHistory] = useState<any[]>([]);
-  const [typedText,setTypedText] = useState("");
-  const [isTyping,setIsTyping] = useState(false);
-  const [loading,setLoading] = useState(false);
-  const [error,setError] = useState("");
+async function requestTurn(characterId:string,turn:number,lang:string){
+  const key=`${characterId}:${turn}:${lang}`;
+  if(turnCache.has(key)) return turnCache.get(key)!;
+  if(turnPending.has(key)) return turnPending.get(key)!;
 
-  const scene = story?.turns[turn as keyof typeof story.turns] as any;
-  const script:Line[] = scene?.script ?? [];
-  const currentLine = script[scriptIndex];
-  const activeLine = phase==="reaction" ? reaction : phase==="script" ? currentLine : null;
-  const fullText = activeLine?.text ?? "";
-  const speakerNames = names[locale];
-  const speakerName = activeLine ? speakerNames[activeLine.speaker as keyof typeof speakerNames] ?? activeLine.speaker : "";
-  const characterImage = activeLine ? getCharacterImage(activeLine.speaker,activeLine.emotion) : null;
-  const backgroundImage = scene ? getStoryBackground(characterId,scene.background) : "";
+  const promise=fetch("/api/translate",{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({kind:"story",id:characterId,lang,turn})
+  }).then(async res=>{
+    if(!res.ok) throw new Error("Translation unavailable");
+    const data=await res.json();
+    turnCache.set(key,data.content);
+    return data.content as TranslatedTurn;
+  }).finally(()=>turnPending.delete(key));
+
+  turnPending.set(key,promise);
+  return promise;
+}
+
+export default function RoleplayPage(){
+  const {characterId}=useParams<{characterId:string}>();
+  const lang=useSearchParams().get("lang")??"ko";
+  const locale=normalizeLocale(lang);
+  const copy=getCopy(lang);
+  const story=stories[characterId as keyof typeof stories];
+
+  const [turn,setTurn]=useState(1);
+  const [scriptIndex,setScriptIndex]=useState(0);
+  const [phase,setPhase]=useState<"script"|"choices"|"reaction"|"transition">("script");
+  const [affinity,setAffinity]=useState(0);
+  const [options,setOptions]=useState<Option[]>([]);
+  const [reaction,setReaction]=useState<Line|null>(null);
+  const [history,setHistory]=useState<any[]>([]);
+  const [typedText,setTypedText]=useState("");
+  const [isTyping,setIsTyping]=useState(false);
+  const [loading,setLoading]=useState(false);
+  const [error,setError]=useState("");
+  const [translatedTurns,setTranslatedTurns]=useState<Record<number,TranslatedTurn>>({});
+
+  const originalScene=story?.turns[turn as keyof typeof story.turns] as any;
+  const translatedScene=translatedTurns[turn];
+  const scene=locale==="ko"?originalScene:translatedScene??originalScene;
+  const script:Line[]=scene?.script??[];
+  const currentLine=script[scriptIndex];
+  const activeLine=phase==="reaction"?reaction:phase==="script"?currentLine:null;
+  const fullText=activeLine?.text??"";
+  const speakerNames=names[locale];
+  const speakerName=activeLine?speakerNames[activeLine.speaker as keyof typeof speakerNames]??activeLine.speaker:"";
+  const characterImage=activeLine?getCharacterImage(activeLine.speaker,activeLine.emotion):null;
+  const backgroundImage=originalScene?getStoryBackground(characterId,originalScene.background):"";
+  const totalTurns=story?Object.keys(story.turns).length:0;
 
   useEffect(()=>{
-    if(!fullText) return;
-    setTypedText(""); setIsTyping(true);
+    setTurn(1);setScriptIndex(0);setPhase("script");setAffinity(0);setOptions([]);setReaction(null);setHistory([]);setError("");setTranslatedTurns({});
+  },[characterId,lang]);
+
+  useEffect(()=>{
+    if(!story||locale==="ko") return;
+    let active=true;
+
+    requestTurn(characterId,turn,lang).then(content=>{
+      if(!active)return;
+      setTranslatedTurns(prev=>({...prev,[turn]:content}));
+
+      const next=turn+1;
+      if(next<=totalTurns){
+        requestTurn(characterId,next,lang).then(nextContent=>{
+          if(active)setTranslatedTurns(prev=>({...prev,[next]:nextContent}));
+        }).catch(()=>{});
+      }
+    }).catch(err=>{
+      console.error("Turn translation failed:",err);
+      if(active)setError("Translation unavailable");
+    });
+
+    return()=>{active=false;};
+  },[characterId,turn,lang,locale,story,totalTurns]);
+
+  useEffect(()=>{
+    if(!fullText)return;
+    setTypedText("");setIsTyping(true);
     let index=0;
     const timer=window.setInterval(()=>{
-      index++; setTypedText(fullText.slice(0,index));
+      index++;setTypedText(fullText.slice(0,index));
       if(index>=fullText.length){clearInterval(timer);setIsTyping(false);}
     },28);
     return()=>clearInterval(timer);
   },[fullText]);
 
-  useEffect(()=>{
-    setTurn(1); setScriptIndex(0); setPhase("script"); setAffinity(0);
-    setOptions([]); setReaction(null); setHistory([]); setError("");
-  },[characterId]);
-
   async function loadChoices(){
-    if(loading) return;
+    if(loading)return;
     try{
-      setLoading(true); setError("");
+      setLoading(true);setError("");
       const res=await fetch("/api/dialogue",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({storyId:characterId,language:lang,turn,mode:"choices",history,affinity})});
       const data:ApiResponse=await res.json();
-      if(!res.ok) throw new Error(data.error||"선택지를 생성하지 못했습니다.");
-      if(!data.options?.length) throw new Error("AI가 선택지를 반환하지 않았습니다.");
-      setOptions(data.options); setPhase("choices");
+      if(!res.ok)throw new Error(data.error||"선택지를 생성하지 못했습니다.");
+      if(!data.options?.length)throw new Error("AI가 선택지를 반환하지 않았습니다.");
+      setOptions(data.options);setPhase("choices");
     }catch(err){setError(err instanceof Error?err.message:"오류가 발생했습니다.");}
     finally{setLoading(false);}
   }
 
   function nextDialogue(){
-    if(loading) return;
+    if(loading)return;
     if(isTyping){setTypedText(fullText);setIsTyping(false);return;}
-    if(phase!=="script") return;
+    if(phase!=="script")return;
     if(scriptIndex<script.length-1){setScriptIndex(i=>i+1);return;}
     loadChoices();
   }
 
   async function selectOption(option:Option){
-    if(loading) return;
+    if(loading)return;
     const nextAffinity=affinity+option.affinity_score;
     const newHistory=[...history,{role:"player",text:option.text,type:option.type,affinity_score:option.affinity_score}];
-    setLoading(true); setError("");
+    setLoading(true);setError("");
+
     try{
       const res=await fetch("/api/dialogue",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({storyId:characterId,language:lang,turn,mode:"reaction",selectedOption:option,history:newHistory,affinity:nextAffinity})});
       const data:ApiResponse=await res.json();
-      if(!res.ok) throw new Error(data.error||"반응을 생성하지 못했습니다.");
+      if(!res.ok)throw new Error(data.error||"반응을 생성하지 못했습니다.");
       const npcReaction=data.dialogue?.[0];
-      if(!npcReaction) throw new Error("AI가 반응을 반환하지 않았습니다.");
-      setAffinity(nextAffinity); setOptions([]); setReaction(npcReaction);
+      if(!npcReaction)throw new Error("AI가 반응을 반환하지 않았습니다.");
+
+      setAffinity(nextAffinity);setOptions([]);setReaction(npcReaction);
       setHistory([...newHistory,{role:"character",speaker:npcReaction.speaker,text:npcReaction.text}]);
       setPhase("reaction");
     }catch(err){setError(err instanceof Error?err.message:"오류가 발생했습니다.");}
@@ -116,20 +163,23 @@ export default function RoleplayPage() {
 
   function nextTurn(){
     const next=turn+1;
-    const nextScene=story.turns[next as keyof typeof story.turns] as any;
-    if(!nextScene){setTurn(next);return;}
-    setPhase("transition"); setReaction(null);
+    const nextOriginalScene=story.turns[next as keyof typeof story.turns] as any;
+    if(!nextOriginalScene){setTurn(next);return;}
+
+    setPhase("transition");setReaction(null);
     setTimeout(()=>{
-      setTurn(next); setScriptIndex(0); setOptions([]); setPhase("script"); setError("");
+      setTurn(next);setScriptIndex(0);setOptions([]);setPhase("script");setError("");
     },2200);
   }
 
-  if(!story) return <main className={styles.messageScreen}>스토리를 찾을 수 없습니다.</main>;
-  if(!scene) return <main className={styles.messageScreen}>이야기가 종료되었습니다.</main>;
+  if(!story)return <main className={styles.messageScreen}>스토리를 찾을 수 없습니다.</main>;
+  if(!originalScene)return <main className={styles.messageScreen}>이야기가 종료되었습니다.</main>;
 
-  const nextScene=story.turns[(turn+1) as keyof typeof story.turns] as any;
+  const nextTurnNumber=turn+1;
+  const nextOriginalScene=story.turns[nextTurnNumber as keyof typeof story.turns] as any;
+  const nextScene=locale==="ko"?nextOriginalScene:translatedTurns[nextTurnNumber]??nextOriginalScene;
 
-  return (
+  return(
     <main className={styles.game} style={{backgroundImage:`url("${backgroundImage}")`}}>
       <div className={styles.overlay}/>
 
@@ -137,9 +187,8 @@ export default function RoleplayPage() {
         <div>
           <div className={styles.logo}>HISTOUR</div>
           <div className={styles.storyTitle}>{story.title}</div>
-          <TranslationStatus lang={lang} {...translation}/>
         </div>
-        <div className={styles.turn}>{turn} / {Object.keys(story.turns).length}</div>
+        <div className={styles.turn}>{turn} / {totalTurns}</div>
       </header>
 
       {phase!=="choices"&&characterImage&&(
