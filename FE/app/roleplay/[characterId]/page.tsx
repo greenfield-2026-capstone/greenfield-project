@@ -72,7 +72,9 @@ export default function RoleplayPage(){
 
   const originalScene=story?.turns[turn as keyof typeof story.turns] as any;
   const translatedScene=translatedTurns[turn];
-  const scene=locale==="ko"?originalScene:translatedScene??originalScene;
+
+  // 외국어에서는 한국어 원본을 먼저 보여주지 않고 번역본이 준비된 후 시작
+  const scene=locale==="ko"?originalScene:translatedScene;
   const script:Line[]=scene?.script??[];
   const currentLine=script[scriptIndex];
   const activeLine=phase==="reaction"?reaction:phase==="script"?currentLine:null;
@@ -174,6 +176,18 @@ export default function RoleplayPage(){
 
   if(!story)return <main className={styles.messageScreen}>스토리를 찾을 수 없습니다.</main>;
   if(!originalScene)return <main className={styles.messageScreen}>이야기가 종료되었습니다.</main>;
+
+  // 외국어 턴 번역이 준비될 때까지 한국어 대사를 먼저 표시하지 않음
+  if(locale!=="ko"&&!translatedScene)return(
+    <main className={styles.game} style={{backgroundImage:`url("${backgroundImage}")`}}>
+      <div className={styles.overlay}/>
+      <div className={styles.loading}>
+        <span className={styles.loadingDot}>·</span>
+        <span className={styles.loadingDot}>·</span>
+        <span className={styles.loadingDot}>·</span>
+      </div>
+    </main>
+  );
 
   const nextTurnNumber=turn+1;
   const nextOriginalScene=story.turns[nextTurnNumber as keyof typeof story.turns] as any;
