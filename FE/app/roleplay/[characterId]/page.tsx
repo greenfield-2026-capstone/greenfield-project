@@ -72,13 +72,13 @@ export default function RoleplayPage(){
 
   const originalScene=story?.turns[turn as keyof typeof story.turns] as any;
   const translatedScene=translatedTurns[turn];
-
-  // 외국어에서는 한국어 원본을 먼저 보여주지 않고 번역본이 준비된 후 시작
   const scene=locale==="ko"?originalScene:translatedScene;
+
   const script:Line[]=scene?.script??[];
   const currentLine=script[scriptIndex];
   const activeLine=phase==="reaction"?reaction:phase==="script"?currentLine:null;
   const fullText=activeLine?.text??"";
+
   const speakerNames=names[locale];
   const speakerName=activeLine?speakerNames[activeLine.speaker as keyof typeof speakerNames]??activeLine.speaker:"";
   const characterImage=activeLine?getCharacterImage(activeLine.speaker,activeLine.emotion):null;
@@ -86,112 +86,250 @@ export default function RoleplayPage(){
   const totalTurns=story?Object.keys(story.turns).length:0;
 
   useEffect(()=>{
-    setTurn(1);setScriptIndex(0);setPhase("script");setAffinity(0);setOptions([]);setReaction(null);setHistory([]);setError("");setTranslatedTurns({});
+    setTurn(1);
+    setScriptIndex(0);
+    setPhase("script");
+    setAffinity(0);
+    setOptions([]);
+    setReaction(null);
+    setHistory([]);
+    setTypedText("");
+    setIsTyping(false);
+    setLoading(false);
+    setError("");
+    setTranslatedTurns({});
   },[characterId,lang]);
 
   useEffect(()=>{
     if(!story||locale==="ko") return;
+
     let active=true;
 
-    requestTurn(characterId,turn,lang).then(content=>{
-      if(!active)return;
-      setTranslatedTurns(prev=>({...prev,[turn]:content}));
+    requestTurn(characterId,turn,lang)
+      .then(content=>{
+        if(!active)return;
 
-      const next=turn+1;
-      if(next<=totalTurns){
-        requestTurn(characterId,next,lang).then(nextContent=>{
-          if(active)setTranslatedTurns(prev=>({...prev,[next]:nextContent}));
-        }).catch(()=>{});
-      }
-    }).catch(err=>{
-      console.error("Turn translation failed:",err);
-      if(active)setError("Translation unavailable");
-    });
+        setTranslatedTurns(prev=>({
+          ...prev,
+          [turn]:content
+        }));
 
-    return()=>{active=false;};
+        const next=turn+1;
+
+        if(next<=totalTurns){
+          requestTurn(characterId,next,lang)
+            .then(nextContent=>{
+              if(!active)return;
+
+              setTranslatedTurns(prev=>({
+                ...prev,
+                [next]:nextContent
+              }));
+            })
+            .catch(()=>{});
+        }
+      })
+      .catch(err=>{
+        console.error("Turn translation failed:",err);
+        if(active)setError("Translation unavailable");
+      });
+
+    return()=>{
+      active=false;
+    };
   },[characterId,turn,lang,locale,story,totalTurns]);
 
   useEffect(()=>{
     if(!fullText)return;
-    setTypedText("");setIsTyping(true);
+
+    setTypedText("");
+    setIsTyping(true);
+
     let index=0;
+
     const timer=window.setInterval(()=>{
-      index++;setTypedText(fullText.slice(0,index));
-      if(index>=fullText.length){clearInterval(timer);setIsTyping(false);}
+      index++;
+      setTypedText(fullText.slice(0,index));
+
+      if(index>=fullText.length){
+        clearInterval(timer);
+        setIsTyping(false);
+      }
     },28);
+
     return()=>clearInterval(timer);
   },[fullText]);
 
   async function loadChoices(){
     if(loading)return;
+
     try{
-      setLoading(true);setError("");
-      const res=await fetch("/api/dialogue",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({storyId:characterId,language:lang,turn,mode:"choices",history,affinity})});
+      setLoading(true);
+      setError("");
+
+      const res=await fetch("/api/dialogue",{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({
+          storyId:characterId,
+          language:lang,
+          turn,
+          mode:"choices",
+          history,
+          affinity
+        })
+      });
+
       const data:ApiResponse=await res.json();
+
       if(!res.ok)throw new Error(data.error||"선택지를 생성하지 못했습니다.");
       if(!data.options?.length)throw new Error("AI가 선택지를 반환하지 않았습니다.");
-      setOptions(data.options);setPhase("choices");
-    }catch(err){setError(err instanceof Error?err.message:"오류가 발생했습니다.");}
-    finally{setLoading(false);}
+
+      setOptions(data.options);
+      setPhase("choices");
+    }catch(err){
+      setError(err instanceof Error?err.message:"오류가 발생했습니다.");
+    }finally{
+      setLoading(false);
+    }
   }
 
   function nextDialogue(){
     if(loading)return;
-    if(isTyping){setTypedText(fullText);setIsTyping(false);return;}
+
+    if(isTyping){
+      setTypedText(fullText);
+      setIsTyping(false);
+      return;
+    }
+
     if(phase!=="script")return;
-    if(scriptIndex<script.length-1){setScriptIndex(i=>i+1);return;}
+
+    if(scriptIndex<script.length-1){
+      setScriptIndex(i=>i+1);
+      return;
+    }
+
     loadChoices();
   }
 
   async function selectOption(option:Option){
     if(loading)return;
+
     const nextAffinity=affinity+option.affinity_score;
-    const newHistory=[...history,{role:"player",text:option.text,type:option.type,affinity_score:option.affinity_score}];
-    setLoading(true);setError("");
+    const newHistory=[
+      ...history,
+      {
+        role:"player",
+        text:option.text,
+        type:option.type,
+        affinity_score:option.affinity_score
+      }
+    ];
+
+    setLoading(true);
+    setError("");
 
     try{
-      const res=await fetch("/api/dialogue",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({storyId:characterId,language:lang,turn,mode:"reaction",selectedOption:option,history:newHistory,affinity:nextAffinity})});
+      const res=await fetch("/api/dialogue",{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({
+          storyId:characterId,
+          language:lang,
+          turn,
+          mode:"reaction",
+          selectedOption:option,
+          history:newHistory,
+          affinity:nextAffinity
+        })
+      });
+
       const data:ApiResponse=await res.json();
+
       if(!res.ok)throw new Error(data.error||"반응을 생성하지 못했습니다.");
+
       const npcReaction=data.dialogue?.[0];
+
       if(!npcReaction)throw new Error("AI가 반응을 반환하지 않았습니다.");
 
-      setAffinity(nextAffinity);setOptions([]);setReaction(npcReaction);
-      setHistory([...newHistory,{role:"character",speaker:npcReaction.speaker,text:npcReaction.text}]);
+      setAffinity(nextAffinity);
+      setOptions([]);
+      setReaction(npcReaction);
+      setHistory([
+        ...newHistory,
+        {
+          role:"character",
+          speaker:npcReaction.speaker,
+          text:npcReaction.text
+        }
+      ]);
       setPhase("reaction");
-    }catch(err){setError(err instanceof Error?err.message:"오류가 발생했습니다.");}
-    finally{setLoading(false);}
+    }catch(err){
+      setError(err instanceof Error?err.message:"오류가 발생했습니다.");
+    }finally{
+      setLoading(false);
+    }
   }
 
   function nextTurn(){
     const next=turn+1;
     const nextOriginalScene=story.turns[next as keyof typeof story.turns] as any;
-    if(!nextOriginalScene){setTurn(next);return;}
 
-    setPhase("transition");setReaction(null);
+    if(!nextOriginalScene){
+      setTurn(next);
+      return;
+    }
+
+    setPhase("transition");
+    setReaction(null);
+
     setTimeout(()=>{
-      setTurn(next);setScriptIndex(0);setOptions([]);setPhase("script");setError("");
+      setTurn(next);
+      setScriptIndex(0);
+      setOptions([]);
+      setPhase("script");
+      setError("");
     },2200);
   }
 
-  if(!story)return <main className={styles.messageScreen}>스토리를 찾을 수 없습니다.</main>;
-  if(!originalScene)return <main className={styles.messageScreen}>이야기가 종료되었습니다.</main>;
+  if(!story){
+    return <main className={styles.messageScreen}>스토리를 찾을 수 없습니다.</main>;
+  }
 
-  // 외국어 턴 번역이 준비될 때까지 한국어 대사를 먼저 표시하지 않음
-  if(locale!=="ko"&&!translatedScene)return(
-    <main className={styles.game} style={{backgroundImage:`url("${backgroundImage}")`}}>
-      <div className={styles.overlay}/>
-      <div className={styles.loading}>
-        <span className={styles.loadingDot}>·</span>
-        <span className={styles.loadingDot}>·</span>
-        <span className={styles.loadingDot}>·</span>
-      </div>
-    </main>
-  );
+  if(!originalScene){
+    return <main className={styles.messageScreen}>이야기가 종료되었습니다.</main>;
+  }
+
+  if(locale!=="ko"&&!translatedScene){
+    return(
+      <main className={styles.game} style={{backgroundImage:`url("${backgroundImage}")`}}>
+        <div className={styles.overlay}/>
+
+        <header className={styles.header}>
+          <div>
+            <div className={styles.logo}>HISTOUR</div>
+            <div className={styles.storyTitle}>{story.title}</div>
+          </div>
+          <div className={styles.turn}>{turn} / {totalTurns}</div>
+        </header>
+
+        <div className={styles.loading}>
+          <span className={styles.loadingDot}>·</span>
+          <span className={styles.loadingDot}>·</span>
+          <span className={styles.loadingDot}>·</span>
+        </div>
+
+        {error&&<div className={styles.error}>{error}</div>}
+      </main>
+    );
+  }
 
   const nextTurnNumber=turn+1;
   const nextOriginalScene=story.turns[nextTurnNumber as keyof typeof story.turns] as any;
-  const nextScene=locale==="ko"?nextOriginalScene:translatedTurns[nextTurnNumber]??nextOriginalScene;
+  const nextScene=locale==="ko"
+    ?nextOriginalScene
+    :translatedTurns[nextTurnNumber]??nextOriginalScene;
 
   return(
     <main className={styles.game} style={{backgroundImage:`url("${backgroundImage}")`}}>
@@ -206,15 +344,27 @@ export default function RoleplayPage(){
       </header>
 
       {phase!=="choices"&&characterImage&&(
-        <img key={`${activeLine?.speaker}-${activeLine?.emotion}-${scriptIndex}`} src={characterImage} alt={speakerName} className={styles.character}/>
+        <img
+          key={`${activeLine?.speaker}-${activeLine?.emotion}-${scriptIndex}`}
+          src={characterImage}
+          alt={speakerName}
+          className={styles.character}
+        />
       )}
 
       {phase==="choices"&&!loading&&(
         <section className={styles.choices}>
           <div className={styles.choiceTitle}>{copy.gameChoiceTitle}</div>
+
           {options.map((option,index)=>(
-            <button key={option.id} className={styles.choice} style={{animationDelay:`${index*90}ms`}} onClick={()=>selectOption(option)}>
-              <span className={styles.choiceNumber}>{index+1}</span>{option.text}
+            <button
+              key={option.id}
+              className={styles.choice}
+              style={{animationDelay:`${index*90}ms`}}
+              onClick={()=>selectOption(option)}
+            >
+              <span className={styles.choiceNumber}>{index+1}</span>
+              {option.text}
             </button>
           ))}
         </section>
@@ -222,23 +372,57 @@ export default function RoleplayPage(){
 
       {phase!=="choices"&&activeLine&&(
         <section className={styles.dialogueBox} onClick={nextDialogue}>
-          {speakerName&&<div className={styles.nameTag}>{speakerName}</div>}
-          <div className={styles.dialogueText}>{typedText}{isTyping&&<span className={styles.cursor}/>}</div>
-          {phase==="script"&&!isTyping&&<div className={styles.nextIndicator}>▼</div>}
+          {speakerName&&(
+            <div className={styles.nameTag}>{speakerName}</div>
+          )}
+
+          <div className={styles.dialogueText}>
+            {typedText}
+            {isTyping&&<span className={styles.cursor}/>}
+          </div>
+
+          {phase==="script"&&!isTyping&&(
+            <div className={styles.nextIndicator}>▼</div>
+          )}
+
           {phase==="reaction"&&!isTyping&&(
-            <button className={styles.nextTurn} onClick={e=>{e.stopPropagation();nextTurn();}}>{copy.nextStory}</button>
+            <button
+              className={styles.nextTurn}
+              onClick={e=>{
+                e.stopPropagation();
+                nextTurn();
+              }}
+            >
+              {copy.nextStory}
+            </button>
           )}
         </section>
       )}
 
-      {loading&&<div className={styles.loading}><span className={styles.loadingDot}>·</span><span className={styles.loadingDot}>·</span><span className={styles.loadingDot}>·</span></div>}
-      {error&&<div className={styles.error}>{error}</div>}
+      {loading&&(
+        <div className={styles.loading}>
+          <span className={styles.loadingDot}>·</span>
+          <span className={styles.loadingDot}>·</span>
+          <span className={styles.loadingDot}>·</span>
+        </div>
+      )}
+
+      {error&&(
+        <div className={styles.error}>{error}</div>
+      )}
 
       {phase==="transition"&&(
         <div className={styles.chapterTransition}>
           <div className={styles.transitionContent}>
-            <div className={styles.transitionTitle}>{nextScene?.transition?.title??copy.timePasses}</div>
-            {nextScene?.transition?.text&&<div className={styles.transitionText}>{nextScene.transition.text}</div>}
+            <div className={styles.transitionTitle}>
+              {nextScene?.transition?.title??copy.timePasses}
+            </div>
+
+            {nextScene?.transition?.text&&(
+              <div className={styles.transitionText}>
+                {nextScene.transition.text}
+              </div>
+            )}
           </div>
         </div>
       )}
