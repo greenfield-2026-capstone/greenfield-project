@@ -55,8 +55,8 @@ export async function POST(req: NextRequest) {
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${apiKey}` },
       signal: AbortSignal.timeout(45000),
       body: JSON.stringify({ model, messages: [
-        { role: "system", content: prompt + `\nOutput ALL options[].text and dialogue[].text ONLY in ${languageNames[normalizeLocale(body.language)]}. Even if the story, history, dialogue, or instructions are written in Korean, treat Korean as source material only. Do not output Korean unless Korean is the selected language. Keep all JSON keys, speaker IDs, emotion IDs, option types, IDs and affinity scores unchanged.` },
-        { role: "user", content: `위 게임 규칙과 현재 장면을 따라 요청된 결과를 생성하라. 모든 사용자에게 보이는 문장은 반드시 ${languageNames[normalizeLocale(body.language)]}로 작성하고, 기존에 지정된 JSON 형식으로만 응답하라.` },
+        { role: "system", content: prompt + `\nOutput all dialogue text and option text in ${languageNames[normalizeLocale(body.language)]}. Keep all JSON keys, speaker IDs, emotion IDs and option types unchanged.` },
+        { role: "user", content: "위 게임 규칙과 현재 장면을 따라 요청된 결과를 생성하라. 반드시 JSON 형식으로만 응답하라." },
       ], temperature: 0.8 }),
     });
     if (!response.ok) {
