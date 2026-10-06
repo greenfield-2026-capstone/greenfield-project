@@ -42,6 +42,7 @@ async function requestTurn(characterId:string,turn:number,lang:string){
   }).then(async res=>{
     if(!res.ok) throw new Error("Translation unavailable");
     const data=await res.json();
+    if(!data.content||typeof data.content.title!=="string"||!Array.isArray(data.content.script)||!data.content.script.length||data.content.script.some((line:Line)=>!line||typeof line.speaker!=="string"||typeof line.text!=="string"||!line.text.trim()||(line.emotion!==null&&typeof line.emotion!=="string"))) throw new Error("Invalid turn translation");
     turnCache.set(key,data.content);
     return data.content as TranslatedTurn;
   }).finally(()=>turnPending.delete(key));
@@ -131,7 +132,11 @@ export default function RoleplayPage(){
       })
       .catch(err=>{
         console.error("Turn translation failed:",err);
-        if(active)setError("Translation unavailable");
+        if(active){
+          const fallback=story.turns[turn as keyof typeof story.turns];
+          if(fallback)setTranslatedTurns(prev=>({...prev,[turn]:{...fallback,script:[...fallback.script]}}));
+          setError("Translation unavailable");
+        }
       });
 
     return()=>{
