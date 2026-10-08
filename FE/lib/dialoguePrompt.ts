@@ -226,8 +226,8 @@ JSON 형식:
 {
   "dialogue": [
     {
-      "speaker": "character_id",
-      "emotion": "emotion_id",
+      "speaker": "${characterData[0]?.id}",
+      "emotion": "${characterData[0]?.emotions[0]}",
       "text": "플레이어의 선택에 대한 반응"
     }
   ]

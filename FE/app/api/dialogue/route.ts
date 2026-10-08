@@ -87,7 +87,11 @@ export async function POST(req: NextRequest) {
 
     if (!Array.isArray(result.dialogue) || result.dialogue.length !== 1 || !speaker ||
         typeof line.text !== "string" || !line.text.trim() ||
-        (line.emotion !== null && !(speaker.emotions as readonly string[]).includes(line.emotion))) throw new Error("Invalid dialogue");
+        (line.emotion !== null && typeof line.emotion !== "string" && line.emotion !== undefined)) throw new Error("Invalid dialogue");
+    if(line.emotion !== null && !(speaker.emotions as readonly string[]).includes(line.emotion)){
+      console.warn("Dialogue emotion fallback:", {storyId,turn,speaker:speaker.id,emotion:line.emotion});
+      line.emotion=(speaker.emotions as readonly string[]).includes("neutral")?"neutral":speaker.emotions[0];
+    }
     return NextResponse.json({ dialogue: result.dialogue, meta: { storyId, turn, mode, background: scene.background } });
   } catch (error) {
     const timedOut = error instanceof Error && (error.name === "TimeoutError" || error.name === "AbortError");
