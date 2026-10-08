@@ -85,14 +85,14 @@ export async function POST(req: NextRequest) {
     console.log("Speaker:", speaker?.id);
     console.log("Allowed emotions:", speaker?.emotions);
 
-    if (!Array.isArray(result.dialogue) || result.dialogue.length !== 1 || !speaker ||
+    if (!Array.isArray(result.dialogue) || result.dialogue.length < 1 || !speaker ||
         typeof line.text !== "string" || !line.text.trim() ||
         (line.emotion !== null && typeof line.emotion !== "string" && line.emotion !== undefined)) throw new Error("Invalid dialogue");
     if(line.emotion !== null && !(speaker.emotions as readonly string[]).includes(line.emotion)){
       console.warn("Dialogue emotion fallback:", {storyId,turn,speaker:speaker.id,emotion:line.emotion});
       line.emotion=(speaker.emotions as readonly string[]).includes("neutral")?"neutral":speaker.emotions[0];
     }
-    return NextResponse.json({ dialogue: result.dialogue, meta: { storyId, turn, mode, background: scene.background } });
+    return NextResponse.json({ dialogue: [line], meta: { storyId, turn, mode, background: scene.background } });
   } catch (error) {
     const timedOut = error instanceof Error && (error.name === "TimeoutError" || error.name === "AbortError");
     console.error("Dialogue request failed:", timedOut ? "timeout" : "provider or response error");
