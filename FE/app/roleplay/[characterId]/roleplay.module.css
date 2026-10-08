@@ -314,6 +314,15 @@
   font-size: 20px;
 }
 
+/* 챕터 전환 */
+.chapterTransition { position:absolute; inset:0; z-index:150; display:flex; align-items:center; justify-content:center; box-sizing:border-box; padding:32px 24px; background:rgba(12,9,7,0.88); color:#fff; text-align:center; animation:chapterFade 0.35s ease-out both; }
+.transitionContent { width:min(720px,100%); animation:chapterTextIn 0.5s ease-out both; }
+.transitionTitle { font-size:clamp(26px,4vw,40px); font-weight:700; line-height:1.4; word-break:keep-all; overflow-wrap:anywhere; text-shadow:0 2px 12px rgba(0,0,0,0.5); }
+.transitionText { margin-top:20px; font-size:clamp(16px,2vw,21px); line-height:1.8; white-space:pre-line; word-break:keep-all; overflow-wrap:anywhere; color:rgba(255,255,255,0.88); }
+@keyframes chapterFade { from { opacity:0; } to { opacity:1; } }
+@keyframes chapterTextIn { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+@media (prefers-reduced-motion:reduce) { .chapterTransition,.transitionContent { animation:none; } }
+
 /* 모바일 */
 @media (max-width: 700px) {
   .game {
