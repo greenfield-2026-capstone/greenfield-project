@@ -21,10 +21,10 @@ export const jeongyakyong = {
     "현대 표현을 들으면 의미를 묻거나 당시 사람의 관점에서 추측한다.",
 
   emotions: [
-    "neutral",
-    "smile",
-    "surprised",
-    "tired",
-    "nervous",
+    "normal",
+    "curious",
+    "difficult",
+    "fed_up",
+    "flustered",
   ],
 } as const;

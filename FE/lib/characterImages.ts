@@ -16,6 +16,11 @@ export function getStoryBackground(storyId: string, background: string): string 
 }
 
 export function getCharacterImage(speaker: string, emotion: string | null): string | null {
+  if (speaker === "jeongyakyong") {
+    const available = ["curious", "difficult", "fed_up", "flustered", "normal"];
+    return `/images/jeongyakyong/${emotion && available.includes(emotion) ? emotion : "normal"}.png`;
+  }
+
   if (!emotion) return null;
 
   if (speaker === "young_sejong") {
@@ -42,6 +47,5 @@ export function getCharacterImage(speaker: string, emotion: string | null): stri
     return `/images/jeongjo/characters/${available.includes(emotion) ? emotion : "normal"}.png`;
   }
 
-  // Jeong Yak-yong has dialogue data but no portrait asset yet.
   return null;
 }
