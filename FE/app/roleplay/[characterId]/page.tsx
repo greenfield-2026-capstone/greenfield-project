@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "next/navigation";
 import { getCharacterImage, getStoryBackground } from "@/lib/characterImages";
+import { getCharacterPortraitStyle } from "@/lib/characterPortraits";
 import { stories } from "../../../data/stories";
 import { getCopy } from "@/lib/translations";
 import { normalizeLocale } from "@/lib/locale";
@@ -542,12 +543,15 @@ export default function RoleplayPage() {
       </header>
 
       {phase !== "choices" && characterImage && (
-        <img
-          key={`${activeLine?.speaker}-${activeLine?.emotion}-${scriptIndex}`}
-          src={characterImage}
-          alt={speakerName}
-          className={styles.character}
-        />
+        <div className={styles.character}>
+          <img
+            key={characterImage}
+            src={characterImage}
+            alt={speakerName}
+            className={styles.portrait}
+            style={getCharacterPortraitStyle(characterImage)}
+          />
+        </div>
       )}
 
       {phase === "choices" && !loading && (

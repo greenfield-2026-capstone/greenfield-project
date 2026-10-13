@@ -76,6 +76,11 @@ export async function POST(req: NextRequest) {
       if (!Array.isArray(options) || options.length !== 4 || options.some(o =>
         !o || !Number.isInteger(o.id) || !types.includes(o.type) || typeof o.text !== "string" || !o.text.trim() || !Number.isFinite(o.affinity_score)
       ) || new Set(options.map(o => o.id)).size !== 4 || new Set(options.map(o => o.type)).size !== 4) throw new Error("Invalid options");
+      for(let i=options.length-1;i>0;i--){
+        const j=Math.floor(Math.random()*(i+1));
+        [options[i],options[j]]=[options[j],options[i]];
+      }
+      options.forEach((option,index)=>{option.id=index+1;});
       return NextResponse.json({ options, meta: { storyId, turn, mode, background: scene.background } });
     }
     const line = result.dialogue?.[0];
