@@ -1,7 +1,7 @@
 import { sejongStory } from "./sejong";
 import { jeongjoStory } from "./jeongjo";
 
-import { gojongStory } from "../gojong";
+import { gojongStory } from "./gojong";
 
 export const stories = {
   gojong: gojongStory,
