@@ -4,7 +4,8 @@ import os
 
 # 누끼를 적용할 폴더
 folders = [
-    "FE/public/images/gojong"
+    "FE/public/images/gojong/young",
+    "FE/public/images/gojong/characters"
 ]
 
 for folder in folders:
