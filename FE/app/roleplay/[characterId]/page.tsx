@@ -5,6 +5,7 @@ import { useParams, useSearchParams } from "next/navigation";
 import { getCharacterImage, getStoryBackground } from "@/lib/characterImages";
 import { getCharacterPortraitStyle } from "@/lib/characterPortraits";
 import { stories } from "../../../data/stories";
+import { characters } from "../../../data/characters";
 import { getCopy } from "@/lib/translations";
 import { normalizeLocale } from "@/lib/locale";
 import styles from "./roleplay.module.css";
@@ -217,6 +218,7 @@ export default function RoleplayPage() {
   const speakerNames = names[locale];
   const speakerName = activeLine
     ? (speakerNames[activeLine.speaker as keyof typeof speakerNames] ??
+      (locale === "ko" ? characters[activeLine.speaker as keyof typeof characters]?.name : characters[activeLine.speaker as keyof typeof characters]?.englishName) ??
       activeLine.speaker)
     : "";
   const characterImage = activeLine

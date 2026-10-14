@@ -4,7 +4,10 @@ import { sejong, youngSejong } from "./sejong";
 import { kimmun } from "./kimmun";
 import { taejong } from "./taejong";
 
+import { gojongCharacters } from "../gojong";
+
 export const characters = {
+  ...gojongCharacters,
   jeongjo,
   young_jeongjo: youngJeongjo,
   jeongyakyong,
