@@ -8,6 +8,10 @@ const jeongjoBackgrounds: Record<string, string> = {
 };
 
 export function getStoryBackground(storyId: string, background: string): string {
+  if (storyId === "gojong") {
+    const places: Record<string, string> = { changdeokgung: "/places/changdeokgung.jpg", gyeongbokgung: "/places/gyeongbokgung.jpg", deoksugung: "/places/deoksugung.jpg" };
+    return places[background] ?? "/places/deoksugung.jpg";
+  }
   if (storyId === "jeongjo") {
     const file = jeongjoBackgrounds[background];
     return file ? `/images/jeongjo/background/${file}` : "";
@@ -16,6 +20,15 @@ export function getStoryBackground(storyId: string, background: string): string 
 }
 
 export function getCharacterImage(speaker: string, emotion: string | null): string | null {
+  if (speaker === "young_gojong") {
+    const available = ["curious", "surprised", "fear", "rely"];
+    return `/images/gojong/young/${emotion && available.includes(emotion) ? emotion : "curious"}.png`;
+  }
+  if (speaker === "gojong") {
+    const available = ["sorry", "firm", "worried", "shocked", "smile"];
+    return `/images/gojong/characters/${emotion && available.includes(emotion) ? emotion : "firm"}.png`;
+  }
+  if (speaker === "heungseon") return "/characters/heungseon.jpg";
   if (speaker === "jeongyakyong") {
     const available = ["curious", "difficult", "fed_up", "flustered", "normal"];
     return `/images/jeongyakyong/${emotion && available.includes(emotion) ? emotion : "normal"}.png`;
