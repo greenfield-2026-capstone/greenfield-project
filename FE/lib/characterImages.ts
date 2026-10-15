@@ -9,8 +9,8 @@ const jeongjoBackgrounds: Record<string, string> = {
 
 export function getStoryBackground(storyId: string, background: string): string {
   if (storyId === "gojong") {
-    const places: Record<string, string> = { changdeokgung: "/places/changdeokgung.jpg", gyeongbokgung: "/places/gyeongbokgung.jpg", deoksugung: "/places/deoksugung.jpg" };
-    return places[background] ?? "/places/deoksugung.jpg";
+    const available = ["step1-1", "step1-2", "step2", "step3", "step4", "step5", "step6"];
+    return available.includes(background) ? `/images/gojong/background/${background}.png` : "";
   }
   if (storyId === "jeongjo") {
     const file = jeongjoBackgrounds[background];
