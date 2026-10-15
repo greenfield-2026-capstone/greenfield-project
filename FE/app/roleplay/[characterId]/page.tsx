@@ -304,14 +304,6 @@ export default function RoleplayPage() {
   }, [characterId, turn, lang, locale, story, totalTurns]);
 
   useEffect(() => {
-    if (!locationCard) return;
-    const timer = window.setTimeout(() => {
-      setCompletedCards((previous) => [...previous, locationCardKey]);
-    }, 4500);
-    return () => window.clearTimeout(timer);
-  }, [locationCard, locationCardKey]);
-
-  useEffect(() => {
     if (!fullText) return;
 
     setTypedText("");
@@ -460,13 +452,19 @@ export default function RoleplayPage() {
     setPhase("transition");
     setReaction(null);
 
-    setTimeout(() => {
-      setTurn(next);
-      setScriptIndex(0);
-      setOptions([]);
-      setPhase("script");
-      setError("");
-    }, characterId === "gojong" ? 4500 : 2200);
+  }
+
+  function continueTransition() {
+    if (locationCard) {
+      setCompletedCards((previous) => [...previous, locationCardKey]);
+      return;
+    }
+    if (phase !== "transition") return;
+    setTurn((previous) => previous + 1);
+    setScriptIndex(0);
+    setOptions([]);
+    setPhase("script");
+    setError("");
   }
 
   if (!story) {
@@ -509,7 +507,7 @@ export default function RoleplayPage() {
     );
   }
 
-  if (locale !== "ko" && !translatedScene) {
+  if (locale !== "ko" && !translatedScene && phase !== "transition") {
     return (
       <main
         className={styles.game}
@@ -632,9 +630,9 @@ export default function RoleplayPage() {
       {error && <div className={styles.error}>{error}</div>}
 
       {(phase === "transition" || locationCard) && (
-        <div className={styles.chapterTransition}>
+        <div className={styles.chapterTransition} role="dialog" aria-modal="true" aria-labelledby="chapter-transition-title">
           <div className={styles.transitionContent}>
-            <div className={styles.transitionTitle}>
+            <div id="chapter-transition-title" className={styles.transitionTitle}>
               {locationCard?.title ?? nextScene?.transition?.title ?? copy.timePasses}
             </div>
 
@@ -643,6 +641,9 @@ export default function RoleplayPage() {
                 {locationCard?.text ?? nextScene.transition.text}
               </div>
             )}
+            <button type="button" className={styles.transitionContinue} onClick={continueTransition} autoFocus>
+              {locale === "ko" ? "계속하기" : "Continue"} →
+            </button>
           </div>
         </div>
       )}

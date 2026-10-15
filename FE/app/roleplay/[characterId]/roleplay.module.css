@@ -314,7 +314,7 @@
 }
 
 /* 챕터 전환 */
-.chapterTransition { position:absolute; inset:0; z-index:150; display:flex; align-items:center; justify-content:center; box-sizing:border-box; padding:32px 24px; background:rgba(12,9,7,0.88); color:#fff; text-align:center; animation:chapterFade 0.35s ease-out both; }
+.chapterTransition { position:absolute; inset:0; z-index:150; display:flex; align-items:center; justify-content:center; box-sizing:border-box; padding:32px 24px; background:rgba(8,10,14,0.72); backdrop-filter:blur(9px); -webkit-backdrop-filter:blur(9px); color:#fff; text-align:center; animation:chapterFade 0.35s ease-out both; }
 .transitionContent { width:min(720px,100%); animation:chapterTextIn 0.5s ease-out both; }
 .transitionTitle { font-size:clamp(26px,4vw,40px); font-weight:700; line-height:1.4; word-break:keep-all; overflow-wrap:anywhere; text-shadow:0 2px 12px rgba(0,0,0,0.5); }
 .transitionText { margin-top:20px; font-size:clamp(16px,2vw,21px); line-height:1.8; white-space:pre-line; word-break:keep-all; overflow-wrap:anywhere; color:rgba(255,255,255,0.88); }
@@ -371,3 +371,6 @@
     font-size: 14px;
   }
 }
+.transitionContinue { display:inline-flex; align-items:center; justify-content:center; margin-top:32px; min-height:48px; padding:12px 26px; border:1px solid rgba(255,255,255,.65); border-radius:999px; background:rgba(255,255,255,.08); color:#fff; font:inherit; cursor:pointer; }
+.transitionContinue:hover { background:rgba(255,255,255,.18); }
+.transitionContinue:focus-visible { outline:3px solid #ead7a7; outline-offset:5px; }
