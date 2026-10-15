@@ -224,8 +224,12 @@ export default function RoleplayPage() {
   const characterImage = activeLine
     ? getCharacterImage(activeLine.speaker, activeLine.emotion)
     : null;
+  // Background cues follow original script positions, including translated dialogue.
+  const sceneBackground = originalScene?.backgroundChanges
+    ?.filter((cue: { scriptIndex: number }) => scriptIndex >= cue.scriptIndex)
+    .at(-1)?.background ?? originalScene?.background;
   const backgroundImage = originalScene
-    ? getStoryBackground(characterId, originalScene.background)
+    ? getStoryBackground(characterId, sceneBackground)
     : "";
   const totalTurns = story ? Object.keys(story.turns).length : 0;
 

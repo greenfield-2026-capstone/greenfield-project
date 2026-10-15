@@ -7,7 +7,7 @@ export const gojongStory = {
   "turns": {
     1: {
       "title": "[즉위] “아버님, 저는 아직…”",
-      "background": "changdeokgung",
+      "background": "step1-1",
       "characters": [
         "young_gojong",
         "heungseon",
@@ -111,11 +111,21 @@ export const gojongStory = {
         "감정에 어울리는 손짓과 자세를 짧게 묘사할 수 있다. 동일한 정적 자세를 반복하지 않는다.",
         "어린 고종만 사용한다. 아직 자신의 미래를 알지 못한다.",
         "AI 반응은 마지막 고종의 질문에 대한 플레이어의 답에 고종이 직접 반응한다. 다른 인물이 질문을 가로채지 않는다."
+      ],
+      "transition": {
+        "title": "1863년 — 창덕궁",
+        "text": "열두 살 이명복, 왕이 되기 위해 궁궐에 들어서다."
+      },
+      "backgroundChanges": [
+        {
+          "scriptIndex": 14,
+          "background": "step1-2"
+        }
       ]
     },
     2: {
       "title": "[친정] “제 뜻을 말씀드리는 것입니다”",
-      "background": "gyeongbokgung",
+      "background": "step2",
       "characters": [
         "heungseon",
         "gojong"
@@ -218,13 +228,13 @@ export const gojongStory = {
         "AI 반응은 마지막 고종의 질문에 대한 플레이어의 답에 고종이 직접 반응한다. 다른 인물이 질문을 가로채지 않는다."
       ],
       "transition": {
-        "title": "1873년, 직접 다스릴 때",
-        "text": "아버지에 대한 고마움과 국정을 직접 책임질 결의를 함께 보여준다."
+        "title": "10년 뒤, 1873년 — 경복궁",
+        "text": "성장한 고종, 아버지 앞에서 직접 나라를 다스릴 뜻을 밝히다."
       }
     },
     3: {
       "title": "[을미사변] “중전은 어디 있느냐”",
-      "background": "gyeongbokgung",
+      "background": "step3",
       "characters": [
         "gojong_attendant",
         "gojong",
@@ -330,13 +340,13 @@ export const gojongStory = {
         "왕비 살해를 상세한 폭력 묘사나 농담으로 소비하지 않는다. playful 선택도 어색한 위로나 조심스러운 분위기 완화로 제한한다."
       ],
       "transition": {
-        "title": "1895년, 궁궐의 새벽",
-        "text": "왕비를 찾는 다급함에서 비보 이후 침묵으로 이어진다. 사용자는 사건을 되돌릴 수 없고 슬픔을 함께 듣는다."
+        "title": "22년 뒤, 1895년 — 경복궁 건청궁 일대",
+        "text": "고요하던 새벽, 궁궐 안으로 낯선 소란이 밀려든다."
       }
     },
     4: {
       "title": "[커피와 대한제국] “잠시만, 식기 전에”",
-      "background": "deoksugung",
+      "background": "step4",
       "characters": [
         "gojong_servant",
         "gojong",
@@ -458,13 +468,13 @@ export const gojongStory = {
         "장면 중간의 1897년 전환 이후에만 폐하 호칭을 쓴다. 광무 연호가 즉위식 현장에서 처음 결정된 것으로 묘사하지 않는다."
       ],
       "transition": {
-        "title": "1896~1897년, 공사관에서 황제의 자리로",
-        "text": "커피를 즐기는 일상과 자주국을 세우려는 결의를 연결한다. 커피가 정치적 결정을 일으켰다는 인과관계를 만들지 않는다."
+        "title": "이듬해, 1896년 — 러시아 공사관",
+        "text": "궁궐을 떠난 고종. 낯선 방의 커피 한 잔 너머로 환궁을 생각하다."
       }
     },
     5: {
       "title": "[헤이그 특사] “우리의 말을 전해주시오”",
-      "background": "deoksugung",
+      "background": "step5",
       "characters": [
         "gojong",
         "yi_sangseol",
@@ -563,13 +573,13 @@ export const gojongStory = {
         "특사들이 아무런 활동도 못했다고 말하지 않는다. 공식 회의 참석 실패와 언론 활동을 구분한다."
       ],
       "transition": {
-        "title": "1907년, 세계에 전할 뜻",
-        "text": "특사에게 맡기는 절박함과 위험한 길을 보내는 걱정을 보여준다. 외교의 한계도 다룬다."
+        "title": "10년 뒤, 1907년 — 경운궁",
+        "text": "대한제국 황제 고종, 세계에 나라의 뜻을 전할 특사를 보내다."
       }
     },
     6: {
       "title": "[늦둥이 딸] “오늘은 무엇을 배웠느냐”",
-      "background": "deoksugung",
+      "background": "step6",
       "characters": [
         "gojong",
         "deokhye"
@@ -679,10 +689,9 @@ export const gojongStory = {
         "노래와 딸의 대사는 창작이다. 유치원 마련과 입학식 참석 사실과 구분한다."
       ],
       "transition": {
-        "title": "1916년, 어린 딸의 노래",
-        "text": "어린 딸에게 다정한 아버지인 고종을 보여주고 인간적인 여운으로 끝낸다."
+        "title": "9년 뒤, 1916년 — 덕수궁 준명당",
+        "text": "황제의 자리에서 물러난 고종. 어린 딸의 노래가 궁궐에 울려 퍼진다."
       }
     }
   }
 } as const;
-
