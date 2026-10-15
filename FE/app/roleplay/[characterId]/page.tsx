@@ -188,6 +188,7 @@ export default function RoleplayPage() {
   const copy = getCopy(lang);
   const story = stories[characterId as keyof typeof stories];
 
+  const [completedCards, setCompletedCards] = useState<string[]>([]);
   const [turn, setTurn] = useState(1);
   const [scriptIndex, setScriptIndex] = useState(0);
   const [phase, setPhase] = useState<
@@ -211,7 +212,13 @@ export default function RoleplayPage() {
 
   const script: Line[] = scene?.script ?? [];
   const currentLine = script[scriptIndex];
-  const activeLine =
+  const locationCue = originalScene?.sceneTransitions?.find(
+    (cue: { scriptIndex: number }) => cue.scriptIndex === scriptIndex,
+  ) ?? (originalScene?.showOpeningTransition && scriptIndex === 0 ? originalScene.transition : null);
+  const locationCardKey = characterId + ":" + lang + ":" + turn + ":" + scriptIndex;
+  const locationCard = phase === "script" && scene && locationCue && !completedCards.includes(locationCardKey)
+    ? locationCue : null;
+  const activeLine = locationCard ? null :
     phase === "reaction" ? reaction : phase === "script" ? currentLine : null;
   const fullText = activeLine?.text ?? "";
 
@@ -234,6 +241,7 @@ export default function RoleplayPage() {
   const totalTurns = story ? Object.keys(story.turns).length : 0;
 
   useEffect(() => {
+    setCompletedCards([]);
     setTurn(1);
     setScriptIndex(0);
     setPhase("script");
@@ -294,6 +302,14 @@ export default function RoleplayPage() {
       active = false;
     };
   }, [characterId, turn, lang, locale, story, totalTurns]);
+
+  useEffect(() => {
+    if (!locationCard) return;
+    const timer = window.setTimeout(() => {
+      setCompletedCards((previous) => [...previous, locationCardKey]);
+    }, 4500);
+    return () => window.clearTimeout(timer);
+  }, [locationCard, locationCardKey]);
 
   useEffect(() => {
     if (!fullText) return;
@@ -450,7 +466,7 @@ export default function RoleplayPage() {
       setOptions([]);
       setPhase("script");
       setError("");
-    }, 2200);
+    }, characterId === "gojong" ? 4500 : 2200);
   }
 
   if (!story) {
@@ -615,16 +631,16 @@ export default function RoleplayPage() {
 
       {error && <div className={styles.error}>{error}</div>}
 
-      {phase === "transition" && (
+      {(phase === "transition" || locationCard) && (
         <div className={styles.chapterTransition}>
           <div className={styles.transitionContent}>
             <div className={styles.transitionTitle}>
-              {nextScene?.transition?.title ?? copy.timePasses}
+              {locationCard?.title ?? nextScene?.transition?.title ?? copy.timePasses}
             </div>
 
-            {nextScene?.transition?.text && (
+            {(locationCard?.text ?? nextScene?.transition?.text) && (
               <div className={styles.transitionText}>
-                {nextScene.transition.text}
+                {locationCard?.text ?? nextScene.transition.text}
               </div>
             )}
           </div>
