@@ -28,7 +28,14 @@ export function getCharacterImage(speaker: string, emotion: string | null): stri
     const available = ["sorry", "firm", "worried", "shocked", "smile"];
     return `/images/gojong/characters/${emotion && available.includes(emotion) ? emotion : "firm"}.png`;
   }
-  if (speaker === "heungseon") return "/characters/heungseon.jpg";
+  if (speaker === "heungseon") {
+    const available = ["serious", "warm", "stern", "hurt"];
+    return `/images/heungseon/characters/${emotion && available.includes(emotion) ? emotion : "serious"}.png`;
+  }
+  if (speaker === "queen_dowager_jo") {
+    const available = ["solemn", "gentle"];
+    return `/images/queen_sinjeong/${emotion && available.includes(emotion) ? emotion : "solemn"}.png`;
+  }
   if (speaker === "jeongyakyong") {
     const available = ["curious", "difficult", "fed_up", "flustered", "normal"];
     return `/images/jeongyakyong/${emotion && available.includes(emotion) ? emotion : "normal"}.png`;
