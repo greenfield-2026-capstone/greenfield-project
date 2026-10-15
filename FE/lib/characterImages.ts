@@ -19,12 +19,20 @@ export function getStoryBackground(storyId: string, background: string): string 
   return `/images/${storyId}/backgrounds/${background}.png`;
 }
 
-export function getCharacterImage(speaker: string, emotion: string | null): string | null {
+export function getCharacterImage(
+  speaker: string,
+  emotion: string | null,
+  context?: { storyId: string; turn: number },
+): string | null {
   if (speaker === "young_gojong") {
     const available = ["curious", "surprised", "fear", "rely"];
     return `/images/gojong/young/${emotion && available.includes(emotion) ? emotion : "curious"}.png`;
   }
   if (speaker === "gojong") {
+    if (context?.storyId === "gojong" && (context.turn === 2 || context.turn === 3)) {
+      const royalEmotions = ["sorry", "firm", "worried", "shocked"];
+      return `/images/gojong/royal/${emotion && royalEmotions.includes(emotion) ? emotion : "firm"}.png`;
+    }
     const available = ["sorry", "firm", "worried", "shocked", "smile"];
     return `/images/gojong/characters/${emotion && available.includes(emotion) ? emotion : "firm"}.png`;
   }
@@ -53,7 +61,11 @@ export function getCharacterImage(speaker: string, emotion: string | null): stri
     return `/images/sejong/characters/${available.includes(emotion) ? emotion : "neutral"}.png`;
   }
 
-  if (speaker === "taejong" || speaker === "kimmun") {
+  if (speaker === "kimmun") {
+    const available = ["neutral", "smile", "surprised", "nagging"];
+    return `/images/kimmun/${emotion && available.includes(emotion) ? emotion : "neutral"}.png`;
+  }
+  if (speaker === "taejong") {
     return `/images/${speaker}/${emotion}.png`;
   }
 
