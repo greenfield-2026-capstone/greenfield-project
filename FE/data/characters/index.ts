@@ -1,3 +1,8 @@
+import { taejo } from "./taejo";
+import { ryuSeongryong } from "./ryu_seongryong";
+
+import { yulgok, youngYulgok } from "./yulgok";
+
 import { jeongjo, youngJeongjo } from "./jeongjo";
 
 import { sejong, youngSejong } from "./sejong";
@@ -67,7 +72,23 @@ export const saimdangChild = {
   emotions: ["curious", "smile"],
 } as const;
 
+// 대본만 따르는 보조 역할입니다.
+export const yulgokFriend = { id: "yulgok_friend", name: "지인", englishName: "Companion", role: "실존 정체를 지정하지 않은 창작 지인·선비 역할", emotions: ["neutral", "curious", "smile", "worried"] } as const;
+export const seonjo = { id: "seonjo", name: "선조", englishName: "King Seonjo", role: "이이·류성룡 등 선조대 이야기에서 국왕을 맡는 공용 역할. 구체적인 문답은 창작", emotions: ["serious"] } as const;
+
+// 류성룡 이야기의 보조 인물: 별도 성격 없이 대본과 표정만 사용합니다.
+export const ryuUnryong = { id: "ryu_unryong", name: "류운룡", englishName: "Ryu Un-ryong", role: "류성룡의 형. 구체적인 형제 대화는 창작", emotions: ["neutral", "curious", "smile"] } as const;
+export const seongryongStudent = { id: "seongryong_student", name: "제자", englishName: "Student", role: "집필을 궁금해하는 이름 없는 창작 제자 역할", emotions: ["neutral", "curious", "worried"] } as const;
+
 export const characters = {
+  taejo,
+  ryu_seongryong: ryuSeongryong,
+  ryu_unryong: ryuUnryong,
+  seongryong_student: seongryongStudent,
+  yulgok,
+  young_yulgok: youngYulgok,
+  yulgok_friend: yulgokFriend,
+  seonjo,
   sinsaimdang,
   young_sinsaimdang: youngSinsaimdang,
   saimdang_mother: saimdangMother,
