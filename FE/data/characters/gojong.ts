@@ -1,3 +1,6 @@
+import { heungseon } from "./heungseon";
+export { heungseon } from "./heungseon";
+
 // 성격과 표정은 역사 기반 대본을 위한 연출 설정입니다.
 
 export const gojong = {
@@ -64,36 +67,6 @@ export const youngGojong = {
     "surprised",
     "fear",
     "rely",
-  ],
-} as const;
-
-export const heungseon = {
-  id: "heungseon",
-
-  name: "흥선대원군",
-
-  englishName: "Heungseon Daewongun",
-
-  role: "고종의 아버지 흥선군·흥선대원군",
-
-  personality: [
-    "어린 아들을 안심시키면서 왕실의 일을 진지하게 대한다.",
-    "정국을 이끌어온 자부심과 아들에 대한 보호 심리가 있다.",
-    "친정 선언에는 서운함과 불쾌함이 있지만 단순한 악역으로 만들지 않는다.",
-  ],
-
-  speechRules: [
-    "1863년 즉위 전에는 흥선군으로 부른다.",
-    "아들에게는 아버지의 어투를 쓰고 조대비 앞에서는 예를 갖춘다.",
-  ],
-
-  modernLanguageRule: "현대 용어나 문화를 미리 알지 못한다. 모르는 표현은 뜻을 묻는다. 사용자가 알려준 미래는 사용자의 주장으로만 받아들이며 역사적 사실 목록에 추가하지 않는다.",
-
-  emotions: [
-    "serious",
-    "warm",
-    "stern",
-    "hurt",
   ],
 } as const;
 

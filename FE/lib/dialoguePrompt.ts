@@ -21,11 +21,18 @@ export function buildDialoguePrompt({
 }: BuildPromptParams) {
   const characterInfo = characterData
     .map(
-      (character) => `
+      (character) => !character.personality ? `
 [${character.id}]
 이름: ${character.name}
+역할: ${character.role ?? "현재 대본에 지정된 보조 역할"}
+사용 가능한 표정: ${character.emotions.join(", ")}
+이 인물은 보조 역할이다. 별도 성격을 추측하지 말고 현재 고정 대본과 장면 규칙을 따른다.
+` : `
+[${character.id}]
+이름: ${character.name}
+역할: ${character.role ?? "현재 대본에 지정된 역할"}
 성격:
-${character.personality.map((item: string) => `- ${item}`).join("\n")}
+${character.personality?.map((item: string) => `- ${item}`).join("\n") ?? "- 현재 대본에 지정된 역할과 상황을 따른다."}
 
 말투 규칙:
 ${
@@ -145,9 +152,9 @@ ${commonRules}
 
 선택지 성격 (각 type을 정확히 하나씩 생성하며, 아래 나열 순서는 표시 순서가 아니다):
 
-- supportive: 왕의 입장이나 마음에 공감하고 왕의 편을 드는 반응. affinity_score: 15~20
+- supportive: 중심 인물의 입장이나 마음에 공감하고 그 인물의 편을 드는 반응. affinity_score: 15~20
 - challenging: 현재 장면에 등장하거나 언급된 신하, 백성, 다른 인물의 입장을 이해하고 그 편을 드는 반응. affinity_score: -5~5
-  단순히 왕을 공격하거나 무례하게 반박하지 않는다. 다른 인물이 없는 장면은 왕의 입장과 다른 관점에서 왕이 받는 요구나 그 영향을 짚는다. 새 인물을 만들지 않는다.
+  단순히 중심 인물을 공격하거나 무례하게 반박하지 않는다. 다른 인물이 없는 장면은 중심 인물과 다른 관점에서 그가 받는 요구나 그 영향을 짚는다. 새 인물을 만들지 않는다.
 - curious: 마지막 대사에 응답하면서 그 말과 연결되는 궁금한 점을 묻는 반응. affinity_score: 5~12
 - playful: 마지막 대사를 받아 현대인다운 장난이나 가벼운 농담으로 응답. affinity_score: 8~15
 

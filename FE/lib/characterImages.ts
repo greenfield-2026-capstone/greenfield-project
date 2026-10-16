@@ -8,6 +8,17 @@ const jeongjoBackgrounds: Record<string, string> = {
 };
 
 export function getStoryBackground(storyId: string, background: string): string {
+  // Existing Ojukheon place photo until chapter-specific backgrounds are supplied.
+  if (storyId === "sinsaimdang") return "https://minio.nculture.org/amsweb-opt/multimedia_assets/106/72785/68625/c/강릉-오죽헌-내부_문화재청_제1유형-thumb.jpg";
+  if (storyId === "kim_jeonghee") return "/places/chusa-yubaegil.jpeg";
+  if (storyId === "heungseon") {
+    // Existing scenery is temporary until dedicated Unhyeongung/Seokpajeong assets arrive.
+    return background === "room" ? "/images/gojong/background/step2.png" : "/places/changdeokgung.jpg";
+  }
+  if (storyId === "mandeok") {
+    // Temporary existing scenery until dedicated Mandeok backgrounds are supplied.
+    return background === "palace" ? "/places/changdeokgung.jpg" : "/places/gimandeok-route.png";
+  }
   if (storyId === "gojong") {
     const available = ["step1-1", "step1-2", "step2", "step3", "step4", "step5", "step6"];
     return available.includes(background) ? `/images/gojong/background/${background}.png` : "";
@@ -24,6 +35,15 @@ export function getCharacterImage(
   emotion: string | null,
   context?: { storyId: string; turn: number },
 ): string | null {
+  // Dedicated Mandeok expression assets have not been supplied yet.
+  if (speaker === "mandeok" || speaker === "mandeok_merchant") return "/character-fallback.svg";
+  // Dedicated expression artwork can replace this existing portrait later.
+  if (speaker === "kim_jeonghee") return "/characters/chusa.jpg";
+  if (speaker === "chusa_student") return "/character-fallback.svg";
+  if (["sinsaimdang", "young_sinsaimdang", "saimdang_mother", "yi_wonsu", "saimdang_child"].includes(speaker)) {
+    // No dedicated portraits have been supplied for these characters yet.
+    return "/character-fallback.svg";
+  }
   if (speaker === "young_gojong") {
     const available = ["curious", "surprised", "fear", "rely"];
     return `/images/gojong/young/${emotion && available.includes(emotion) ? emotion : "curious"}.png`;
