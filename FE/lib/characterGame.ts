@@ -1,5 +1,7 @@
 import { stories, type StoryId } from "../data/stories";
 const aliases: Record<string, StoryId> = {
+  "taejo-jongmyo": "taejo",
+  "ryu-seongryong": "ryu_seongryong",
   "shin-saimdang": "sinsaimdang",
   chusa: "kim_jeonghee",
   "heungseon-seokpa": "heungseon",

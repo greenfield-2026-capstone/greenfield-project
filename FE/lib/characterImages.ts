@@ -8,6 +8,14 @@ const jeongjoBackgrounds: Record<string, string> = {
 };
 
 export function getStoryBackground(storyId: string, background: string): string {
+  // Existing Gyeongbokgung photo is atmosphere, not a 1395 reconstruction.
+  if (storyId === "taejo") return background === "hanyang" ? "/places/gyeongbokgung.jpg" : "/images/taejo/background/neutral.svg";
+  // Hahoe photo is atmosphere only; it does not reconstruct a specific lifetime residence.
+  if (storyId === "ryu_seongryong") return background === "hahoe" ? "https://minio.nculture.org/amsweb-opt/multimedia_assets/146/85841/93920/c/%ED%95%98%ED%9A%8C%EB%A7%88%EC%9D%84-%EC%B6%A9%ED%9A%A8%EB%8B%B9-%286%29_rev-thumb.jpg" : "/images/ryu_seongryong/background/neutral.svg";
+  // Temporary existing scenery; dedicated Yulgok chapter art can replace it later.
+  if (storyId === "yulgok") return background === "ojukheon"
+    ? "https://minio.nculture.org/amsweb-opt/multimedia_assets/106/72785/68625/c/강릉-오죽헌-내부_문화재청_제1유형-thumb.jpg"
+    : background === "court" ? "/places/changdeokgung.jpg" : "";
   // Existing Ojukheon place photo until chapter-specific backgrounds are supplied.
   if (storyId === "sinsaimdang") return "https://minio.nculture.org/amsweb-opt/multimedia_assets/106/72785/68625/c/강릉-오죽헌-내부_문화재청_제1유형-thumb.jpg";
   if (storyId === "kim_jeonghee") return "/places/chusa-yubaegil.jpeg";
@@ -35,6 +43,10 @@ export function getCharacterImage(
   emotion: string | null,
   context?: { storyId: string; turn: number },
 ): string | null {
+  // Existing portrait is temporary for every age/expression until sprites are supplied.
+  if (speaker === "taejo") return "/characters/taejo.jpg";
+  if (["ryu_seongryong", "ryu_unryong", "seongryong_student"].includes(speaker)) return "/character-fallback.svg";
+  if (["yulgok", "young_yulgok", "yulgok_friend", "seonjo"].includes(speaker)) return "/character-fallback.svg";
   // Dedicated Mandeok expression assets have not been supplied yet.
   if (speaker === "mandeok" || speaker === "mandeok_merchant") return "/character-fallback.svg";
   // Dedicated expression artwork can replace this existing portrait later.
