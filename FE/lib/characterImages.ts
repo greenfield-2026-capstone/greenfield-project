@@ -16,8 +16,10 @@ export function getStoryBackground(storyId: string, background: string): string 
   if (storyId === "yulgok") return background === "ojukheon"
     ? "https://minio.nculture.org/amsweb-opt/multimedia_assets/106/72785/68625/c/강릉-오죽헌-내부_문화재청_제1유형-thumb.jpg"
     : background === "court" ? "/places/changdeokgung.jpg" : "";
-  // Existing Ojukheon place photo until chapter-specific backgrounds are supplied.
-  if (storyId === "sinsaimdang") return "https://minio.nculture.org/amsweb-opt/multimedia_assets/106/72785/68625/c/강릉-오죽헌-내부_문화재청_제1유형-thumb.jpg";
+  if (storyId === "sinsaimdang") {
+    const available = ["step1", "step2", "step3", "step4", "step5"];
+    return `/images/shinsaimdang/background/${available.includes(background) ? background : "step1"}.png`;
+  }
   if (storyId === "kim_jeonghee") return "/places/chusa-yubaegil.jpeg";
   if (storyId === "heungseon") {
     // Existing scenery is temporary until dedicated Unhyeongung/Seokpajeong assets arrive.
