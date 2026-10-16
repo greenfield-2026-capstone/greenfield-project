@@ -25,7 +25,7 @@ export const sinsaimdangStory = {
   turns: {
     1: {
       title: "[오죽헌의 아이] 모르는 글자 옆에 앉아",
-      background: "ojukheon",
+      background: "step1",
       showOpeningTransition: true,
       transition: {
         title: "어린 시절 — 강릉 오죽헌",
@@ -111,7 +111,7 @@ export const sinsaimdangStory = {
     },
     2: {
       title: "[일곱 살의 그림] 다시 보면 다른 것이 보입니다",
-      background: "ojukheon",
+      background: "step2",
       transition: {
         title: "일곱 살 무렵 — 오죽헌의 방",
         text: "좋아하는 그림을 따라 그리던 아이. 닮지 않은 한 획 때문에 종이를 오래 들여다본다."
@@ -196,7 +196,7 @@ export const sinsaimdangStory = {
     },
     3: {
       title: "[혼인과 가족] 떠날 마음, 남을 마음",
-      background: "ojukheon",
+      background: "step3",
       transition: {
         title: "1522년 혼인 이후 — 강릉 친정",
         text: "새 가족이 생겨도 익숙한 집의 걱정은 남는다. 사임당은 앞으로의 생활을 함께 의논한다."
@@ -283,7 +283,7 @@ export const sinsaimdangStory = {
     },
     4: {
       title: "[새로운 생명] 아직은 이 작은 손부터",
-      background: "ojukheon",
+      background: "step4",
       transition: {
         title: "1536년 — 강릉 오죽헌 몽룡실",
         text: "훗날 율곡이라 불릴 아이가 태어난다. 하지만 오늘의 사임당 앞에는 돌봄이 필요한 작은 생명이 있다."
@@ -374,7 +374,7 @@ export const sinsaimdangStory = {
     },
     5: {
       title: "[예술가의 눈] 작은 것도 오래 보고 싶어서",
-      background: "ojukheon",
+      background: "step5",
       transition: {
         title: "성년기의 한 날 — 오죽헌 마당을 상상하며",
         text: "풀 한 줄기와 벌레의 움직임 앞에서 붓이 멈춘다. 익숙한 풍경을 새롭게 보는 시간이 시작된다."
