@@ -76,14 +76,28 @@ export async function POST(req: NextRequest) {
       if (!Array.isArray(options) || options.length !== 4 || options.some(o =>
         !o || !Number.isInteger(o.id) || !types.includes(o.type) || typeof o.text !== "string" || !o.text.trim() || !Number.isFinite(o.affinity_score)
       ) || new Set(options.map(o => o.id)).size !== 4 || new Set(options.map(o => o.type)).size !== 4) throw new Error("Invalid options");
+      for(let i=options.length-1;i>0;i--){
+        const j=Math.floor(Math.random()*(i+1));
+        [options[i],options[j]]=[options[j],options[i]];
+      }
+      options.forEach((option,index)=>{option.id=index+1;});
       return NextResponse.json({ options, meta: { storyId, turn, mode, background: scene.background } });
     }
     const line = result.dialogue?.[0];
     const speaker = characterData.find(c => c.id === line?.speaker);
-    if (!Array.isArray(result.dialogue) || result.dialogue.length !== 1 || !speaker ||
+
+    console.log("AI reaction:", result.dialogue);
+    console.log("Speaker:", speaker?.id);
+    console.log("Allowed emotions:", speaker?.emotions);
+
+    if (!Array.isArray(result.dialogue) || result.dialogue.length < 1 || !speaker ||
         typeof line.text !== "string" || !line.text.trim() ||
-        (line.emotion !== null && !(speaker.emotions as readonly string[]).includes(line.emotion))) throw new Error("Invalid dialogue");
-    return NextResponse.json({ dialogue: result.dialogue, meta: { storyId, turn, mode, background: scene.background } });
+        (line.emotion !== null && typeof line.emotion !== "string" && line.emotion !== undefined)) throw new Error("Invalid dialogue");
+    if(line.emotion !== null && !(speaker.emotions as readonly string[]).includes(line.emotion)){
+      console.warn("Dialogue emotion fallback:", {storyId,turn,speaker:speaker.id,emotion:line.emotion});
+      line.emotion=(speaker.emotions as readonly string[]).includes("neutral")?"neutral":speaker.emotions[0];
+    }
+    return NextResponse.json({ dialogue: [line], meta: { storyId, turn, mode, background: scene.background } });
   } catch (error) {
     const timedOut = error instanceof Error && (error.name === "TimeoutError" || error.name === "AbortError");
     console.error("Dialogue request failed:", timedOut ? "timeout" : "provider or response error");

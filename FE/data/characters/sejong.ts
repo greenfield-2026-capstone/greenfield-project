@@ -56,5 +56,5 @@ export const youngSejong = {
   modernLanguageRule:
     "현대 용어와 현대 문화를 알지 못한다. 이상한 현대 표현을 들으면 당황하거나 뜻을 묻고, 때로는 자신을 놀리는 말이라고 오해할 수 있다.",
 
-  emotions: ["young_pout", "young_scolded", "young_smile", "young_flustered"],
+  emotions: ["pout", "scolded", "smile", "flustered", "curious"],
 } as const;

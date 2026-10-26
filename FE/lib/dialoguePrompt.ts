@@ -21,11 +21,18 @@ export function buildDialoguePrompt({
 }: BuildPromptParams) {
   const characterInfo = characterData
     .map(
-      (character) => `
+      (character) => !character.personality ? `
 [${character.id}]
 이름: ${character.name}
+역할: ${character.role ?? "현재 대본에 지정된 보조 역할"}
+사용 가능한 표정: ${character.emotions.join(", ")}
+이 인물은 보조 역할이다. 별도 성격을 추측하지 말고 현재 고정 대본과 장면 규칙을 따른다.
+` : `
+[${character.id}]
+이름: ${character.name}
+역할: ${character.role ?? "현재 대본에 지정된 역할"}
 성격:
-${character.personality.map((item: string) => `- ${item}`).join("\n")}
+${character.personality?.map((item: string) => `- ${item}`).join("\n") ?? "- 현재 대본에 지정된 역할과 상황을 따른다."}
 
 말투 규칙:
 ${
@@ -51,6 +58,8 @@ ${character.emotions.join(", ")}
         `${line.speaker}: ${line.text}`
     )
     .join("\n");
+
+  const lastDialogue = [...fixedScript].reverse().find((line: any) => line.speaker !== "narration");
 
   const commonRules = `
 너는 역사 기반 인터랙티브 미연시 게임의 AI다.
@@ -79,6 +88,9 @@ ${scene.tone}
 [현재 장면의 고정 대본]
 
 ${scriptContext}
+
+[플레이어가 지금 답해야 할 마지막 인물 대사]
+${lastDialogue ? `${lastDialogue.speaker}: ${lastDialogue.text}` : "고정 대본의 마지막 상황에 반응한다."}
 
 위 대본은 이미 실제 게임 화면에서 재생되었다.
 이 대본을 다시 작성하거나 반복하지 않는다.
@@ -138,57 +150,27 @@ ${commonRules}
 새로운 NPC 대사를 생성하지 않는다.
 스토리를 다음 장면으로 진행시키지 않는다.
 
-선택지 성격:
+선택지 성격 (각 type을 정확히 하나씩 생성하며, 아래 나열 순서는 표시 순서가 아니다):
 
-1. supportive
-- 상대에게 공감하거나 편을 들어주는 반응
-- affinity_score: 15~20
+- supportive: 중심 인물의 입장이나 마음에 공감하고 그 인물의 편을 드는 반응. affinity_score: 15~20
+- challenging: 현재 장면에 등장하거나 언급된 신하, 백성, 다른 인물의 입장을 이해하고 그 편을 드는 반응. affinity_score: -5~5
+  단순히 중심 인물을 공격하거나 무례하게 반박하지 않는다. 다른 인물이 없는 장면은 중심 인물과 다른 관점에서 그가 받는 요구나 그 영향을 짚는다. 새 인물을 만들지 않는다.
+- curious: 마지막 대사에 응답하면서 그 말과 연결되는 궁금한 점을 묻는 반응. affinity_score: 5~12
+- playful: 마지막 대사를 받아 현대인다운 장난이나 가벼운 농담으로 응답. affinity_score: 8~15
 
-2. playful
-- 현대인다운 장난, 농담, 가벼운 반응
-- affinity_score: 8~15
-
-3. curious
-- 역사적 상황이나 인물에게 자연스럽게 궁금한 것을 묻는 반응
-- affinity_score: 5~12
-
-4. challenging
-- 반박, 의심, 직설적인 질문 또는 다른 관점
-- 무조건 무례하거나 악한 선택지로 만들지 않는다.
-- affinity_score: -5~5
-
-네 선택지는 방금 끝난 대화에 직접 이어져야 한다.
+대화 연결 규칙:
+- 네 선택지 모두 첫 문장이나 첫 절에서 마지막 인물 대사의 질문, 감정, 제안에 직접 답한다.
+- 그 다음에 필요한 경우 현재 챕터의 주제나 역사적 상황으로 자연스럽게 이어간다. 연결되는 내용이 없으면 짧은 직접 응답만 해도 된다.
+- 챕터 주제에 대한 의견부터 시작하거나 마지막 질문을 무시하고 정책·역사 이야기로 넘어가지 않는다.
+- 예: “어린 시절의 나와 지금의 내가 많이 달라 보이는가?”에는 “그때보다 훨씬 당당해 보이십니다. 이제 왕으로서 뜻을 펼치시려는 모습이 느껴집니다.”처럼 먼저 답하고 이어간다.
+- 위 예시를 다른 장면에 그대로 재사용하지 않는다. 각 장면의 실제 마지막 말에 맞춘다.
+- 네 문장의 시작을 모두 똑같이 만들지 않는다. 각 선택지의 입장과 말투가 드러나게 한다.
+- 네 type의 배열 순서는 매번 자유롭게 섞는다. 특정 type을 특정 번호에 고정하지 않는다.
+- id는 섞인 배열의 순서대로 1~4를 부여한다.
 
 JSON 형식:
-
-{
-  "options": [
-    {
-      "id": 1,
-      "type": "supportive",
-      "text": "선택지",
-      "affinity_score": 18
-    },
-    {
-      "id": 2,
-      "type": "playful",
-      "text": "선택지",
-      "affinity_score": 12
-    },
-    {
-      "id": 3,
-      "type": "curious",
-      "text": "선택지",
-      "affinity_score": 8
-    },
-    {
-      "id": 4,
-      "type": "challenging",
-      "text": "선택지",
-      "affinity_score": 0
-    }
-  ]
-}
+{"options":[{"id":1,"type":"네 type 중 하나","text":"마지막 대사에 먼저 답하고 필요한 경우 챕터 이야기로 이어지는 말","affinity_score":0}]}
+위 구조로 options에 정확히 4개를 넣고, 각 type과 점수 범위를 지킨다.
 
 반드시 JSON만 출력한다.
 `;
@@ -209,6 +191,8 @@ ${JSON.stringify(selectedOption)}
 
 중요:
 - 반응은 정확히 1개만 생성한다.
+- 첫 문장이나 첫 절에서 플레이어가 실제로 선택한 답변의 입장, 질문, 농담에 직접 반응하고, 그 뒤에 필요한 장면 이야기를 이어간다.
+- 마지막 인물 대사 → 플레이어 답변 → NPC 반응의 흐름을 유지한다. 챕터 설명으로 갑자기 화제를 바꾸지 않는다.
 - 플레이어의 말을 반복하지 않는다.
 - 새로운 선택지를 생성하지 않는다.
 - 다음 Turn의 내용을 미리 시작하지 않는다.
@@ -226,8 +210,8 @@ JSON 형식:
 {
   "dialogue": [
     {
-      "speaker": "character_id",
-      "emotion": "emotion_id",
+      "speaker": "${characterData[0]?.id}",
+      "emotion": "${characterData[0]?.emotions[0]}",
       "text": "플레이어의 선택에 대한 반응"
     }
   ]
