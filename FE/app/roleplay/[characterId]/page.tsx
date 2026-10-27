@@ -141,7 +141,16 @@ const turnCache = new Map<string, TranslatedTurn>();
 const turnPending = new Map<string, Promise<TranslatedTurn>>();
 
 const endingVideos: Record<string, string> = {
+  taejo: "/TaejoYiseonggye.mp4",
+  ryu_seongryong: "/RyooSeongryong.mp4",
+  yulgok: "/YoolgokYiyi.mp4",
+  sinsaimdang: "/Sinsaimdang.mp4",
+  kim_jeonghee: "/ChoosaGimjeonghee.mp4",
+  heungseon: "/Heongseondaewonguen.mp4",
+  mandeok: "/Gimmandeok.mp4",
+  gojong: "/Gojong.mp4",
   sejong: "/Sejong.mp4",
+  jeongjo: "/Jeongjo.mp4",
 };
 
 async function requestTurn(characterId: string, turn: number, lang: string) {
@@ -212,29 +221,51 @@ export default function RoleplayPage() {
 
   const script: Line[] = scene?.script ?? [];
   const currentLine = script[scriptIndex];
-  const locationCue = originalScene?.sceneTransitions?.find(
-    (cue: { scriptIndex: number }) => cue.scriptIndex === scriptIndex,
-  ) ?? (originalScene?.showOpeningTransition && scriptIndex === 0 ? originalScene.transition : null);
-  const locationCardKey = characterId + ":" + lang + ":" + turn + ":" + scriptIndex;
-  const locationCard = phase === "script" && scene && locationCue && !completedCards.includes(locationCardKey)
-    ? locationCue : null;
-  const activeLine = locationCard ? null :
-    phase === "reaction" ? reaction : phase === "script" ? currentLine : null;
+  const locationCue =
+    originalScene?.sceneTransitions?.find(
+      (cue: { scriptIndex: number }) => cue.scriptIndex === scriptIndex,
+    ) ??
+    (originalScene?.showOpeningTransition && scriptIndex === 0
+      ? originalScene.transition
+      : null);
+  const locationCardKey =
+    characterId + ":" + lang + ":" + turn + ":" + scriptIndex;
+  const locationCard =
+    phase === "script" &&
+    scene &&
+    locationCue &&
+    !completedCards.includes(locationCardKey)
+      ? locationCue
+      : null;
+  const activeLine = locationCard
+    ? null
+    : phase === "reaction"
+      ? reaction
+      : phase === "script"
+        ? currentLine
+        : null;
   const fullText = activeLine?.text ?? "";
 
   const speakerNames = names[locale];
   const speakerName = activeLine
     ? (speakerNames[activeLine.speaker as keyof typeof speakerNames] ??
-      (locale === "ko" ? characters[activeLine.speaker as keyof typeof characters]?.name : characters[activeLine.speaker as keyof typeof characters]?.englishName) ??
+      (locale === "ko"
+        ? characters[activeLine.speaker as keyof typeof characters]?.name
+        : characters[activeLine.speaker as keyof typeof characters]
+            ?.englishName) ??
       activeLine.speaker)
     : "";
   const characterImage = activeLine
-    ? getCharacterImage(activeLine.speaker, activeLine.emotion, { storyId: characterId, turn })
+    ? getCharacterImage(activeLine.speaker, activeLine.emotion, {
+        storyId: characterId,
+        turn,
+      })
     : null;
   // Background cues follow original script positions, including translated dialogue.
-  const sceneBackground = originalScene?.backgroundChanges
-    ?.filter((cue: { scriptIndex: number }) => scriptIndex >= cue.scriptIndex)
-    .at(-1)?.background ?? originalScene?.background;
+  const sceneBackground =
+    originalScene?.backgroundChanges
+      ?.filter((cue: { scriptIndex: number }) => scriptIndex >= cue.scriptIndex)
+      .at(-1)?.background ?? originalScene?.background;
   const backgroundImage = originalScene
     ? getStoryBackground(characterId, sceneBackground)
     : "";
@@ -451,7 +482,6 @@ export default function RoleplayPage() {
 
     setPhase("transition");
     setReaction(null);
-
   }
 
   function continueTransition() {
@@ -494,13 +524,27 @@ export default function RoleplayPage() {
               : "The story has ended."}
           </div>
           {endingVideo && (
-            <video
-              src={endingVideo}
-              controls
-              autoPlay
-              playsInline
-              style={{ width: "100%", borderRadius: "16px" }}
-            />
+            <>
+              <video
+                src={endingVideo}
+                controls
+                autoPlay
+                playsInline
+                style={{ width: "100%", borderRadius: "16px" }}
+              />
+              <p
+                style={{
+                  fontSize: "13px",
+                  opacity: 0.7,
+                  textAlign: "center",
+                  margin: 0,
+                }}
+              >
+                {locale === "ko"
+                  ? "이 영상은 AI로 생성한 연출이며, 실제 역사와 다를 수 있습니다."
+                  : "This video is an AI-generated dramatization and may differ from historical fact."}
+              </p>
+            </>
           )}
         </div>
       </main>
@@ -630,10 +674,20 @@ export default function RoleplayPage() {
       {error && <div className={styles.error}>{error}</div>}
 
       {(phase === "transition" || locationCard) && (
-        <div className={styles.chapterTransition} role="dialog" aria-modal="true" aria-labelledby="chapter-transition-title">
+        <div
+          className={styles.chapterTransition}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="chapter-transition-title"
+        >
           <div className={styles.transitionContent}>
-            <div id="chapter-transition-title" className={styles.transitionTitle}>
-              {locationCard?.title ?? nextScene?.transition?.title ?? copy.timePasses}
+            <div
+              id="chapter-transition-title"
+              className={styles.transitionTitle}
+            >
+              {locationCard?.title ??
+                nextScene?.transition?.title ??
+                copy.timePasses}
             </div>
 
             {(locationCard?.text ?? nextScene?.transition?.text) && (
@@ -641,7 +695,12 @@ export default function RoleplayPage() {
                 {locationCard?.text ?? nextScene.transition.text}
               </div>
             )}
-            <button type="button" className={styles.transitionContinue} onClick={continueTransition} autoFocus>
+            <button
+              type="button"
+              className={styles.transitionContinue}
+              onClick={continueTransition}
+              autoFocus
+            >
               {locale === "ko" ? "계속하기" : "Continue"} →
             </button>
           </div>
