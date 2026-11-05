@@ -1,6 +1,6 @@
 import { unstable_cache } from "next/cache";
 import { normalizeLocale } from "./locale";
-import { buildVoiceRules, getCharacterVoice } from "./characterVoice";
+import { buildVoiceRules, getCharacterVoice, VOICE_VERSION } from "./characterVoice";
 import { languageNames } from "./translations";
 
 // Only human-readable content is translated; IDs, URLs, scores and game logic stay intact.
@@ -54,7 +54,7 @@ const translateBatch = unstable_cache(async (texts: string[], language: string, 
   if (!Array.isArray(result.translations) || result.translations.length !== texts.length || result.translations.some((v:unknown)=>typeof v !== "string" || !v.trim())) throw new Error("TRANSLATION_INVALID");
 
   return result.translations as string[];
-},["histour-content-translation-voice-v1"],{revalidate:60*60*24*30});
+},["histour-content-translation", VOICE_VERSION],{revalidate:60*60*24*30});
 
 export async function translateContent<T>(source:T, requested:string):Promise<T> {
   const lang = normalizeLocale(requested);

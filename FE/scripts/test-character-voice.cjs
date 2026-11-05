@@ -3,12 +3,14 @@ const fs = require('node:fs');
 const Module = require('node:module');
 const ts = require('typescript');
 const original = Module._load;
+let translationCacheKeys;
 Module._load = function(id, ...args) {
-  if (id === 'next/cache') return { unstable_cache: fn => fn };
+  if (id === 'next/cache') return { unstable_cache: (fn, keys) => { translationCacheKeys = keys; return fn; } };
   return original.call(this, id, ...args);
 };
 require.extensions['.ts'] = (module, filename) => module._compile(ts.transpileModule(fs.readFileSync(filename, 'utf8'), {compilerOptions: {module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022}}).outputText, filename);
 const { getCharacterVoice, buildVoiceRules } = require('../lib/characterVoice.ts');
+const { localeVoicePolicies, VOICE_VERSION } = require('../lib/voicePolicy.ts');
 const { languageOptions } = require('../lib/locale.ts');
 const { translateContent } = require('../lib/contentTranslation.ts');
 const places = require('../data/curated/places.json');
@@ -22,8 +24,14 @@ for (const {code} of languageOptions) {
   const rules = buildVoiceRules(code);
   assert.ok(rules.length > 400);
   assert.match(rules, /Player choices remain the modern visitor/);
+  assert.match(rules, /an interrogative may be a polite request/);
+  const policy = localeVoicePolicies[code];
+  assert.ok(policy.rules.length > 100);
+  assert.doesNotMatch(rules, /cited address research|product default|localization choice|reference material|발표/);
 }
 assert.equal(new Set(languageOptions.map(({code}) => buildVoiceRules(code))).size, 11);
+assert.ok(translationCacheKeys.includes(VOICE_VERSION));
+assert.equal(VOICE_VERSION, 'voice-v3');
 process.env.LITELLM_URL = 'https://translation.example';
 process.env.LITELLM_API_KEY = 'test';
 process.env.LITELLM_MODEL = 'test';
@@ -51,5 +59,5 @@ global.fetch = async (_, init) => {
   assert.equal(result.script[0].speaker, 'taejo');
   assert.equal(source.script[0].text, '알겠다');
   assert.deepEqual(result.historicalFacts, source.historicalFacts);
-  console.log('PASS: all chat identities, 11 distinct locale policies, rank exclusions, aligned speaker/scene context, duplicate dialogue and immutable source');
+  console.log('PASS: all chat identities, 11 locale prompts, versioned cache, rank exclusions, aligned speaker/scene context, duplicate dialogue and immutable source');
 })().catch(error => { console.error(error); process.exitCode = 1; });
