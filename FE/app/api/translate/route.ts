@@ -32,13 +32,15 @@ export async function POST(req: NextRequest) {
     if(!scene)return NextResponse.json({error:"Turn not found"},{status:404});
 
     const displayContent={
+      historicalFacts:scene.historicalFacts,
       title:scene.title,
       transition:scene.transition?{title:scene.transition.title,text:scene.transition.text}:undefined,
       script:scene.script.map((line:any)=>({speaker:line.speaker,emotion:line.emotion,text:line.text}))
     };
 
     try{
-      return NextResponse.json({content:await translateContent(displayContent,body.lang)});
+      const { historicalFacts: _facts, ...content } = await translateContent(displayContent,body.lang);
+      return NextResponse.json({content});
     }catch(error){
       console.error(`STORY TURN TRANSLATION ERROR [${body.id}:${body.turn}:${body.lang}]:`,error);
       return NextResponse.json({error:"Translation unavailable"},{status:503});

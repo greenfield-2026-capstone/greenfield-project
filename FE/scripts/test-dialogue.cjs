@@ -13,6 +13,7 @@ global.fetch = async (url, init) => {
   assert.equal(String(url),'https://ai.example/v1/chat/completions');
   assert.equal(init.headers.Authorization,'Bearer test-only');
   assert.equal(JSON.parse(init.body).model,'test-model');
+  assert.match(JSON.parse(init.body).messages[0].content,/Character voice:/);
   return Response.json({choices:[{message:{content:'```json\n'+JSON.stringify({options})+'\n```'}}]});
 };
 (async()=>{
@@ -24,7 +25,10 @@ global.fetch = async (url, init) => {
   process.env.LITELLM_URL='https://ai.example';
   process.env.LITELLM_API_KEY='test-only';
   process.env.LITELLM_MODEL='test-model';
-  assert.deepEqual((await (await POST(request(input))).json()).options,options);
+  const generated = (await (await POST(request(input))).json()).options;
+  assert.deepEqual(generated.map(option => option.id), [1,2,3,4]);
+  const byType = values => values.map(({id, ...option}) => option).sort((a,b) => a.type.localeCompare(b.type));
+  assert.deepEqual(byType(generated), byType(options));
   process.env.LITELLM_URL='https://ai.example/v1/';
   assert.equal((await POST(request(input))).status,200);
   assert.equal((await POST(request({...input,storyId:'unknown'}))).status,404);
