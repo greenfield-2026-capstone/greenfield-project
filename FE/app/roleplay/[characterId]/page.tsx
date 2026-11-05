@@ -8,6 +8,7 @@ import { stories } from "../../../data/stories";
 import { characters } from "../../../data/characters";
 import { getCopy } from "@/lib/translations";
 import { normalizeLocale } from "@/lib/locale";
+import { getHistoryAccount, saveHistory } from "@/lib/accountHistory";
 import styles from "./roleplay.module.css";
 
 type Line = { speaker: string; emotion: string | null; text: string };
@@ -445,6 +446,18 @@ export default function RoleplayPage() {
     ] as any;
 
     if (!nextOriginalScene) {
+      const email = getHistoryAccount();
+      const character = characters[characterId as keyof typeof characters];
+      const characterName = (locale === "ko" ? character?.name : character?.englishName) ?? characterId;
+      if (email && !saveHistory(email, "endings", {
+        id: characterId,
+        characterName,
+        title: locale === "ko" ? "이야기 완료" : "Story completed",
+        videoUrl: endingVideos[characterId],
+        seenAt: new Date().toISOString(),
+      }, entry => entry.id === characterId)) {
+        setError(locale === "ko" ? "엔딩을 저장하지 못했습니다." : "Could not save this ending.");
+      }
       setTurn(next);
       return;
     }
@@ -493,6 +506,7 @@ export default function RoleplayPage() {
               ? "이야기가 종료되었습니다."
               : "The story has ended."}
           </div>
+          {error && <p role="alert">{error}</p>}
           {endingVideo && (
             <video
               src={endingVideo}
