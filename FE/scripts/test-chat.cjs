@@ -17,6 +17,8 @@ const input = {placeId:'gyeongbokgung',characterId:'taejo',message:'Who are you?
   const body=JSON.parse(init.body);
   assert.match(body.messages[0].content,/Answer in English/);
   assert.match(body.messages[0].content,/태조/);
+  assert.match(body.messages[0].content,/즉위 전에는 장수/);
+  assert.match(body.messages[0].content,/Distinguish inquiry/);
   assert.equal(body.messages.filter(m=>m.role==='system').length,1);
   assert.match(body.messages.at(-1).content,/Reply in English/);
   assert.equal(body.messages[1].content,'Hello');
@@ -32,7 +34,7 @@ const input = {placeId:'gyeongbokgung',characterId:'taejo',message:'Who are you?
  global.fetch=async()=>{throw new Error('private provider detail')};const failed=await POST(request(input));assert.equal(failed.status,503);assert.doesNotMatch(await failed.text(),/private/);
  delete process.env.LITELLM_URL;delete process.env.LITELLM_API_KEY;delete process.env.LITELLM_MODEL;
  process.env.API_BASE_URL='https://backend.example';
- global.fetch=async(url,init)=>{assert.equal(url,'https://backend.example/api/chat/character');assert.equal(JSON.parse(init.body).language,'en');return Response.json({reply:'Legacy reply'});};
+ global.fetch=async(url,init)=>{assert.equal(url,'https://backend.example/api/chat/character');assert.equal(JSON.parse(init.body).language,'en');assert.equal(JSON.parse(init.body).voice.id,'taejo');assert.ok(JSON.parse(init.body).voiceRules);return Response.json({reply:'Legacy reply'});};
  assert.equal((await (await POST(request(input))).json()).reply,'Legacy reply');
  console.log('PASS: direct LiteLLM English chat, character identity, history filtering, validation, errors and legacy backend fallback');
 })().catch(error=>{console.error(error);process.exitCode=1});
