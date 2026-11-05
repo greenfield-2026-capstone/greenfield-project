@@ -6,6 +6,8 @@ import { useSearchParams, usePathname, useRouter } from "next/navigation";
 
 import { normalizeLocale } from "@/lib/locale";
 import { getAccountCopy } from "@/lib/accountTranslations";
+import { ProfileAvatar } from "@/components/auth/ProfileAvatar";
+import { readAccountProfile, type AccountProfile } from "@/lib/accountProfile";
 import { getCopy } from "@/lib/translations";
 
 export function Header() {
@@ -25,24 +27,22 @@ export function Header() {
   const t = getCopy(currentLang);
   useEffect(() => { document.documentElement.lang = currentLang; }, [currentLang]);
   
-  const [user, setUser] = useState<{
-    name: string;
-    email: string;
-  } | null>(null);
+  const [user, setUser] = useState<AccountProfile | null>(null);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   useEffect(() => {
-    const refreshUser = () => {
-      try {
-        const saved = localStorage.getItem("histour-account");
-        setUser(saved ? JSON.parse(saved) : null);
-      } catch { setUser(null); }
-    };
+    const refreshUser = () => setUser(readAccountProfile());
     refreshUser();
     window.addEventListener("histour-account-changed", refreshUser);
-    return () => window.removeEventListener("histour-account-changed", refreshUser);
+    window.addEventListener("histour-profile-changed", refreshUser);
+    window.addEventListener("storage", refreshUser);
+    return () => {
+      window.removeEventListener("histour-account-changed", refreshUser);
+      window.removeEventListener("histour-profile-changed", refreshUser);
+      window.removeEventListener("storage", refreshUser);
+    };
   }, []);
-  
+
   const settingsHref = `/settings/locale?lang=${currentLang}`;
 
   return (
@@ -65,22 +65,22 @@ export function Header() {
   <div className="relative">
     <button
       type="button"
-      className="flex h-12 w-12 items-center justify-center rounded-full bg-[#8d3f35] text-sm font-black text-white shadow-sm"
+      className="inline-flex rounded-full shadow-sm"
+      aria-label={accountCopy.profile}
+      aria-expanded={isProfileOpen}
       onClick={() => setIsProfileOpen((prev) => !prev)}
     >
-      {user.name?.charAt(0)}
+      <ProfileAvatar profile={user} size="h-12 w-12 text-sm" />
     </button>
 
     {isProfileOpen && (
       <div className="absolute right-0 mt-3 w-72 rounded-3xl border border-[#E6D8C5] bg-white p-5 shadow-xl">
         <div className="mb-4 text-center">
-          <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-full bg-[#8d3f35] text-xl font-black text-white">
-            {user.name?.charAt(0)}
-          </div>
+          <ProfileAvatar profile={user} size="mb-3 h-16 w-16 text-xl" />
           <p className="font-black text-[#1f2a5c]">
             {accountCopy.welcome}, {user.name}
           </p>
-          <p className="mt-1 text-sm text-gray-500">{user.email}</p>
+          <p className="mt-1 break-all text-sm text-gray-500">{user.displayEmail || user.email}</p>
         </div>
 
         <Link
