@@ -3,86 +3,41 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { readHistory, type Conversation, type SeenEnding } from "@/lib/accountHistory";
-import { supabase } from "@/lib/supabase";
-
-type User = {
-  name?: string;
-  email?: string;
-  image?: string;
-  profileImage?: string;
-  avatar_url?: string;
-};
-
-type Ending = {
-  id: string;
-  user_email: string;
-  story_id: string;
-  character_name: string;
-  ending_type: string;
-  ending_title: string;
-  ending_content: string;
-  video_url?: string | null;
-  language?: string;
-  created_at: string;
-};
+import { ConversationSummary } from "@/components/auth/ConversationSummary";
+import { ProfileAvatar } from "@/components/auth/ProfileAvatar";
+import { ProfileEditor } from "@/components/auth/ProfileEditor";
+import { readAccountProfile, type AccountProfile } from "@/lib/accountProfile";
 
 export default function ProfilePage() {
-  const [user, setUser] = useState<User | null>(null);
-  const [endings, setEndings] = useState<Ending[]>([]);
+  const [user, setUser] = useState<AccountProfile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-
+  const [isEditing, setIsEditing] = useState(false);
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [seenEndings, setSeenEndings] = useState<SeenEnding[]>([]);
-  const [endingError, setEndingError] = useState(false);
 
   useEffect(() => {
-    let request = 0;
-    async function refresh() {
-      const currentRequest = ++request;
-      let account: User | null = null;
-      try {
-        account = JSON.parse(localStorage.getItem("histour-account") ?? "null");
-      } catch {
-        // A broken account record is treated as signed out.
-      }
-      const email = account?.email;
-      setUser(email ? account : null);
-      setEndings([]);
-      setEndingError(false);
-      setConversations(email ? readHistory(email, "conversations") : []);
-      setSeenEndings(email ? readHistory(email, "endings") : []);
+    function refresh() {
+      const account = readAccountProfile();
+      setUser(account);
+      setConversations(account ? readHistory(account.email, "conversations") : []);
+      setSeenEndings(account ? readHistory(account.email, "endings") : []);
       setIsLoading(false);
-      if (!email) return;
-
-      const { data, error } = await supabase
-        .from("story_endings")
-        .select("*")
-        .eq("user_email", email)
-        .order("created_at", { ascending: false });
-
-      if (request !== currentRequest) return;
-      setEndingError(Boolean(error));
-      if (!error) setEndings(data ?? []);
     }
-    function refreshFromStorage(event: StorageEvent) {
-      if (!event.key || event.key === "histour-account" || event.key.startsWith("histour-history:")) {
-        void refresh();
-      }
-    }
-    void refresh();
+    refresh();
     window.addEventListener("histour-account-changed", refresh);
-    window.addEventListener("storage", refreshFromStorage);
+    window.addEventListener("histour-profile-changed", refresh);
+    window.addEventListener("storage", refresh);
     return () => {
-      request++;
       window.removeEventListener("histour-account-changed", refresh);
-      window.removeEventListener("storage", refreshFromStorage);
+      window.removeEventListener("histour-profile-changed", refresh);
+      window.removeEventListener("storage", refresh);
     };
   }, []);
 
   if (isLoading) {
     return (
-      <main className="account-page">
-        <section className="card">
+      <main className="account-page grid gap-4">
+        <section className="card p-5 sm:p-6">
           <h1>불러오는 중...</h1>
         </section>
       </main>
@@ -91,89 +46,58 @@ export default function ProfilePage() {
 
   if (!user) {
     return (
-      <main className="account-page">
-        <section className="card">
+      <main className="account-page grid gap-4">
+        <section className="card p-5 sm:p-6">
           <p className="eyebrow">PROFILE</p>
           <h1>로그인이 필요합니다</h1>
           <p>프로필과 엔딩 기록을 보려면 먼저 로그인해주세요.</p>
 
-          <Link href="/account">
-            <button type="button">로그인하러 가기</button>
-          </Link>
+          <Link href="/account" className="ghost-button mt-4">로그인하러 가기</Link>
         </section>
       </main>
     );
   }
 
-  const profileImage =
-    user.avatar_url || user.profileImage || user.image || "";
-
   return (
-    <main className="account-page">
-      <section className="card">
+    <main className="account-page grid gap-4">
+      <section className="card p-5 sm:p-6">
         <p className="eyebrow">PROFILE</p>
-
-        <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-          {profileImage ? (
-            <img
-              src={profileImage}
-              alt="프로필 이미지"
-              style={{
-                width: "72px",
-                height: "72px",
-                borderRadius: "50%",
-                objectFit: "cover",
-              }}
-            />
-          ) : (
-            <div
-              style={{
-                width: "72px",
-                height: "72px",
-                borderRadius: "50%",
-                background: "#e7d8c9",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: "28px",
-              }}
-            >
-              👤
+        {isEditing ? (
+          <ProfileEditor key={user.email} profile={user} onClose={() => setIsEditing(false)} />
+        ) : (
+          <div className="mt-3 flex flex-wrap items-center gap-4">
+            <ProfileAvatar profile={user} size="h-[72px] w-[72px] text-2xl" />
+            <div className="min-w-0 grow">
+              <h1 className="text-2xl font-black">{user.name || "사용자"}</h1>
+              <p className="break-all">{user.displayEmail || user.email}</p>
             </div>
-          )}
-
-          <div>
-            <h1>{user.name || "사용자"}님</h1>
-            <p>{user.email}</p>
+            <button type="button" className="ghost-button" onClick={() => setIsEditing(true)}>프로필 수정</button>
           </div>
-        </div>
-
-        <div style={{ marginTop: "20px" }}>
-          <Link href="/profile/edit">
-            <button type="button">프로필 수정</button>
-          </Link>
-        </div>
+        )}
       </section>
 
-      <section className="card">
-        <h2>찜한 장소</h2>
+      <section className="card p-5 sm:p-6">
+        <h2 className="text-lg font-bold">찜한 장소</h2>
         <p>아직 찜한 장소가 없습니다.</p>
       </section>
 
-      <section className="card p-5">
+      <section className="card p-5 sm:p-6">
         <h2 className="text-lg font-bold">자유채팅 기록</h2>
         {conversations.length === 0 ? <p>아직 저장된 대화 기록이 없습니다.</p> : (
           <div className="mt-3 grid gap-3">
             {conversations.map(conversation => (
-              <details key={JSON.stringify([conversation.placeId, conversation.characterId, conversation.lang])}
+              <article key={JSON.stringify([user.email, conversation.placeId, conversation.characterId, conversation.lang])}
                 className="rounded-2xl border border-[#e6d8c5] bg-[#fffaf4] p-4">
-                <summary className="cursor-pointer font-bold">
+                <h3 className="font-bold">
                   {conversation.characterName} · {conversation.placeName}
                   <time className="ml-2 text-sm font-normal" dateTime={conversation.updatedAt}>
                     {new Date(conversation.updatedAt).toLocaleDateString("ko-KR")}
                   </time>
-                </summary>
-                <ul className="my-3 grid gap-2">
+                </h3>
+                <ConversationSummary key={conversation.updatedAt} email={user.email} conversation={conversation} />
+                <details>
+                  <summary className="cursor-pointer font-bold">대화 원문 보기</summary>
+                  <ul className="my-3 grid gap-2">
                   {conversation.messages.map((message, index) => (
                     <li key={index} className="whitespace-pre-wrap break-words">
                       <strong>{message.role === "user" ? "나" : conversation.characterName}</strong> {message.text}
@@ -183,13 +107,14 @@ export default function ProfilePage() {
                 <Link className="underline" href={`/story/${conversation.placeId}/${conversation.characterId}?lang=${conversation.lang}`}>
                   대화 이어가기
                 </Link>
-              </details>
+                </details>
+              </article>
             ))}
           </div>
         )}
       </section>
 
-      <section className="card p-5">
+      <section className="card p-5 sm:p-6">
         <h2 className="text-lg font-bold">엔딩 보관함</h2>
         {seenEndings.length > 0 && (
           <div className="mt-3 grid gap-3">
@@ -202,47 +127,8 @@ export default function ProfilePage() {
             ))}
           </div>
         )}
-        {endingError && <p>기존 서버 엔딩 기록을 불러오지 못했습니다.</p>}
-
-        {endings.length === 0 ? (
-          !seenEndings.length && !endingError && <p>아직 저장된 엔딩이 없습니다.</p>
-        ) : (
-          <div style={{ display: "grid", gap: "20px", marginTop: "16px" }}>
-            {endings.map((ending) => (
-              <article
-                key={ending.id}
-                style={{
-                  padding: "18px",
-                  borderRadius: "18px",
-                  border: "1px solid #e6d8c5",
-                  background: "#fffaf4",
-                }}
-              >
-                <p className="eyebrow">
-                  {ending.language === "en" ? "ENDING" : "엔딩"}
-                </p>
-
-                <h3>{ending.ending_title}</h3>
-                <p>{ending.character_name}</p>
-
-                <p style={{ whiteSpace: "pre-line", marginTop: "12px" }}>
-                  {ending.ending_content}
-                </p>
-
-                {ending.video_url && (
-                  <video
-                    controls
-                    src={ending.video_url}
-                    style={{
-                      width: "100%",
-                      marginTop: "16px",
-                      borderRadius: "14px",
-                    }}
-                  />
-                )}
-              </article>
-            ))}
-          </div>
+        {seenEndings.length === 0 && (
+          <p>아직 저장된 엔딩이 없습니다. 로그인한 상태로 이야기를 끝까지 진행하면 여기에 표시돼요.</p>
         )}
       </section>
     </main>
