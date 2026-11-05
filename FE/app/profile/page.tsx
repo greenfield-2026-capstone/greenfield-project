@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { readHistory, type Conversation, type SeenEnding } from "@/lib/accountHistory";
 import { supabase } from "@/lib/supabase";
 
 type User = {
@@ -30,47 +31,52 @@ export default function ProfilePage() {
   const [endings, setEndings] = useState<Ending[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  const [conversations, setConversations] = useState<Conversation[]>([]);
+  const [seenEndings, setSeenEndings] = useState<SeenEnding[]>([]);
+  const [endingError, setEndingError] = useState(false);
+
   useEffect(() => {
-    const savedUser = localStorage.getItem("histour-account");
-
-    if (!savedUser) {
+    let request = 0;
+    async function refresh() {
+      const currentRequest = ++request;
+      let account: User | null = null;
+      try {
+        account = JSON.parse(localStorage.getItem("histour-account") ?? "null");
+      } catch {
+        // A broken account record is treated as signed out.
+      }
+      const email = account?.email;
+      setUser(email ? account : null);
+      setEndings([]);
+      setEndingError(false);
+      setConversations(email ? readHistory(email, "conversations") : []);
+      setSeenEndings(email ? readHistory(email, "endings") : []);
       setIsLoading(false);
-      return;
-    }
+      if (!email) return;
 
-    let parsedUser = null;
-
-try {
-  parsedUser = JSON.parse(savedUser);
-} catch {
-  localStorage.removeItem("histour-account");
-  setIsLoading(false);
-  return;
-}
-
-if (!parsedUser?.email) {
-  setIsLoading(false);
-  return;
-}
-    setUser(parsedUser);
-
-    const loadEndings = async () => {
       const { data, error } = await supabase
         .from("story_endings")
         .select("*")
-        .eq("user_email", parsedUser.email)
+        .eq("user_email", email)
         .order("created_at", { ascending: false });
 
-      if (error) {
-        console.error("엔딩 불러오기 실패:", error);
-      } else {
-        setEndings(data || []);
+      if (request !== currentRequest) return;
+      setEndingError(Boolean(error));
+      if (!error) setEndings(data ?? []);
+    }
+    function refreshFromStorage(event: StorageEvent) {
+      if (!event.key || event.key === "histour-account" || event.key.startsWith("histour-history:")) {
+        void refresh();
       }
-
-      setIsLoading(false);
+    }
+    void refresh();
+    window.addEventListener("histour-account-changed", refresh);
+    window.addEventListener("storage", refreshFromStorage);
+    return () => {
+      request++;
+      window.removeEventListener("histour-account-changed", refresh);
+      window.removeEventListener("storage", refreshFromStorage);
     };
-
-    loadEndings();
   }, []);
 
   if (isLoading) {
@@ -154,16 +160,52 @@ if (!parsedUser?.email) {
         <p>아직 찜한 장소가 없습니다.</p>
       </section>
 
-      <section className="card">
-        <h2>대화 기록</h2>
-        <p>아직 저장된 대화 기록이 없습니다.</p>
+      <section className="card p-5">
+        <h2 className="text-lg font-bold">자유채팅 기록</h2>
+        {conversations.length === 0 ? <p>아직 저장된 대화 기록이 없습니다.</p> : (
+          <div className="mt-3 grid gap-3">
+            {conversations.map(conversation => (
+              <details key={JSON.stringify([conversation.placeId, conversation.characterId, conversation.lang])}
+                className="rounded-2xl border border-[#e6d8c5] bg-[#fffaf4] p-4">
+                <summary className="cursor-pointer font-bold">
+                  {conversation.characterName} · {conversation.placeName}
+                  <time className="ml-2 text-sm font-normal" dateTime={conversation.updatedAt}>
+                    {new Date(conversation.updatedAt).toLocaleDateString("ko-KR")}
+                  </time>
+                </summary>
+                <ul className="my-3 grid gap-2">
+                  {conversation.messages.map((message, index) => (
+                    <li key={index} className="whitespace-pre-wrap break-words">
+                      <strong>{message.role === "user" ? "나" : conversation.characterName}</strong> {message.text}
+                    </li>
+                  ))}
+                </ul>
+                <Link className="underline" href={`/story/${conversation.placeId}/${conversation.characterId}?lang=${conversation.lang}`}>
+                  대화 이어가기
+                </Link>
+              </details>
+            ))}
+          </div>
+        )}
       </section>
 
-      <section className="card">
-        <h2>엔딩 보관함</h2>
+      <section className="card p-5">
+        <h2 className="text-lg font-bold">엔딩 보관함</h2>
+        {seenEndings.length > 0 && (
+          <div className="mt-3 grid gap-3">
+            {seenEndings.map(ending => (
+              <article key={ending.id} className="rounded-2xl border border-[#e6d8c5] bg-[#fffaf4] p-4">
+                <h3 className="font-bold">{ending.characterName} · {ending.title}</h3>
+                <time dateTime={ending.seenAt}>{new Date(ending.seenAt).toLocaleDateString("ko-KR")}</time>
+                {ending.videoUrl && <video className="mt-3 w-full max-w-xl rounded-xl" controls preload="none" src={ending.videoUrl} />}
+              </article>
+            ))}
+          </div>
+        )}
+        {endingError && <p>기존 서버 엔딩 기록을 불러오지 못했습니다.</p>}
 
         {endings.length === 0 ? (
-          <p>아직 저장된 엔딩이 없습니다.</p>
+          !seenEndings.length && !endingError && <p>아직 저장된 엔딩이 없습니다.</p>
         ) : (
           <div style={{ display: "grid", gap: "20px", marginTop: "16px" }}>
             {endings.map((ending) => (

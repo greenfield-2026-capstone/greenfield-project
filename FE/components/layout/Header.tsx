@@ -83,13 +83,20 @@ export function Header() {
           <p className="mt-1 text-sm text-gray-500">{user.email}</p>
         </div>
 
-        <Link href={`/profile?lang=${currentLang}`}>{accountCopy.profile}</Link>
+        <Link
+          href={`/profile?lang=${currentLang}`}
+          className="block w-full rounded-2xl border border-[#E6D8C5] px-4 py-3 text-center text-sm font-bold text-[#1f2a5c] hover:bg-[#fcfaf5]"
+          onClick={() => setIsProfileOpen(false)}
+        >
+          {accountCopy.profile}
+        </Link>
 
         <button
           type="button"
           className="mt-3 w-full rounded-2xl border border-[#E6D8C5] px-4 py-3 text-sm font-bold text-[#8d3f35]"
           onClick={() => {
             localStorage.removeItem("histour-account");
+            window.dispatchEvent(new Event("histour-account-changed"));
             setUser(null);
             setIsProfileOpen(false);
           }}
