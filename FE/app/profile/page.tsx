@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { readHistory, type Conversation, type SeenEnding } from "@/lib/accountHistory";
+import { loadServerConversations, mergeConversations, readHistory, type Conversation, type SeenEnding } from "@/lib/accountHistory";
 import { ConversationSummary } from "@/components/auth/ConversationSummary";
 import { ProfileAvatar } from "@/components/auth/ProfileAvatar";
 import { ProfileEditor } from "@/components/auth/ProfileEditor";
@@ -16,10 +16,18 @@ export default function ProfilePage() {
   const [seenEndings, setSeenEndings] = useState<SeenEnding[]>([]);
 
   useEffect(() => {
+    let version = 0;
     function refresh() {
+      const current = ++version;
       const account = readAccountProfile();
       setUser(account);
-      setConversations(account ? readHistory(account.email, "conversations") : []);
+      const local = account ? readHistory(account.email, "conversations") : [];
+      setConversations(local);
+      if (account) {
+        void loadServerConversations(account.email).then(server => {
+          if (current === version) setConversations(mergeConversations(local, server));
+        }).catch(() => {});
+      }
       setSeenEndings(account ? readHistory(account.email, "endings") : []);
       setIsLoading(false);
     }
@@ -28,6 +36,7 @@ export default function ProfilePage() {
     window.addEventListener("histour-profile-changed", refresh);
     window.addEventListener("storage", refresh);
     return () => {
+      version++;
       window.removeEventListener("histour-account-changed", refresh);
       window.removeEventListener("histour-profile-changed", refresh);
       window.removeEventListener("storage", refresh);

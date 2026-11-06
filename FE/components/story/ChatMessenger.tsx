@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { Character, Place } from "@/types/place";
 import { ChatMessage } from "@/lib/chatApi";
 import { getCopy } from "@/lib/translations";
-import { getHistoryAccount, readHistory, saveHistory, type Conversation } from "@/lib/accountHistory";
+import { getHistoryAccount, loadServerConversations, mergeConversations, readHistory, saveHistory, syncConversation, type Conversation } from "@/lib/accountHistory";
 import styles from "./Chat.module.css";
 
 export function ChatMessenger({ place, character, lang }: { place: Place; character: Character; lang: string }) {
@@ -17,10 +17,20 @@ export function ChatMessenger({ place, character, lang }: { place: Place; charac
     entry.placeId === place.id && entry.characterId === character.id && entry.lang === lang;
   const account = useRef<string | null>(null);
   useEffect(() => {
+    let version = 0;
     const refresh = () => {
+      const current = ++version;
       account.current = getHistoryAccount();
       const saved = account.current && readHistory(account.current, "conversations").find(matches);
       setMessages(saved ? saved.messages : [{ role: "assistant", text: character.openingLine }]);
+      const startedAt = sendVersion.current;
+      const email = account.current;
+      if (email) {
+        void loadServerConversations(email).then(server => {
+          const latest = mergeConversations(saved ? [saved] : [], server.filter(matches))[0];
+          if (current === version && latest && !busy.current && sendVersion.current === startedAt) setMessages(latest.messages);
+        }).catch(() => {});
+      }
       setInput("");
       setError("");
     };
@@ -31,6 +41,7 @@ export function ChatMessenger({ place, character, lang }: { place: Place; charac
       if (!event.key || event.key === "histour-account") refresh();
     }
     return () => {
+      version++;
       window.removeEventListener("histour-account-changed", refresh);
       window.removeEventListener("storage", refreshAccount);
     };
@@ -41,11 +52,13 @@ export function ChatMessenger({ place, character, lang }: { place: Place; charac
   const [error, setError] = useState("");
   const thread = useRef<HTMLDivElement>(null);
   const busy = useRef(false);
+  const sendVersion = useRef(0);
   useEffect(() => { const el = thread.current; if (el) el.scrollTop = el.scrollHeight; }, [messages, loading]);
   async function send() {
     const message = input.trim();
     if (!message || busy.current) return;
     busy.current = true;
+    sendVersion.current++;
     const email = account.current;
     const previous = messages;
     setMessages([...previous, { role: "user", text: message }]);
@@ -61,7 +74,8 @@ export function ChatMessenger({ place, character, lang }: { place: Place; charac
       ];
       if (account.current !== email) return;
       setMessages(completed);
-      if (email && !saveHistory(email, "conversations", {
+      if (!email) return;
+      const conversation = {
         placeId: place.id,
         characterId: character.id,
         characterName: character.name,
@@ -69,8 +83,14 @@ export function ChatMessenger({ place, character, lang }: { place: Place; charac
         lang,
         messages: completed,
         updatedAt: new Date().toISOString(),
-      }, matches)) {
-        setError(en ? "Could not save this conversation." : "대화를 저장하지 못했습니다.");
+      };
+      const localSaved = saveHistory(email, "conversations", conversation, matches);
+      const status = await syncConversation(email, conversation).catch(() => 0);
+      if (account.current === email && status !== 200) {
+        if (!localSaved) setError(en ? "Could not save this conversation." : "대화를 저장하지 못했습니다.");
+        else if (status === 409) setError(en ? "Saved here. A different version is on the server." : "이 브라우저에 저장했어요. 서버에 다른 대화 버전이 남아 있어 덮어쓰지 않았어요.");
+        else if (status === 401) setError(en ? "Saved here. Sign in again to sync." : "이 브라우저에 저장했어요. DB에 저장하려면 다시 로그인해 주세요.");
+        else setError(en ? "Saved here. Server sync is unavailable." : "이 브라우저에 저장했어요. 서버에 동기화하지 못했습니다.");
       }
     } catch {
       if (account.current !== email) return;
