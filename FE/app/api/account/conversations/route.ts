@@ -53,12 +53,14 @@ export async function POST(request: NextRequest) {
   const storyId = [place.id, character.id, lang].join("/");
   const hash = createHash("sha256").update(user.id + ":" + storyId).digest("hex");
   const id = [hash.slice(0, 8), hash.slice(8, 12), "8" + hash.slice(13, 16), "8" + hash.slice(17, 20), hash.slice(20, 32)].join("-");
+  const now = Date.now();
+  const savedTime = typeof body.updatedAt === "string" ? Date.parse(body.updatedAt) : NaN;
   const conversation: Conversation = {
     placeId: place.id, characterId: character.id, lang,
     placeName: typeof body.placeName === "string" ? body.placeName.slice(0, 120) : place.name,
     characterName: typeof body.characterName === "string" ? body.characterName.slice(0, 120) : character.name,
     messages: messages.map(({ role, text }) => ({ role, text })),
-    updatedAt: new Date().toISOString(),
+    updatedAt: new Date(Number.isFinite(savedTime) ? Math.min(savedTime, now) : now).toISOString(),
   };
   const row = { id, user_id: user.id, story_id: storyId, character_name: character.name, messages: conversation };
   const { data: previous, error: readError } = await db.from("chat_logs")

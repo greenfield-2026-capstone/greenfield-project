@@ -58,14 +58,41 @@ export function saveHistory<K extends keyof History>(
 
 export async function loadServerConversations(email: string): Promise<Conversation[]> {
   const response = await fetch("/api/account/conversations", { headers: { "x-histour-account": encodeURIComponent(email) }, signal: AbortSignal.timeout(5000) });
-  if (!response.ok) return [];
+  if (!response.ok) throw new Error(String(response.status));
   return (await response.json()).conversations;
+}
+
+function conversationKey(entry: Conversation) {
+  return JSON.stringify([entry.placeId, entry.characterId, entry.lang]);
+}
+
+export async function restoreLocalConversations(
+  email: string,
+  local: Conversation[],
+  server: Conversation[],
+  isCurrent: () => boolean,
+) {
+  const remote = new Map(server.map(entry => [conversationKey(entry), entry]));
+  let complete = true;
+  for (const entry of local) {
+    if (!isCurrent() || getHistoryAccount() !== email) return false;
+    const existing = remote.get(conversationKey(entry));
+    if (existing && entry.messages.length <= existing.messages.length) {
+      if (!entry.messages.every((message, index) =>
+        message.role === existing.messages[index].role && message.text === existing.messages[index].text)) complete = false;
+      continue;
+    }
+    const status = await syncConversation(email, entry).catch(() => 0);
+    if (status !== 200) complete = false;
+    if (status === 401 || status === 503) break;
+  }
+  return complete;
 }
 
 export function mergeConversations(local: Conversation[], server: Conversation[]) {
   const merged = new Map<string, Conversation>();
   for (const entry of [...local, ...server]) {
-    const key = JSON.stringify([entry.placeId, entry.characterId, entry.lang]);
+    const key = conversationKey(entry);
     const previous = merged.get(key);
     if (!previous || entry.updatedAt > previous.updatedAt) merged.set(key, entry);
   }

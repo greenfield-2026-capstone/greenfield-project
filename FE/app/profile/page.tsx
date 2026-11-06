@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { loadServerConversations, mergeConversations, readHistory, type Conversation, type SeenEnding } from "@/lib/accountHistory";
+import { loadServerConversations, mergeConversations, readHistory, restoreLocalConversations, type Conversation, type SeenEnding } from "@/lib/accountHistory";
 import { ConversationSummary } from "@/components/auth/ConversationSummary";
 import { ProfileAvatar } from "@/components/auth/ProfileAvatar";
 import { ProfileEditor } from "@/components/auth/ProfileEditor";
@@ -12,6 +12,7 @@ export default function ProfilePage() {
   const [user, setUser] = useState<AccountProfile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
+  const [syncMessage, setSyncMessage] = useState("");
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [seenEndings, setSeenEndings] = useState<SeenEnding[]>([]);
 
@@ -23,10 +24,23 @@ export default function ProfilePage() {
       setUser(account);
       const local = account ? readHistory(account.email, "conversations") : [];
       setConversations(local);
+      setSyncMessage(account ? "계정의 대화 기록을 확인하고 있어요…" : "");
       if (account) {
-        void loadServerConversations(account.email).then(server => {
-          if (current === version) setConversations(mergeConversations(local, server));
-        }).catch(() => {});
+        const isCurrent = () => current === version;
+        void loadServerConversations(account.email).then(async server => {
+          if (!isCurrent()) return;
+          setConversations(mergeConversations(local, server));
+          const synced = await restoreLocalConversations(account.email, local, server, isCurrent);
+          if (isCurrent()) {
+            setSyncMessage(synced ? "" : "일부 대화를 계정에 저장하지 못했어요. 이 브라우저의 기록은 보관돼요.");
+          }
+        }).catch(error => {
+          if (isCurrent()) {
+            setSyncMessage(error instanceof Error && error.message === "401"
+              ? "다른 기기에서도 기록을 보려면 다시 로그인해 주세요."
+              : "계정 기록에 연결하지 못했어요. 잠시 뒤 새로고침해 주세요.");
+          }
+        });
       }
       setSeenEndings(account ? readHistory(account.email, "endings") : []);
       setIsLoading(false);
@@ -92,7 +106,8 @@ export default function ProfilePage() {
 
       <section className="card p-5 sm:p-6">
         <h2 className="text-lg font-bold">자유채팅 기록</h2>
-        {conversations.length === 0 ? <p>아직 저장된 대화 기록이 없습니다.</p> : (
+        {syncMessage && <p role="status">{syncMessage}</p>}
+        {conversations.length === 0 ? !syncMessage && <p>아직 저장된 대화 기록이 없습니다.</p> : (
           <div className="mt-3 grid gap-3">
             {conversations.map(conversation => (
               <article key={JSON.stringify([user.email, conversation.placeId, conversation.characterId, conversation.lang])}
