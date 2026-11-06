@@ -94,7 +94,8 @@ export function Header() {
         <button
           type="button"
           className="mt-3 w-full rounded-2xl border border-[#E6D8C5] px-4 py-3 text-sm font-bold text-[#8d3f35]"
-          onClick={() => {
+          onClick={async () => {
+            await fetch("/api/account/session", { method: "DELETE" }).catch(() => null);
             localStorage.removeItem("histour-account");
             window.dispatchEvent(new Event("histour-account-changed"));
             setUser(null);

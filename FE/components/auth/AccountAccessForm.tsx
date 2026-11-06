@@ -18,8 +18,7 @@ export function AccountAccessForm(){
     event.preventDefault();if(!valid||busy)return;
     setBusy(true);setError('');
     try {
-      const base=process.env.NEXT_PUBLIC_API_BASE_URL??'http://localhost:8080';
-      const response=await fetch(`${base}/auth/${mode}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password,...(mode==='signup'?{name:name.trim()}:{})})});
+      const response=await fetch('/api/account/session',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({mode,email,password,...(mode==='signup'?{name:name.trim()}:{})})});
       if(!response.ok)throw new Error('Account request failed');
       const data=await response.json();
       localStorage.setItem('histour-language',language);

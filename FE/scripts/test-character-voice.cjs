@@ -31,7 +31,7 @@ for (const {code} of languageOptions) {
 }
 assert.equal(new Set(languageOptions.map(({code}) => buildVoiceRules(code))).size, 11);
 assert.ok(translationCacheKeys.includes(VOICE_VERSION));
-assert.equal(VOICE_VERSION, 'voice-v4');
+assert.equal(VOICE_VERSION, 'voice-v5');
 process.env.LITELLM_URL = 'https://translation.example';
 process.env.LITELLM_API_KEY = 'test';
 process.env.LITELLM_MODEL = 'test';

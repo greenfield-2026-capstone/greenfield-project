@@ -55,3 +55,29 @@ export function saveHistory<K extends keyof History>(
     return false;
   }
 }
+
+export async function loadServerConversations(email: string): Promise<Conversation[]> {
+  const response = await fetch("/api/account/conversations", { headers: { "x-histour-account": encodeURIComponent(email) }, signal: AbortSignal.timeout(5000) });
+  if (!response.ok) return [];
+  return (await response.json()).conversations;
+}
+
+export function mergeConversations(local: Conversation[], server: Conversation[]) {
+  const merged = new Map<string, Conversation>();
+  for (const entry of [...local, ...server]) {
+    const key = JSON.stringify([entry.placeId, entry.characterId, entry.lang]);
+    const previous = merged.get(key);
+    if (!previous || entry.updatedAt > previous.updatedAt) merged.set(key, entry);
+  }
+  return [...merged.values()].sort((first, second) => second.updatedAt.localeCompare(first.updatedAt));
+}
+
+export async function syncConversation(email: string, conversation: Conversation) {
+  const response = await fetch("/api/account/conversations", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "x-histour-account": encodeURIComponent(email) },
+    body: JSON.stringify(conversation),
+    signal: AbortSignal.timeout(8000),
+  });
+  return response.status;
+}
