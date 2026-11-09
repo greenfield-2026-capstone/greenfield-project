@@ -1,5 +1,6 @@
 "use client";
 
+import { PageNavigation } from "@/components/layout/PageNavigation";
 import { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "next/navigation";
 import { getCharacterImage, getStoryBackground } from "@/lib/characterImages";
@@ -516,6 +517,7 @@ export default function RoleplayPage() {
               style={{ width: "100%", borderRadius: "16px" }}
             />
           )}
+          <PageNavigation homeOnly />
         </div>
       </main>
     );

@@ -23,15 +23,16 @@ export function PlaceHero({
   const display = place;
 
   return (
-    <section className="place-hero">
+    <>
       <TranslationStatus lang={lang} {...translation} />
+      <section className="place-hero">
       <div className="place-hero-image">
         <Image
           src={place.imageUrl}
           alt={display.name}
           fill
           priority
-          sizes="(max-width: 1080px) 100vw, 58vw"
+          sizes="(max-width: 1080px) calc(100vw - 48px), (max-width: 1400px) 52vw, 720px"
           className="media-image"
         />
       </div>
@@ -109,6 +110,7 @@ export function PlaceHero({
           </div>
         </div>
       </div>
-    </section>
+      </section>
+    </>
   );
 }

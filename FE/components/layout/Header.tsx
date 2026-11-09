@@ -1,5 +1,6 @@
 "use client";
 
+import { PageNavigation } from "./PageNavigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
@@ -117,6 +118,11 @@ export function Header() {
 )}
         </nav>
       </div>
+      {pathname !== "/" && (
+        <div className="mx-auto w-[min(1260px,calc(100%-48px))] pb-3">
+          <PageNavigation />
+        </div>
+      )}
     </header>
   );
 }

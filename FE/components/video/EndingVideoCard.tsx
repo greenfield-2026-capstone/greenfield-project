@@ -1,3 +1,4 @@
+import { PageNavigation } from "@/components/layout/PageNavigation";
 import Link from "next/link";
 import Image from "next/image";
 import { Character, Place } from "@/types/place";
@@ -38,6 +39,7 @@ export function EndingVideoCard({
         <div className="card-body">
           <h1>{video.title}</h1>
           <p>{video.description}</p>
+          <div className="mt-4"><PageNavigation homeOnly /></div>
         </div>
       </section>
 

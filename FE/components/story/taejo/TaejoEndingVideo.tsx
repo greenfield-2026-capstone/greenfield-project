@@ -1,3 +1,4 @@
+import { PageNavigation } from "@/components/layout/PageNavigation";
 import { TaejoEnding } from "@/hooks/useTaejoChat";
 
 export function TaejoEndingVideo({ ending }: { ending: TaejoEnding | null }) {
@@ -22,6 +23,7 @@ export function TaejoEndingVideo({ ending }: { ending: TaejoEnding | null }) {
             : "/Lonely_Father_Yi_Seonggye.mp4"
         }
       />
+      <div className="p-4"><PageNavigation homeOnly /></div>
     </section>
   );
 }
