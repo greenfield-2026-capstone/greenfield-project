@@ -100,15 +100,9 @@ export function ChatMessenger({ place, character, lang }: { place: Place; charac
     } finally { setLoading(false); busy.current = false; }
   }
   return <section className={styles.chat} aria-label={en ? "Conversation" : "인물과 대화"}>
-    <header className={styles.header}>
-      <Image src={character.imageUrl} alt="" width={44} height={44}
-        className={styles.avatar} style={{ objectPosition: character.imagePosition }} />
-      <div className={styles.headerIdentity}>
-        <strong>{character.name}</strong><span>{place.name}</span>
-      </div>
-    </header>
+    <header className={styles.header}><strong>{character.name}</strong><span>{place.name}</span></header>
     <div className={styles.thread} ref={thread} role="log" aria-live="polite" aria-relevant="additions text">
-      <p className={styles.welcome}>{t.chatHint}</p>
+      <div className={styles.welcome}><span>HISTOUR</span><h2>{t.ask}</h2><p>{t.chatHint}</p></div>
       {messages.map((message, i) => (
         <div key={i} className={message.role === "user" ? styles.user : styles.assistant}>
           {message.role !== "user" && (
