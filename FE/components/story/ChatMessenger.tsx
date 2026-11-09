@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { Character, Place } from "@/types/place";
 import { ChatMessage } from "@/lib/chatApi";
@@ -99,12 +100,29 @@ export function ChatMessenger({ place, character, lang }: { place: Place; charac
     } finally { setLoading(false); busy.current = false; }
   }
   return <section className={styles.chat} aria-label={en ? "Conversation" : "인물과 대화"}>
-    <header className={styles.header}><strong>{character.name}</strong><span>{place.name}</span></header>
+    <header className={styles.header}>
+      <Image src={character.imageUrl} alt="" width={44} height={44}
+        className={styles.avatar} style={{ objectPosition: character.imagePosition }} />
+      <div className={styles.headerIdentity}>
+        <strong>{character.name}</strong><span>{place.name}</span>
+      </div>
+    </header>
     <div className={styles.thread} ref={thread} role="log" aria-live="polite" aria-relevant="additions text">
-      <div className={styles.welcome}><span>HISTOUR</span><h2>{t.ask}</h2><p>{t.chatHint}</p></div>
-      {messages.map((message, i) => <div key={i} className={message.role === "user" ? styles.user : styles.assistant}>
-        <span className={styles.author}>{message.role === "user" ? (en ? "You" : "나") : character.name}</span><p>{message.text}</p>
-      </div>)}
+      <p className={styles.welcome}>{t.chatHint}</p>
+      {messages.map((message, i) => (
+        <div key={i} className={message.role === "user" ? styles.user : styles.assistant}>
+          {message.role !== "user" && (
+            <Image src={character.imageUrl} alt="" width={40} height={40}
+              className={styles.avatar} style={{ objectPosition: character.imagePosition }} />
+          )}
+          <div className={styles.messageBody}>
+            <span className={styles.author}>
+              {message.role === "user" ? (en ? "You" : "나") : character.name}
+            </span>
+            <p className={styles.bubble}>{message.text}</p>
+          </div>
+        </div>
+      ))}
       {loading && <p className={styles.thinking} role="status">{t.thinking}</p>}
     </div>
     <div className={styles.bottom}>
