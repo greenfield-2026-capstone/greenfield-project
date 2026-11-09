@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import "@/app/globals.css";
+import { GameNavigation } from "@/components/layout/PageNavigation";
 import { Header } from "@/components/layout/Header";
 
 export const metadata: Metadata = {
@@ -16,7 +17,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <Suspense fallback={null}>
             <Header />
           </Suspense>
-          <main className="page-content">{children}</main>
+          <main className="page-content">
+            {children}
+            <Suspense fallback={null}><GameNavigation /></Suspense>
+          </main>
         </div>
       </body>
     </html>

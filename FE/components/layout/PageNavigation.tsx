@@ -43,3 +43,17 @@ export function PageNavigation({ homeOnly = false }: { homeOnly?: boolean }) {
     </Suspense>
   );
 }
+
+export function isGamePath(pathname: string) {
+  return /^\/(roleplay|intro|chat|ending)(\/|$)/.test(pathname);
+}
+
+export function GameNavigation() {
+  const pathname = usePathname();
+  if (!isGamePath(pathname)) return null;
+  return (
+    <footer className="flex justify-end py-4">
+      <PageNavigation homeOnly />
+    </footer>
+  );
+}

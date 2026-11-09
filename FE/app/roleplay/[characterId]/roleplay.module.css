@@ -2,7 +2,7 @@
 .game {
   position: relative;
   width: 100%;
-  height: calc(100vh - 80px);
+  height: calc(100dvh - 160px);
   min-height: 650px;
   overflow: hidden;
   background-size: cover;
