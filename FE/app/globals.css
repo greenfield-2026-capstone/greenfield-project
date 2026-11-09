@@ -1428,21 +1428,30 @@ select {
 }
 
 .place-detail-section .place-hero {
-  min-height: 520px;
+  gap: 0;
+  align-items: center;
+  min-height: 0;
   overflow: hidden;
   border: 1px solid rgba(216, 199, 173, 0.9);
   border-radius: 22px;
-  background: #111827;
+  background: #f8f3ea;
   box-shadow: 0 30px 78px rgba(25, 22, 17, 0.18);
 }
 
 .place-detail-section .place-hero-image {
-  min-height: 520px;
+  width: 100%;
+  min-height: 0;
+  aspect-ratio: 4 / 3;
   border-radius: 0;
   box-shadow: none;
 }
 
+.place-detail-section .place-hero-image .media-image {
+  object-position: center 55%;
+}
+
 .place-detail-section .place-hero-copy {
+  align-self: stretch;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -1520,8 +1529,9 @@ select {
   }
 
   .place-detail-section .place-hero-image {
-    min-height: 380px;
-    border-radius: 24px 24px 0 0;
+    min-height: 0;
+    aspect-ratio: 16 / 10;
+    border-radius: 0;
   }
 
   .place-detail-section .place-hero-copy {
@@ -1575,7 +1585,8 @@ select {
   }
 
   .place-detail-section .place-hero-image {
-    min-height: 300px;
+    min-height: 0;
+    aspect-ratio: 4 / 3;
   }
 
   .place-detail-section .detail-grid {
