@@ -1,4 +1,57 @@
 {
-  "태조 이성계": "https://encykorea.aks.ac.kr/Article/E0059033",
-  "세종대왕": "https://encykorea.aks.ac.kr/Article/E0029857"
+  "태조 이성계": [
+    "https://encykorea.aks.ac.kr/Article/E0059033",
+    "https://encykorea.aks.ac.kr/Article/E0041212",
+    "https://encykorea.aks.ac.kr/Article/E0065178"
+  ],
+  "세종대왕": [
+    "https://encykorea.aks.ac.kr/Article/E0029857",
+    "https://encykorea.aks.ac.kr/Article/E0065805",
+    "https://encykorea.aks.ac.kr/Article/E0055081",
+    "https://encykorea.aks.ac.kr/Article/E0047854"
+  ],
+  "정조": [
+    "https://encykorea.aks.ac.kr/Article/E0050867",
+    "https://encykorea.aks.ac.kr/Article/E0064671",
+    "https://encykorea.aks.ac.kr/Article/E0007273",
+    "https://encykorea.aks.ac.kr/Article/E0056940"
+  ],
+  "고종": [
+    "https://encykorea.aks.ac.kr/Article/E0003939",
+    "https://encykorea.aks.ac.kr/Article/E0015187",
+    "https://encykorea.aks.ac.kr/Article/E0042948",
+    "https://encykorea.aks.ac.kr/Article/E0015447"
+  ],
+  "흥선대원군": [
+    "https://encykorea.aks.ac.kr/Article/E0046384",
+    "https://encykorea.aks.ac.kr/Article/E0023142",
+    "https://encykorea.aks.ac.kr/Article/E0032961",
+    "https://encykorea.aks.ac.kr/Article/E0055752",
+    "https://encykorea.aks.ac.kr/Article/E0028568"
+  ],
+  "김만덕": [
+    "https://encykorea.aks.ac.kr/Article/E0076304",
+    "https://encykorea.aks.ac.kr/Article/E0001769",
+    "https://encykorea.aks.ac.kr/Article/E0007529"
+  ],
+  "김정희": [
+    "https://encykorea.aks.ac.kr/Article/E0010428",
+    "https://encykorea.aks.ac.kr/Article/E0038956",
+    "https://encykorea.aks.ac.kr/Article/E0010433"
+  ],
+  "신사임당": [
+    "https://encykorea.aks.ac.kr/Article/E0033037",
+    "https://encykorea.aks.ac.kr/Article/E0001111",
+    "https://encykorea.aks.ac.kr/Article/E0057070"
+  ],
+  "이이": [
+    "https://encykorea.aks.ac.kr/Article/E0064667",
+    "https://encykorea.aks.ac.kr/Article/E0045546"
+  ],
+  "류성룡": [
+    "https://encykorea.aks.ac.kr/Article/E0041546",
+    "https://encykorea.aks.ac.kr/Article/E0055088",
+    "https://encykorea.aks.ac.kr/Article/E0065793",
+    "https://encykorea.aks.ac.kr/Article/E0047674"
+  ]
 }
