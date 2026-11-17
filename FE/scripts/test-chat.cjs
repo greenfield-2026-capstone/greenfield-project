@@ -51,6 +51,19 @@ const input = {placeId:'gyeongbokgung',characterId:'taejo',message:'Who are you?
  global.fetch=async()=>Response.json({choices:[]});assert.equal((await POST(request(input))).status,502);
  global.fetch=async()=>new Response('',{status:401});assert.equal((await POST(request(input))).status,502);
  global.fetch=async()=>{throw new Error('private provider detail')};const failed=await POST(request(input));assert.equal(failed.status,503);assert.doesNotMatch(await failed.text(),/private/);
+ process.env.ANTHROPIC_API_KEY='test-anthropic-key';
+ global.fetch=async(url,init)=>{
+  assert.equal(url,'https://api.anthropic.com/v1/messages');
+  assert.equal(init.headers['x-api-key'],'test-anthropic-key');
+  assert.equal(init.headers['anthropic-version'],'2023-06-01');
+  const body=JSON.parse(init.body);
+  assert.match(body.system,/Answer in English/);
+  assert.equal(body.messages.every(m=>m.role!=='system'),true);
+  assert.ok(body.max_tokens>0);
+  return Response.json({content:[{type:'text',text:'Direct Claude reply'}]});
+ };
+ assert.equal((await (await POST(request(input))).json()).reply,'Direct Claude reply');
+ delete process.env.ANTHROPIC_API_KEY;
  delete process.env.LITELLM_URL;delete process.env.LITELLM_API_KEY;delete process.env.LITELLM_MODEL;
  process.env.API_BASE_URL='https://backend.example';
  global.fetch=async(url,init)=>{assert.equal(url,'https://backend.example/api/chat/character');assert.equal(JSON.parse(init.body).language,'en');assert.equal(JSON.parse(init.body).voice.id,'taejo');assert.ok(JSON.parse(init.body).voiceRules);return Response.json({reply:'Legacy reply'});};
