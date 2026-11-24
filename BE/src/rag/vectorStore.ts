@@ -4,6 +4,7 @@ import path from "path";
 type Index = Record<string, string[]>;
 
 const MIN_SCORE = 2;
+const MIN_SCORE_IDF = 3;
 let cache: Index | null = null;
 
 function loadIndex(): Index {
@@ -29,16 +30,30 @@ function bigrams(text: string): string[] {
 }
 
 export function search(character: string, query: string, topK = 3): string[] {
-  if (process.env.RAG_ENABLED === "false") return []; // 평가용 on/off 스위치
+  if (process.env.RAG_ENABLED === "false") return [];
   const chunks = loadIndex()[character];
   if (!chunks?.length) return [];
+
+  // 설명문이 아닌 목록성 조각(캡션 나열 등)은 제외
+  const usable = chunks.filter((c) => (c.match(/다\./g) ?? []).length >= 2);
+  if (!usable.length) return [];
+
   const grams = bigrams(query);
-  return chunks
+  // 글자 쌍이 몇 개의 조각에 나오는지(df)로 희귀도 가중치를 만든다
+  const weight = (g: string) => {
+    const df = usable.filter((c) => c.includes(g)).length;
+    return df === 0 ? 0 : Math.log(1 + usable.length / df);
+  };
+
+  return usable
     .map((chunk) => ({
       chunk,
-      score: grams.filter((g) => chunk.includes(g)).length,
+      score: grams.reduce(
+        (sum, g) => (chunk.includes(g) ? sum + weight(g) : sum),
+        0,
+      ),
     }))
-    .filter((s) => s.score >= MIN_SCORE)
+    .filter((s) => s.score >= MIN_SCORE_IDF)
     .sort((a, b) => b.score - a.score)
     .slice(0, topK)
     .map((s) => s.chunk);
